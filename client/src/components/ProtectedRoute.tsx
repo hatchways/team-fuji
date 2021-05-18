@@ -19,7 +19,7 @@ const ProtectedRoute = ({ component: Component, ...rest }: Props): JSX.Element =
       render={(props) => {
         if (loggedInUser === undefined) return <CircularProgress />;
         if (!loggedInUser) {
-          history.push('/unauthorized');
+          history.push('login');
         }
         return <Component {...rest} {...props} />;
       }}
