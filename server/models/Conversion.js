@@ -1,3 +1,4 @@
+import Message from "./Message";
 const mongoose = require("mongoose");
 
 const conversationSchema = new mongoose.Schema({
@@ -9,12 +10,7 @@ const conversationSchema = new mongoose.Schema({
     },
   ],
 
-  messages: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message",
-    },
-  ],
+  messages: [Message],
 
   start_date: {
     type: Date,
