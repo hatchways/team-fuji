@@ -12,14 +12,14 @@ const ProtectedRoute = ({ component: Component, ...rest }: Props): JSX.Element =
   const { loggedInUser } = useAuth();
   const history = useHistory();
 
+  // render the page conditionally based on user being logged in
   return (
     <Route
       {...rest}
       render={(props) => {
         if (loggedInUser === undefined) return <CircularProgress />;
         if (!loggedInUser) {
-          history.push('/login');
-          return <CircularProgress />;
+          history.push('/unauthorized');
         }
         return <Component {...rest} {...props} />;
       }}
