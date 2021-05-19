@@ -1,10 +1,17 @@
 const asyncHandler = require("express-async-handler");
 const Conversation = require("../models/Conversation");
+const mongoose = require("mongoose");
 
-// @route GET /user/:id/conversations
+// @route GET /users/:id/conversations
 exports.getUserConversations = asyncHandler(async (req, res) => {
   const userId = req.params.id;
-  console.log(userId);
+
+  // if id is not valid return bad request response
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    res.status(400);
+    throw new Error("User id is not valid");
+  }
+
   const converstionList = await Conversation.find({
     users: userId,
   });
@@ -13,6 +20,6 @@ exports.getUserConversations = asyncHandler(async (req, res) => {
     return res.status(200).json(converstionList);
   } else {
     res.status(404);
-    throw new Error("No conversations is found");
+    throw new Error("No conversations found");
   }
 });
