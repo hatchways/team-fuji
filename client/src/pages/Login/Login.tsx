@@ -8,10 +8,9 @@ import useStyles from './useStyles';
 import login from '../../helpers/APICalls/login';
 import LoginForm from './LoginForm/LoginForm';
 import AuthHeader from '../../components/AuthHeader/AuthHeader';
+import InfoSideBanner from '../../components/InfoSideBanner/InfoSideBanner';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
-import backgroundImage from '../../Images/9382094101e259e6d9a7825ae24b1807266e08f8.png';
-import bubble from '../../Images/bubble.svg';
 
 export default function Login(): JSX.Element {
   const classes = useStyles();
@@ -42,24 +41,7 @@ export default function Login(): JSX.Element {
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} md={5}>
-        <Box className={classes.infoWrapper}>
-          <Box className={classes.gradientOverlay} width="100%" height="100%" zIndex="1">
-            <img src={backgroundImage} alt="Background Image" className={classes.bgImg} width="100%" height="100%" />
-          </Box>
-          <Box className={classes.infoOverlay} zIndex="9">
-            <Grid container direction="column">
-              <Box className={classes.bubbleInfo}>
-                <img src={bubble} alt="" width="100px" height="100px" />
-              </Box>
-              <Typography className={classes.info} component="h1" variant="h5">
-                Converse with anyone
-              </Typography>
-              <Typography className={classes.info} component="h1" variant="h5">
-                with any language
-              </Typography>
-            </Grid>
-          </Box>
-        </Box>
+        <InfoSideBanner />
       </Grid>
       <Grid item xs={12} md={7} elevation={6} component={Paper} square>
         <Box className={classes.authWrapper}>
