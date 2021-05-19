@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -9,20 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { Grid } from '@material-ui/core';
-
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-    },
-    closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[300],
-    },
-  });
+import useStyles, { styles } from './useStyles';
 
 export interface DialogTitleProps extends WithStyles<typeof styles> {
   id: string;
@@ -34,109 +21,104 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h1">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
+      <Typography variant="h6">{children}</Typography>
+      <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+        <CloseIcon />
+      </IconButton>
     </MuiDialogTitle>
   );
 });
 
-const DialogContent = withStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
+const DialogContent = withStyles(styles)(MuiDialogContent);
 
-export default function CustomizedDialogs() {
+export default function InvitationDialog() {
   const [open, setOpen] = React.useState(true);
+  const classes = useStyles();
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleAddEmail = () => {
+    //TODO replace with proper content
+    console.log('add email');
+    return;
+  };
+  const handleCopyLink = () => {
+    //TODO replace with proper content
+    console.log('copy link');
+    return;
+  };
+  const handleSendInvitation = () => {
+    //TODO replace with proper content
+    console.log('send invitation');
+    return;
+  };
+
   return (
-    <Grid container spacing={0} direction="column" alignItems="center" justify="center">
-      <Dialog
-        onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-        style={{ width: '700px', height: '600px' }}
-      >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+    <Grid container spacing={0} direction="column">
+      <Dialog onClose={handleClose} aria-labelledby="invite friends" open={open} className={classes.dialogue}>
+        <DialogTitle id="invite-friends-title" onClose={handleClose}>
           {''}
         </DialogTitle>
         <DialogContent>
-          <Typography align="center" style={{ fontWeight: 500, fontSize: 25 }}>
-            Invite friends to messager
+          <Typography align="center" className={classes.dialogueTitle}>
+            Invite friends to messenger
           </Typography>
-          <Grid style={{ height: 45 }} />
-          <Typography style={{ fontWeight: 700, fontSize: 15, paddingLeft: 34 }}>
-            Send your friends an invite email
-          </Typography>
+          <Grid className={classes.titleSeparator} />
+          <Typography className={classes.label}>Send your friends an invite email</Typography>
           <Grid container>
-            <Grid item style={{ paddingLeft: 34 }}>
+            <Grid item>
               <TextField
-                size="medium"
-                className="emailText"
-                id="outlined-basic"
+                id="email"
                 placeholder="Enter friends email address"
                 variant="outlined"
-                style={{ width: 365, height: 55 }}
+                className={classes.textField}
               />
             </Grid>
-            <Grid item alignItems="stretch" style={{ display: 'flex' }}>
-              <Button color="primary" style={{ fontSize: 25, fontWeight: 300 }}>
+            <Grid item>
+              <Button color="primary" onClick={handleAddEmail} className={classes.plusButton}>
                 +
               </Button>
             </Grid>
           </Grid>
 
-          <Grid style={{ height: 35 }} />
+          <Grid className={classes.itemsSeparator} />
 
-          <Typography style={{ fontWeight: 700, fontSize: 15, paddingLeft: 34 }}>Or share referral link:</Typography>
+          <Typography className={classes.label}>Or share referral link:</Typography>
 
           <TextField
-            id="outlined-basic"
+            id="link"
             placeholder="https://www.msg/join/363274"
             variant="outlined"
-            style={{ width: 365, height: 55, paddingLeft: 34 }}
+            className={classes.textField}
             InputProps={{
               endAdornment: (
                 <Button
                   variant="contained"
+                  onClick={handleCopyLink}
                   color="primary"
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 500,
-                    width: 125,
-                    height: 40,
-                  }}
+                  className={classes.copyLinkeButton}
                 >
                   COPY LINK
                 </Button>
               ),
             }}
           />
-          <Grid style={{ height: 60 }} />
-          <Grid container spacing={0} direction="column" alignItems="center" justify="center">
-            <Grid item justify="center">
+          <Grid className={classes.dialogueActionSeparator} />
+          <Grid container spacing={0} direction="column" alignItems="center">
+            <Grid item>
               <Button
                 variant="contained"
-                onClick={handleClose}
                 color="primary"
-                style={{
-                  width: 176,
-                  height: 55,
-                }}
+                onClick={handleSendInvitation}
+                className={classes.dialogueActionButton}
               >
                 Send invite
               </Button>
             </Grid>
 
-            <Grid style={{ height: 40 }} />
+            <Grid className={classes.dialogueBottomSeparator} />
           </Grid>
         </DialogContent>
       </Dialog>
