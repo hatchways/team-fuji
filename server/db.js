@@ -1,14 +1,7 @@
-const mongoose = require("mongoose");
+const Sequelize = require("sequelize");
 
-const connectDB = async () => {
-  const conn = await mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  });
+const db = new Sequelize(process.env.DATABASE_URL || "postgres://localhost:5432/messenger", {
+  logging: false
+});
 
-  console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline.bold);
-};
-
-module.exports = connectDB;
+module.exports = db;
