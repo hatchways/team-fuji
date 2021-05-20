@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 10,
     color: '#3a8dff',
   },
+  flag: {
+    height: '0.5px',
+    width: '0.5px',
+  },
   submit: {
     margin: theme.spacing(3, 2, 2),
     padding: 10,
@@ -29,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     backgroundColor: '#3a8dff',
     fontWeight: 'bold',
+  },
+  small: {
+    height: '20px',
+    width: '20px',
+    marginRight: '10px',
   },
 }));
 

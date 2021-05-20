@@ -12,16 +12,22 @@ import InfoSideBanner from '../../components/InfoSideBanner/InfoSideBanner';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 
+export interface SignUpProps {
+  email: string;
+  password: string;
+  primaryLanguage: string;
+}
+
 export default function Register(): JSX.Element {
   const classes = useStyles();
   const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
 
   const handleSubmit = (
-    { username, email, password }: { email: string; password: string; username: string },
-    { setSubmitting }: FormikHelpers<{ email: string; password: string; username: string }>,
+    { primaryLanguage, email, password }: SignUpProps,
+    { setSubmitting }: FormikHelpers<SignUpProps>,
   ) => {
-    register(username, email, password).then((data) => {
+    register({ primaryLanguage, email, password }).then((data) => {
       if (data.error) {
         console.error({ error: data.error.message });
         setSubmitting(false);

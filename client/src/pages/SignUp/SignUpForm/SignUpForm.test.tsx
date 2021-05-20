@@ -15,8 +15,8 @@ describe('SignUpForm tests', () => {
 
   test('can input values and submit form', async () => {
     const { getByLabelText, getByText } = render(<SignUpForm {...props} />);
-    const username = getByLabelText('Username');
-    expect(username).toBeInTheDocument();
+    const primaryLanguage = getByLabelText('Primary Language');
+    expect(primaryLanguage).toBeInTheDocument();
     const email = getByLabelText('E-mail address');
     expect(email).toBeInTheDocument();
     const password = getByLabelText('Password');
@@ -24,7 +24,7 @@ describe('SignUpForm tests', () => {
     const createBtn = getByText('Create');
     expect(createBtn).toBeInTheDocument();
 
-    fireEvent.change(username, { target: { value: 'testUser' } });
+    fireEvent.change(primaryLanguage, { target: { value: 'Spanish' } });
     fireEvent.change(email, { target: { value: 'testUser@gmail.com' } });
     fireEvent.change(password, { target: { value: 'password123' } });
 
@@ -35,7 +35,7 @@ describe('SignUpForm tests', () => {
         {
           email: 'testUser@gmail.com',
           password: 'password123',
-          username: 'testUser',
+          primaryLanguage: 'Spanish',
         },
         expect.anything(),
       );
