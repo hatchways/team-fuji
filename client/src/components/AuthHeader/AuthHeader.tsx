@@ -23,7 +23,7 @@ const AuthHeader = ({ linkTo, asideText, btnText }: Props): JSX.Element => {
   const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
 
-  const handleDemoLogin = async () => {
+  const handleDemoLogin = () => {
     login(DEMO_USER.email, DEMO_USER.password).then((data) => {
       if (data.error) {
         console.error({ error: data.error.message });
