@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
     marginRight: 35,
     fontFamily: "'Open Sans'",
+    fontSize: 14,
   },
 }));
 
