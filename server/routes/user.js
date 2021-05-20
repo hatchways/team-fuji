@@ -5,6 +5,6 @@ const { searchUsers } = require("../controllers/user");
 const { getUserConversations } = require("../controllers/conversation");
 
 router.route("/").get(protect, searchUsers);
-router.route("/:id/conversations").get(protect, getUserConversations);
+router.route("/conversations").get(protect, getUserConversations);
 
 module.exports = router;
