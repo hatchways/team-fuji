@@ -1,93 +1,67 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { makeStyles } from '@material-ui/core/styles';
 
-export const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-    },
-    dialogue: {
-      width: 700,
-      height: 600,
-    },
-    closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[300],
-    },
-    label: {
-      fontWeight: 700,
-      fontSize: 15,
-      paddingLeft: 34,
-    },
-    dialogueTitle: {
-      fontWeight: 500,
-      fontSize: 25,
-    },
-    textField: {
-      width: 365,
-      height: 55,
-      paddingLeft: 34,
-    },
-    titleSeparator: {
-      height: 45,
-    },
-    itemsSeparator: {
-      height: 35,
-    },
-    plusButton: {
-      display: 'flex',
-      fontSize: 25,
-      fontWeight: 300,
-    },
-    copyLinkeButton: {
-      fontSize: 10,
-      fontWeight: 500,
-      width: 125,
-      height: 40,
-    },
-    dialogueActionSeparator: {
-      height: 60,
-    },
-    dialogueActionButton: {
-      width: 176,
-      height: 55,
-    },
-    dialogueBottomSeparator: {
-      height: 40,
-    },
-  });
-
-const useStyles = makeStyles(styles);
-
-// const useStyles = makeStyles((theme) => ({
-//   form: {
-//     width: '100%', // Fix IE 11 issue.
-//     marginTop: theme.spacing(1),
-//   },
-
-//   inputs: {
-//     marginTop: '.8rem',
-//     height: '2rem',
-//     padding: '5px',
-//   },
-//   forgot: {
-//     paddingRight: 10,
-//     color: '#3a8dff',
-//   },
-//   submit: {
-//     margin: theme.spacing(3, 2, 2),
-//     padding: 10,
-//     width: 160,
-//     height: 56,
-//     borderRadius: theme.shape.borderRadius,
-//     marginTop: 49,
-//     fontSize: 16,
-//     backgroundColor: '#3a8dff',
-//     fontWeight: 'bold',
-//   },
-// }));
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  dialogue: {
+    width: 700,
+    height: 600,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[300],
+  },
+  label: {
+    fontWeight: 900,
+    fontSize: 15,
+    paddingLeft: 34,
+  },
+  dialogueTitle: {
+    fontWeight: 700,
+    fontSize: 25,
+  },
+  textField: {
+    width: 365,
+    height: 55,
+    paddingLeft: 34,
+  },
+  dialogueTopSeparator: {
+    height: 35,
+  },
+  titleSeparator: {
+    height: 45,
+  },
+  itemsSeparator: {
+    height: 35,
+  },
+  labelSeparator: {
+    height: 8,
+  },
+  plusButton: {
+    display: 'flex',
+    fontSize: 25,
+    fontWeight: 300,
+  },
+  copyLinkeButton: {
+    fontSize: 10,
+    fontWeight: 500,
+    width: 125,
+    height: 40,
+  },
+  dialogueActionSeparator: {
+    height: 60,
+  },
+  dialogueActionButton: {
+    width: 176,
+    height: 55,
+  },
+  dialogueBottomSeparator: {
+    height: 40,
+  },
+}));
 
 export default useStyles;

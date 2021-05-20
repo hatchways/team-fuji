@@ -1,38 +1,15 @@
-import React from 'react';
-import { withStyles, WithStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { Grid } from '@material-ui/core';
-import useStyles, { styles } from './useStyles';
-
-export interface DialogTitleProps extends WithStyles<typeof styles> {
-  id: string;
-  children: React.ReactNode;
-  onClose: () => void;
-}
-
-const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-        <CloseIcon />
-      </IconButton>
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles(styles)(MuiDialogContent);
+import useStyles from './useStyles';
 
 export default function InvitationDialog() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const classes = useStyles();
 
   const handleClose = () => {
@@ -58,69 +35,64 @@ export default function InvitationDialog() {
   return (
     <Grid container spacing={0} direction="column">
       <Dialog onClose={handleClose} aria-labelledby="invite friends" open={open} className={classes.dialogue}>
-        <DialogTitle id="invite-friends-title" onClose={handleClose}>
-          {''}
-        </DialogTitle>
-        <DialogContent>
-          <Typography align="center" className={classes.dialogueTitle}>
-            Invite friends to messenger
-          </Typography>
-          <Grid className={classes.titleSeparator} />
-          <Typography className={classes.label}>Send your friends an invite email</Typography>
-          <Grid container>
-            <Grid item>
-              <TextField
-                id="email"
-                placeholder="Enter friends email address"
-                variant="outlined"
-                className={classes.textField}
-              />
-            </Grid>
-            <Grid item>
-              <Button color="primary" onClick={handleAddEmail} className={classes.plusButton}>
-                +
+        <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
+        <Grid className={classes.dialogueTopSeparator} />
+        <Typography align="center" className={classes.dialogueTitle}>
+          Invite friends to messenger
+        </Typography>
+        <Grid className={classes.titleSeparator} />
+        <Typography className={classes.label}>Send your friends an invite email</Typography>
+        <Grid className={classes.labelSeparator} />
+        <Grid container>
+          <Grid item>
+            <TextField
+              id="email"
+              placeholder="Enter friends email address"
+              variant="outlined"
+              className={classes.textField}
+            />
+          </Grid>
+          <Grid item>
+            <Button color="primary" onClick={handleAddEmail} className={classes.plusButton}>
+              +
+            </Button>
+          </Grid>
+        </Grid>
+
+        <Grid className={classes.itemsSeparator} />
+
+        <Typography className={classes.label}>Or share referral link:</Typography>
+        <Grid className={classes.labelSeparator} />
+        <TextField
+          id="link"
+          placeholder="https://www.msg/join/363274"
+          variant="outlined"
+          className={classes.textField}
+          InputProps={{
+            endAdornment: (
+              <Button variant="contained" onClick={handleCopyLink} color="primary" className={classes.copyLinkeButton}>
+                COPY LINK
               </Button>
-            </Grid>
+            ),
+          }}
+        />
+        <Grid className={classes.dialogueActionSeparator} />
+        <Grid container spacing={0} direction="column" alignItems="center">
+          <Grid item>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSendInvitation}
+              className={classes.dialogueActionButton}
+            >
+              Send invite
+            </Button>
           </Grid>
 
-          <Grid className={classes.itemsSeparator} />
-
-          <Typography className={classes.label}>Or share referral link:</Typography>
-
-          <TextField
-            id="link"
-            placeholder="https://www.msg/join/363274"
-            variant="outlined"
-            className={classes.textField}
-            InputProps={{
-              endAdornment: (
-                <Button
-                  variant="contained"
-                  onClick={handleCopyLink}
-                  color="primary"
-                  className={classes.copyLinkeButton}
-                >
-                  COPY LINK
-                </Button>
-              ),
-            }}
-          />
-          <Grid className={classes.dialogueActionSeparator} />
-          <Grid container spacing={0} direction="column" alignItems="center">
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSendInvitation}
-                className={classes.dialogueActionButton}
-              >
-                Send invite
-              </Button>
-            </Grid>
-
-            <Grid className={classes.dialogueBottomSeparator} />
-          </Grid>
-        </DialogContent>
+          <Grid className={classes.dialogueBottomSeparator} />
+        </Grid>
       </Dialog>
     </Grid>
   );
