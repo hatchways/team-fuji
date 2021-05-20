@@ -75,6 +75,7 @@ export default function Login({ handleSubmit }: Props): JSX.Element {
             }}
             InputProps={{
               classes: { input: classes.inputs },
+              style: { fontSize: 30 },
               endAdornment: <Typography className={classes.forgot}>Forgot?</Typography>,
             }}
             type="password"

@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     backgroundColor: '#3a8dff',
     fontWeight: 'bold',
+    boxShadow: 'none',
   },
 }));
 

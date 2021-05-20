@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => ({
   },
   bgImg: {
     filter: 'grayscale(1)',
+    minHeight: '100vh',
     maxHeight: '100vh',
   },
   bubbleInfo: {

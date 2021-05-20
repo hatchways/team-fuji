@@ -74,6 +74,7 @@ const SignUpForm = ({ handleSubmit }: Props): JSX.Element => {
             }}
             InputProps={{
               classes: { input: classes.inputs },
+              style: { fontSize: 30 },
             }}
             type="password"
             autoComplete="current-password"

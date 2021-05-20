@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#3a8dff',
     fontWeight: 'bold',
     fontFamily: "'Open Sans'",
+    boxShadow: 'none',
   },
   flagSmall: {
     height: '20px',
