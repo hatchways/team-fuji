@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '.8rem',
     height: '2rem',
     padding: '5px',
+    fontWeight: 'bold',
   },
   forgot: {
     paddingRight: 10,

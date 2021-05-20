@@ -2,17 +2,14 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Box from '@material-ui/core/Box';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import { Formik, FormikHelpers, useField } from 'formik';
 import * as Yup from 'yup';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
 import { CircularProgress } from '@material-ui/core';
-import React from 'react';
 import Flag from 'react-flagkit';
 import Avatar from '@material-ui/core/Avatar';
 import { SignUpProps } from '../SignUp';
@@ -49,25 +46,6 @@ const SignUpForm = ({ handleSubmit }: Props): JSX.Element => {
     >
       {({ handleSubmit, handleChange, values, touched, errors, isSubmitting }) => (
         <form onSubmit={handleSubmit} className={classes.form} noValidate>
-          {/* <TextField
-            id="username"
-            label={<Typography className={classes.label}>Username</Typography>}
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            InputProps={{
-              classes: { input: classes.inputs },
-            }}
-            name="username"
-            autoComplete="username"
-            autoFocus
-            helperText={touched.username ? errors.username : ''}
-            error={touched.username && Boolean(errors.username)}
-            value={values.username}
-            onChange={handleChange}
-          /> */}
           <TextField
             id="email"
             label={<Typography className={classes.label}>E-mail address</Typography>}
@@ -105,7 +83,7 @@ const SignUpForm = ({ handleSubmit }: Props): JSX.Element => {
             onChange={handleChange}
           />
 
-          <InputLabel className={classes.inputs}>Primary Language</InputLabel>
+          <InputLabel className={classes.selectorLabel}>Select primary language</InputLabel>
           <Select
             id="primaryLanguage"
             name="primaryLanguage"
@@ -118,11 +96,10 @@ const SignUpForm = ({ handleSubmit }: Props): JSX.Element => {
             {LANGUAGES.map((language) => (
               <MenuItem key={language.countryCode} value={language.name}>
                 <Grid container alignItems="center">
-                  <Avatar className={classes.small}>
+                  <Avatar className={classes.flagSmall}>
                     <Flag country={language.countryCode.toUpperCase()} size={30} />
                   </Avatar>
-
-                  {language.name}
+                  <Box fontWeight="fontWeightBold">{language.name}</Box>
                 </Grid>
               </MenuItem>
             ))}

@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#3a8dff',
     boxShadow: 'none',
     marginRight: 35,
+    fontFamily: "'Open Sans'",
   },
 }));
 

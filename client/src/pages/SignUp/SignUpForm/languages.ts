@@ -1,7 +1,8 @@
+// Language Support should be added once Google Translate API is implemented
 const LANGUAGES = [
   {
     name: 'English',
-    countryCode: 'us',
+    countryCode: 'gb',
   },
   {
     name: 'French',
