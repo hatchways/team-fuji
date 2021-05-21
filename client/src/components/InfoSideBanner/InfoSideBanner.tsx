@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import bubble from '../../Images/bubble.svg';
 import backgroundImage from '../../Images/9382094101e259e6d9a7825ae24b1807266e08f8.png';
 
-const InfoSideBanner = () => {
+const InfoSideBanner = (): JSX.Element => {
   const classes = useStyles();
 
   return (
