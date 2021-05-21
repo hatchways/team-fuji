@@ -20,28 +20,24 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem 0',
   },
   link: { textDecoration: 'none' },
-  accBtn: {
+  btn: {
     width: 170,
     height: 54,
     borderRadius: theme.shape.borderRadius,
     filter: 'drop-shadow(0px 2px 6px rgba(74,106,149,0.2))',
-    backgroundColor: '#ffffff',
-    color: '#3a8dff',
     boxShadow: 'none',
     marginRight: 35,
+  },
+  accBtn: {
+    backgroundColor: '#ffffff',
+    color: '#3a8dff',
+  },
+  demoBtn: {
+    backgroundColor: '#C8C8C8',
+    color: 'white',
   },
   btnDivider: {
     marginRight: '30px',
-  },
-  demoBtn: {
-    width: 170,
-    height: 54,
-    borderRadius: theme.shape.borderRadius,
-    filter: 'drop-shadow(0px 2px 6px rgba(74,106,149,0.2))',
-    backgroundColor: '#C8C8C8',
-    color: 'white',
-    boxShadow: 'none',
-    marginRight: 35,
   },
 }));
 

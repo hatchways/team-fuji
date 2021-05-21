@@ -42,12 +42,12 @@ const AuthHeader = ({ linkTo, asideText, btnText }: Props): JSX.Element => {
     <Box p={1} className={classes.authHeader}>
       <Typography className={classes.accAside}>{asideText}</Typography>
       <Link to={linkTo} className={classes.link}>
-        <Button color="inherit" className={classes.accBtn} variant="contained">
+        <Button color="inherit" className={`${classes.btn} ${classes.accBtn}`} variant="contained">
           {btnText}
         </Button>
       </Link>
       <Typography className={classes.btnDivider}> or </Typography>
-      <Button color="inherit" className={classes.demoBtn} variant="contained" onClick={handleDemoLogin}>
+      <Button className={`${classes.btn} ${classes.demoBtn}`} name="demo" variant="contained" onClick={handleDemoLogin}>
         Demo
       </Button>
     </Box>
