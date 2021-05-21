@@ -2,6 +2,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import { FormikHelpers } from 'formik';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
@@ -47,8 +48,10 @@ export default function Register(): JSX.Element {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={12} md={5}>
-        <InfoSideBanner />
+      <Grid item md={5}>
+        <Hidden smDown={true}>
+          <InfoSideBanner />
+        </Hidden>
       </Grid>
       <Grid item xs={12} md={7} elevation={6} component={Paper} square>
         <Box className={classes.authWrapper}>
