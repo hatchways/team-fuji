@@ -23,6 +23,10 @@ const AuthMenu = (): JSX.Element => {
     logout();
   };
 
+  const handleProfile = () => {
+    console.log('Profile');
+  };
+
   return (
     <div>
       <IconButton aria-label="show auth menu" aria-controls="auth-menu" aria-haspopup="true" onClick={handleClick}>
@@ -41,6 +45,7 @@ const AuthMenu = (): JSX.Element => {
         getContentAnchorEl={null}
       >
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
       </Menu>
     </div>
   );
