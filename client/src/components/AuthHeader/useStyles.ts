@@ -40,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
   },
   btnDivider: {
     marginRight: 35,
+    fontFamily: "'Open Sans'",
+    fontSize: 14,
   },
 }));
 

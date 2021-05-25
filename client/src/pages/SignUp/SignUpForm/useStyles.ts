@@ -14,10 +14,23 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '.8rem',
     height: '2rem',
     padding: '5px',
+    fontWeight: 'bold',
+  },
+  selectorLabel: {
+    marginTop: '.8rem',
+    height: '2rem',
+    padding: '5px',
+    fontSize: 14,
+    fontFamily: "'Open Sans'",
+    color: 'rgb(0,0,0,0.4)',
   },
   forgot: {
     paddingRight: 10,
     color: '#3a8dff',
+  },
+  flag: {
+    height: '0.5px',
+    width: '0.5px',
   },
   submit: {
     margin: theme.spacing(3, 2, 2),
@@ -29,6 +42,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     backgroundColor: '#3a8dff',
     fontWeight: 'bold',
+    fontFamily: "'Open Sans'",
+    boxShadow: 'none',
+  },
+  flagSmall: {
+    height: '20px',
+    width: '20px',
+    marginRight: '10px',
   },
 }));
 
