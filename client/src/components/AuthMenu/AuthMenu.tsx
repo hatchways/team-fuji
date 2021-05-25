@@ -4,11 +4,13 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useAuth } from '../../context/useAuthContext';
+import { useHistory } from 'react-router-dom';
 
 const AuthMenu = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { logout } = useAuth();
+  const history = useHistory();
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -24,7 +26,7 @@ const AuthMenu = (): JSX.Element => {
   };
 
   const handleProfile = () => {
-    console.log('Profile');
+    history.push('/profile');
   };
 
   return (
