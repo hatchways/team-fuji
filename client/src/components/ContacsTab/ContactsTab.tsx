@@ -12,35 +12,11 @@ import useStyles from './useStyles';
 export default function ContactsTab() {
   const classes = useStyles();
 
-  //TODO replace with current user information
-  const currentUser = {
-    image: '/static/images/avatar/currentUser.jpg',
-    name: 'Thomas',
-    state: 'online',
-  };
-
   //TODO replace with list of contacts
   const contacts = [0, 1, 2, 3, 4];
 
   return (
     <Grid container className={classes.root} direction="column">
-      <Grid container direction="row">
-        <List>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar alt={`Avatar of currentUser`} src={currentUser.image} />
-            </ListItemAvatar>
-            <ListItemText className={classes.userName} primary={currentUser.name} />
-          </ListItem>
-        </List>
-        <Button>...</Button>
-      </Grid>
-      <Grid container className={classes.leftPadding} direction="row" alignItems="center">
-        <Typography className={classes.chatsLabel}>Chats</Typography>
-        <Typography className={classes.contactsLabel}> &nbsp;Contacts</Typography>
-      </Grid>
-      <Grid className={classes.searchTopSeparator}></Grid>
-
       <Grid className={classes.leftPadding}>
         <TextField
           className={classes.searchInput}

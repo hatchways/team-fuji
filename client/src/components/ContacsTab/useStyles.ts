@@ -21,20 +21,8 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 900,
     },
   },
-  chatsLabel: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: '#cad3e1',
-  },
-  contactsLabel: {
-    fontSize: 18,
-    fontWeight: 700,
-  },
   leftPadding: {
     paddingLeft: 12,
-  },
-  searchTopSeparator: {
-    height: 12,
   },
   searchBottomSeparator: {
     height: 10,
