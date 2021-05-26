@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "hatchway-messenger",
+  "private_key_id": "6ad6929a6ffca0ddca1737fc92887447f6d38a6a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCtkp5hbkZmy0Tu\nNEyUYtazRXlhANElGrF94DbZnwhW/Sa0QmhR0uiMmbMZ/HPNhTSlej5ZOpDkNk15\n500WKSvmDjLRhRAcJgq3xGo6bQT3hNp6iMfWApzb1wvbb+I8j5h5jmidin5C5nqb\ndVEJbJkUj7FxF9FjvRmZRd5zvjE90RLbNG3K9pe40yRvNNnTKgqvzQe+4yQ7wq8R\nKygkDGNnUn753pVdR5bXmbjna5HTss67fARolb7qoCDb+kJHrw+GKZZg1yO4Z3XA\np/vjise1O6GD/MTJvmVc5X5fAdIp18LLfvTe1tvLajUrXQRM9p2dL6Nm2gx/CeLN\nY/P2N00/AgMBAAECggEAMKgGvPJASwWVU58WjowseoGxtmcXueqDMfGd/qBNorEB\nXgu1maZhaTSW1+SEg+rg6LhdbP71afvs+QzFd75f33RAe6ps6y8g1wX471rrRwWX\nhzz7o/sEhL4CRWfWSDrKt9ybZ/pQTam1WgnnhxhJy1FCoRzXpjl2yRgkdVauEBEr\nAwiS54DY5UadNIPxRgL8TCEm7h8LgHNHbPOIocv1wg51vM8vgbmAUJvL0tt5wPUI\nM5jmUWsrQLUkwffvruy6zSw8qQw2WFIzARwZoyOcLjr0aArgw+IAow5bTNoDXTrM\nLCSLcQzwEpzkSpEDearfKiksqmLkMzrGfOclOXL5sQKBgQDc+CaBp5NOfjn0jTg7\nY4yWFrQKnmAr2auyO6v61AhbiTyR+Pjj0EIgmQrRaOwpuOYJSzI8BDGrIIa8YYE8\nssMqgi/nCcANFwSSjKxpkJuaO/ourQJ4WyJufU6e73EdRUbQe0z5ST1plDwRV6k3\nEUUC9O4pIcafJUZ/taWZLYNl7wKBgQDJFur5qSSPjFwTtky301Wo8uZnvnYAmsr4\nEKu1/iJ0y1Vk2DH8+vHMsXm9D6EuwfZwxulSTkGGJUu5j8o+oAO/XZMPCEOHBQoF\nmKxAkrk7c8qZJy51Y6cjv8F63Bc6fqHUZ0ZhwjoKf9mNFvevA29Rx1ieVPCN9oOi\nFO1KqQpdsQKBgD1WZNn4uls/jrbjvIg/yfaftrp73BZQBekjx0mJMgi2v6mFgxE5\n7iE+WlJm3ad3O+O4i+k9AMyP6ta/+i/vL13NZZ6shjMcAJjtk656Bbd6jqgGPnlK\nUvR4tCpKLQwC/vVARM2uFu4Hx+TIgKBYmt+HPdUNGyVyI2+v7JfommDhAoGAMvig\nLxB0t/44CLcY0y+6csy/ImTgvF6APEjdfZAhY8F2r80tPpbNW7lQxl+D17pKoWOK\nGNbFPR+PBkYwWZdt27/4WsMZeswIMkr0vplyYmODYzbPS+oqn6EnheDr8mPO2Wwk\nJvt4gtjNaDn+JlqUiQIisF+PaiymSRtM2rPmcMECgYAvc9yEKlWJEUhci+KmRPSp\naEdmw2rOaLoyLcLtP7xpPmwBw2CVKCSIKkecGjR5EsvWluzBu0g9/JyMfU6g5FOb\n+AxHgAHbFLTCERRmPDU2lvgafjkjLun77aWE0RV6fPqaFPbl+L28dJ9yYkMKyL1C\n6WdfXbmjuA8HIHviDuHKbQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "hatchway-translate@hatchway-messenger.iam.gserviceaccount.com",
+  "client_id": "101752905788366935989",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hatchway-translate%40hatchway-messenger.iam.gserviceaccount.com"
+}
