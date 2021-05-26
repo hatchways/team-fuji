@@ -56,7 +56,9 @@ exports.postMessage = asyncHandler(async (req, res) => {
         if (err) {
           return res.status(500).json({ error: err });
         } else {
-          return res.send("Successfully sent");
+          return res.status(200).json({
+            message,
+          });
         }
       }
     );
