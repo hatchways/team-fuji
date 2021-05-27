@@ -1,7 +1,67 @@
-import Box from '@material-ui/core/Grid';
+import React, { useState } from 'react';
+import { Grid, Box, Button, Typography } from '@material-ui/core';
+import useStyles from './useStyles';
+import Switch from '@material-ui/core/Switch';
 
-const ChatHeader = () => {
-  return <Box>Chat header</Box>;
-};
+export default function ChatHeader(): JSX.Element {
+  const classes = useStyles();
 
-export default ChatHeader;
+  const [state, setState] = useState({
+    checkedSwitch: false,
+  });
+
+  //TODO replace with chatting user
+  const currentLanguage = {
+    name: 'Spanish',
+    languageFlag: '/static/images/languageFlag.jpg',
+  };
+  const currentChattingUser = {
+    image: '/static/images/avatar/currentUser.jpg',
+    name: 'Thomas',
+    state: 'online',
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+  return (
+    <Grid container className={classes.header} direction="row" justify="space-between">
+      <Grid item>
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <img src={currentLanguage.languageFlag} />
+          </Grid>
+          <Grid item>
+            <Typography className={classes.chattingUserName}>{currentChattingUser.name}</Typography>
+          </Grid>
+          <Grid className={classes.separatorStatePointleft} />
+          <Grid item>
+            <Box className={classes.statePoint}></Box>
+          </Grid>
+          <Grid item>
+            <Typography className={classes.stateText}>{currentChattingUser.state}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <Typography className={classes.originalLanText}>Original language </Typography>
+          </Grid>
+          <Grid item>
+            <Switch
+              checked={state.checkedSwitch}
+              onChange={handleChange}
+              color="primary"
+              name="checkedSwitch"
+              inputProps={{ 'aria-label': 'original language switch' }}
+            />
+          </Grid>
+          <Grid item>
+            <Button className={classes.menuButton}>...</Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+}
