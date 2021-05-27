@@ -21,17 +21,15 @@ const useStyles = makeStyles((theme) => ({
   leftPadding: {
     paddingLeft: 12,
   },
-  slider: {
-    width: 80,
-  },
-  sliderTopPadding: {
+  topPadding: {
     paddingTop: 12,
   },
-  rejectText: {
-    color: 'red',
+  rejectOrApproveButton: {
+    color: 'white',
+    backgroundColor: '#4ea2ff',
   },
-  approveText: {
-    color: 'green',
+  spacing: {
+    width: 10,
   },
 }));
 
