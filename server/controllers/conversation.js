@@ -30,7 +30,7 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
   const otherUserId = req.params.userId;
 
   const conversationExists = await Conversation.findOne({
-    users: [userId, otherUserId],
+    users: [otherUserId, userId].sort(),
   });
 
   if (conversationExists) {
@@ -38,7 +38,7 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
   }
 
   const conversation = await Conversation.create({
-    users: [userId, otherUserId],
+    users: [userId, otherUserId].sort(),
     messages: [],
   });
 
