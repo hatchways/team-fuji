@@ -6,7 +6,7 @@ const Invitation = require("../models/Invitation");
 // @desc Create invitation from specific user
 exports.createInvitation = asyncHandler(async (req, res, next) => {
   const { toUser, toUserEmail } = req.body;
-  try {
+  try {    
     const invitation = new Invitation({
       fromUser: req.params.id,
       toUser: toUser,
@@ -16,16 +16,12 @@ exports.createInvitation = asyncHandler(async (req, res, next) => {
     });
     const savedInvitationInfo = await invitation.save();
     res.json({
-      status: "success",
-      message: "Invitation created successfully",
-      data: savedInvitationInfo,
-    });
+        status: "success",
+        message: "Invitation created successfully",
+        data: savedInvitationInfo,
+      });
   } catch (error) {
-    console.log(new Date(), error);
-    res.json({
-      status: 500,
-      message: error,
-    });
+    res.json({ message: error });
   }
 });
 
@@ -37,41 +33,33 @@ exports.getPendingInvitation = asyncHandler(async (req, res, next) => {
     const pendingInvitations = await Invitation.find({
       toUser: userId,
       approved: false,
-      rejected: false,
+      rejected: false
     });
     res.json({
-      status: "success",
-      message: "Got pending invitations successfully",
-      data: pendingInvitations,
-    });
+        status: "success",
+        message: "Got pending invitations successfully",
+        data: pendingInvitations,
+      });
   } catch (error) {
-    console.log(new Date(), error);
-    res.json({
-      status: 500,
-      message: error,
-    });
+    res.json({ message: error });
   }
 });
 
 // @route GET /user/:id/contracts
 // @desc Get a list of contacts specific user accepted
-exports.getContacts = asyncHandler(async (req, res, next) => {
+exports.getContracts = asyncHandler(async (req, res, next) => {
   try {
     const userId = req.params.id;
     const acceptedInvitations = await Invitation.find({
       toUser: userId,
-      approved: true,
+      approved: true
     });
     res.json({
-      status: "success",
-      message: "Got accepted invitations successfully",
-      data: acceptedInvitations,
-    });
+        status: "success",
+        message: "Got accepted invitations successfully",
+        data: acceptedInvitations,
+      });
   } catch (error) {
-    console.log(new Date(), error);
-    res.json({
-      status: 500,
-      message: error,
-    });
+    res.json({ message: error });
   }
 });

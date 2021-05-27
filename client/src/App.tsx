@@ -4,10 +4,9 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
-import UserInit from './components/UserInit/UserInit';
-// import { AuthProvider } from './context/useAuthContext';
-// import { SocketProvider } from './context/useSocketContext';
-// import { SnackBarProvider } from './context/useSnackbarContext';
+import { AuthProvider } from './context/useAuthContext';
+import { SocketProvider } from './context/useSocketContext';
+import { SnackBarProvider } from './context/useSnackbarContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
@@ -16,21 +15,20 @@ function App(): JSX.Element {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
-        {/* <SnackBarProvider>
+        <SnackBarProvider>
           <AuthProvider>
-            <SocketProvider> */}
-        <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/userinit" component={UserInit} />
-          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-          <Route path="*">
-            <Redirect to="/login" />
-          </Route>
-        </Switch>
-        {/* </SocketProvider>
+            <SocketProvider>
+              <Switch>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={Signup} />
+                <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+                <Route path="*">
+                  <Redirect to="/login" />
+                </Route>
+              </Switch>
+            </SocketProvider>
           </AuthProvider>
-        </SnackBarProvider> */}
+        </SnackBarProvider>
       </BrowserRouter>
     </MuiThemeProvider>
   );
