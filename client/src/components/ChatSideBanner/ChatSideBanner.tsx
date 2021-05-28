@@ -7,6 +7,7 @@ import { User } from '../../interface/User';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
+import Scroller from '../Scroll/Scrollcomponent';
 
 interface Props {
   loggedInUser: User;
@@ -40,6 +41,9 @@ const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
           Users
         </Typography>
         <Search search={search} handleChange={handleChange} />
+      </Box>
+      <Box>
+        <Scroller />
       </Box>
     </Grid>
   );
