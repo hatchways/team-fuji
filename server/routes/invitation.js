@@ -13,7 +13,6 @@ const {
   getPendingInvitation,
   getContacts,
 } = require("../controllers/userinvitation");
-const protect = require("../middleware/auth");
 
 // create an invitation
 router
