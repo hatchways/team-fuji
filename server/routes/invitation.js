@@ -1,10 +1,42 @@
 const express = require("express");
 const router = express.Router();
+const {
+  validateInvitationId,
+  validateUserId,
+  validateInvitation,
+} = require("../validate");
 const protect = require("../middleware/auth");
-const { validateInvitation } = require("../validate");
 const { approve, reject } = require("../controllers/invitation");
 
-router.route("/:id/approve").patch(protect, validateInvitation, approve);
-router.route("/:id/reject").patch(protect, validateInvitation, reject);
+const {
+  createInvitation,
+  getPendingInvitation,
+  getContacts,
+} = require("../controllers/userinvitation");
+const protect = require("../middleware/auth");
+
+// create an invitation
+router
+  .route("/user/:id/invitation")
+  .post(protect, validateInvitation, createInvitation);
+
+// list pending invitations
+router
+  .route("/user/:id/invitations")
+  .get(protect, validateUserId, getPendingInvitation);
+
+// list accepted invitations
+router.route("/user/:id/contacts").get(protect, validateUserId, getContacts);
+
+// approve an invitation
+router
+  .route("invitation/:id/approve")
+  .patch(protect, validateInvitationId, approve);
+
+// reject an invitation
+router
+  .route("invitation/:id/reject")
+  .patch(protect, validateInvitationId, reject);
+
 
 module.exports = router;
