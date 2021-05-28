@@ -17,12 +17,7 @@ const useStyles = makeStyles((theme) => ({
   inputField: {
     width: 720,
     height: 68,
-    backgroundColor: '#f4f6fa',
-  },
-  menuButton: {
-    fontSize: 20,
-    fontWeight: 700,
-    borderRadius: 25,
+    paddingLeft: 10,
   },
   chatbox: {
     height: '100%',
@@ -92,10 +87,10 @@ const useStyles = makeStyles((theme) => ({
   },
   chattingUserMessage: {
     width: 280,
-    backgroundColor: '#4497ff',
+    background: 'linear-gradient(to right bottom, #3b8eff, #6abfff)',
     color: 'white',
     fontSize: 18,
-    fontWeight: 700,
+    fontWeight: 500,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
@@ -107,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f4f6fa',
     color: '#b3bfd3',
     fontSize: 18,
-    fontWeight: 700,
+    fontWeight: 500,
     borderTopRightRadius: 10,
     borderBottomLeftRadius: 10,
     borderTopLeftRadius: 10,
@@ -117,11 +112,6 @@ const useStyles = makeStyles((theme) => ({
   },
   messageSeparator: {
     height: 6,
-  },
-  divider: {
-    width: 730,
-    height: 5,
-    background: '#f4f6fa',
   },
 }));
 

@@ -11,7 +11,6 @@ const chatBox = (): JSX.Element => {
       <Box className={classes.chatheader}>
         <ChatHeader />
       </Box>
-      <Divider className={classes.divider} />
       <Box className={classes.chatboard}>
         <ChatBoard />
       </Box>

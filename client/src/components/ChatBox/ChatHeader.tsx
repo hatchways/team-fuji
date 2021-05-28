@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Box, Button, Typography } from '@material-ui/core';
 import useStyles from './useStyles';
 import Switch from '@material-ui/core/Switch';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 export default function ChatHeader(): JSX.Element {
   const classes = useStyles();
@@ -58,7 +59,9 @@ export default function ChatHeader(): JSX.Element {
             />
           </Grid>
           <Grid item>
-            <Button className={classes.menuButton}>...</Button>
+            <Button>
+              <MoreHorizIcon />
+            </Button>
           </Grid>
         </Grid>
       </Grid>

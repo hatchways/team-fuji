@@ -4,18 +4,30 @@ import useStyles from './useStyles';
 
 function getTime(timeStamp: number): string {
   const date = new Date(timeStamp);
-  // return date.getFullYear() + date.getUTCMonth() + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes();
-  return (
-    date.getFullYear() +
-    '-' +
-    (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
-    '-' +
-    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
-    ' ' +
-    date.getHours() +
-    ':' +
-    date.getMinutes()
-  );
+  const dateMilliSeconds = date.getTime();
+  const timeDuration = 24 * 60 * 60 * 1000;
+  const now = new Date().getTime();
+  if (now - dateMilliSeconds > timeDuration) {
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '-' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+    );
+  } else {
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '-' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+      ' ' +
+      date.getHours() +
+      ':' +
+      date.getMinutes()
+    );
+  }
 }
 
 export default function ChatBoard(): JSX.Element {
@@ -46,6 +58,7 @@ export default function ChatBoard(): JSX.Element {
       createdAt: 162210925678,
     },
     { sender: '60af2acccce0b051a086abb1', message: 'This is a message from me.', createdAt: 1622109497694 },
+    { sender: '60af2acccce0b051a086abb1', message: 'This is a new message from me.', createdAt: 1622209932657 },
   ];
 
   const sortedMessages = messages.sort((n1, n2) => n1.createdAt - n2.createdAt);
