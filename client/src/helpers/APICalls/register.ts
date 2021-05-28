@@ -1,11 +1,13 @@
 import { AuthApiData } from '../../interface/AuthApiData';
 import { FetchOptions } from '../../interface/FetchOptions';
+import { SignUpProps } from '../../pages/SignUp/SignUp';
 
-const register = async (username: string, email: string, password: string): Promise<AuthApiData> => {
+const register = async (data: SignUpProps): Promise<AuthApiData> => {
+  const { primaryLanguage, email, password } = data;
   const fetchOptions: FetchOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, email, password }),
+    body: JSON.stringify({ primaryLanguage, email, password }),
     credentials: 'include',
   };
   return await fetch(`/auth/register`, fetchOptions)

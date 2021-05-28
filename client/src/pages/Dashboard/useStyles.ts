@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
+const chatboxWidth = `calc(100%-${drawerWidth}px)`;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       width: '300px',
     },
+  },
+  chatboxWrapper: {
+    width: chatboxWidth,
   },
 }));
 

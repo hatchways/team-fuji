@@ -1,7 +1,7 @@
 const { check, validationResult } = require("express-validator");
 
 exports.validateRegister = [
-  check("username", "Please enter a username").not().isEmpty(),
+  check("primaryLanguage", "Please enter a Primary Language").not().isEmpty(),
   check("email", "Please enter a valid email address").isEmail(),
   check(
     "password",
@@ -52,15 +52,19 @@ exports.validateUserId = [
     next();
   },
 ];
+
 exports.validateInvitation = [
-    check("id", "Please enter a valid user id who invitates friends.").isMongoId(),
-    check("toUser", "Please enter a valid user id to invite.").isMongoId(),
-    check("toUserEmail", "Please enter a valid Email.").isEmail(),
-    (req, res, next) => {
-      const errors = validationResult(req);
-  
-      if (!errors.isEmpty())
-        return res.status(400).json({ errors: errors.array() });
-      next();
-    },
-  ];
+  check(
+    "id",
+    "Please enter a valid user id who invitates friends."
+  ).isMongoId(),
+  check("toUser", "Please enter a valid user id to invite.").isMongoId(),
+  check("toUserEmail", "Please enter a valid Email.").isEmail(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
+    next();
+  },
+];

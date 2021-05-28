@@ -5,7 +5,9 @@ const {
   validateUserId,
   validateInvitation,
 } = require("../validate");
+const protect = require("../middleware/auth");
 const { approve, reject } = require("../controllers/invitation");
+
 const {
   createInvitation,
   getPendingInvitation,
@@ -35,5 +37,6 @@ router
 router
   .route("invitation/:id/reject")
   .patch(protect, validateInvitationId, reject);
+
 
 module.exports = router;
