@@ -35,6 +35,7 @@ const Search = ({ search, handleChange }: Props): JSX.Element => {
       });
 
       if (active && response && response.users) {
+        debugger;
         console.log(response);
         saveOptions(response.users);
       }

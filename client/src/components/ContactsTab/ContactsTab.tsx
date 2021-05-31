@@ -26,20 +26,6 @@ export default function ContactsTab() {
 
   return (
     <Grid container className={classes.root} direction="column">
-      {/* <Grid className={classes.leftPadding}>
-        <TextField
-          className={classes.searchInput}
-          placeholder="Search"
-          InputProps={{
-            startAdornment: (
-              <IconButton>
-                <SearchIcon />
-              </IconButton>
-            ),
-            disableUnderline: true,
-          }}
-        />
-      </Grid> */}
       <Grid className={classes.searchBottomSeparator}></Grid>
       <Grid className={classes.inviteButtonBlock}>
         <Button className={classes.inviteButton} color="primary">

@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     '&::-webkit-scrollbar': {
-      //transition: 'display 0.5s ease-in 0.1s',
       display: 'none',
       width: '5px',
     },
