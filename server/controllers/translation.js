@@ -9,8 +9,8 @@ const trans = new Translate({
 });
 
 // @route POST /users/translation/:conversationId
-// @translate message from sender's language to
-// all other recipients' languages and save it
+// translate message from sender's language to
+// all other recipients' languages and save the record
 exports.postMessageTranslation = asyncHandler(async (req, res) => {
   const conversation_id = req.params.conversationId;
   const user_id = req.user.id;
@@ -21,7 +21,7 @@ exports.postMessageTranslation = asyncHandler(async (req, res) => {
   const conversation = await Conversation.findById(conversation_id);
 
   // get sender's primary language
-  // and all recipients' primary languages
+  // and all other recipients' primary languages
   for (let uid of conversation.users) {
     let user = await User.findById(uid);
     if (uid == user_id) {
