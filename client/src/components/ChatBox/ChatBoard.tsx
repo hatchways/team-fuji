@@ -16,7 +16,17 @@ function getTime(timeStamp: number): string {
       (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
     );
   } else {
-    return date.getHours() + ':' + date.getMinutes();
+    return (
+      date.getFullYear() +
+      '-' +
+      (date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) +
+      '-' +
+      (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) +
+      ' ' +
+      date.getHours() +
+      ':' +
+      date.getMinutes()
+    );
   }
 }
 
@@ -41,19 +51,14 @@ export default function ChatBoard(): JSX.Element {
       createdAt: 162210924990,
     },
     { sender: '60af2acccce0b051a086abb0', message: 'This is a message from Thomas.', createdAt: 162213425678 },
-
+    { sender: '60af2acccce0b051a086abb1', message: 'This is a message from me.', createdAt: 162211225678 },
     {
       sender: '60af2acccce0b051a086abb1',
       message: 'This is a message from me. I would like to go swimming every day.',
       createdAt: 162210925678,
     },
-
+    { sender: '60af2acccce0b051a086abb1', message: 'This is a message from me.', createdAt: 1622109497694 },
     { sender: '60af2acccce0b051a086abb1', message: 'This is a new message from me.', createdAt: 1622209932657 },
-    {
-      sender: '60af2acccce0b051a086abb1',
-      message: 'This is a new message from me 2021-5-31.',
-      createdAt: 1622468788069,
-    },
   ];
 
   const sortedMessages = messages.sort((n1, n2) => n1.createdAt - n2.createdAt);
