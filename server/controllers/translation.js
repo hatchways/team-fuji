@@ -9,7 +9,8 @@ const trans = new Translate({
 });
 
 // @route POST /users/translation/:conversationId
-// @translate message from sender's language to all other recipients' languages
+// @translate message from sender's language to
+// all other recipients' languages and save it
 exports.postMessageTranslation = asyncHandler(async (req, res) => {
   const conversation_id = req.params.conversationId;
   const user_id = req.user.id;
@@ -39,9 +40,12 @@ exports.postMessageTranslation = asyncHandler(async (req, res) => {
       });
       return { language: l, translation: result[0] };
     })
-  );
+  ).catch((err) => {
+    res.status(500).json({ error: err });
+    throw new Error("translation error");
+  });
 
-  // update database
+  // update database and return response
   conversation.updateOne(
     {
       $push: {
