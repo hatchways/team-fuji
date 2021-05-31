@@ -11,6 +11,8 @@ const MessageSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    language: String,
+    translations: [{ language: String, translation: String }],
   },
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
