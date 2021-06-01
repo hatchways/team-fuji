@@ -13,6 +13,7 @@
     "@google-cloud/storage": "^5.8.5",
     "@google-cloud/translate": "^6.2.1",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.25.1",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",

@@ -8,10 +8,8 @@ const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
-
 const { json, urlencoded } = express;
 
 connectDB();
@@ -20,11 +18,11 @@ const server = http.createServer(app);
 
 const io = socketio(server, {
   cors: {
-    origin: "*"
-  }
+    origin: "*",
+  },
 });
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
   console.log("connected");
 });
 
