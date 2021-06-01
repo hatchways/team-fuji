@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { Grid, TextField, Button, Typography } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import useStyles from './useStyles';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-export default function ContactsTab() {
+export default function ContactsTab(): JSX.Element {
   const classes = useStyles();
-  const [contacts, setContacts] = useState<any[]>([...Array(50).keys()]);
+  const [contacts, setContacts] = useState<number[]>([...Array(50).keys()]);
 
   //TODO replace with list of contacts
   //const contacts = [0, 1, 2, 3, 4];

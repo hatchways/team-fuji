@@ -7,7 +7,6 @@ import { User } from '../../interface/User';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
-import Scroller from '../Scroll/Scrollcomponent';
 import ContactsTab from '../ContactsTab/ContactsTab';
 
 interface Props {
