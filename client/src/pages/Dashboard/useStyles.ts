@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dashboard: { backgroundColor: '#FFFFFF' },
   drawerWrapper: {
+    backgroundColor: '#f5f7fb',
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
       width: '300px',
