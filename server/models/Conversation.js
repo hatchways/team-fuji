@@ -13,7 +13,7 @@ const conversationSchema = new mongoose.Schema(
 
     messages: [Message],
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: true }
 );
 
 module.exports = Conversation = mongoose.model(

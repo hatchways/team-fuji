@@ -14,7 +14,7 @@ const MessageSchema = new mongoose.Schema(
     language: String,
     translations: [{ language: String, translation: String }],
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: true }
 );
 
 module.exports = MessageSchema;

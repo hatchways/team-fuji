@@ -80,9 +80,9 @@ exports.postMessage = asyncHandler(async (req, res) => {
           return res.status(500).json({ error: err });
         } else {
           return res.status(200).json({
-            text_to_translate: message,
-            sender_id: userId,
-            chat_id: conversationId,
+            message,
+            senderId: userId,
+            chatId: conversationId,
             translations,
           });
         }
