@@ -2,12 +2,15 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   header: {
     paddingTop: 20,
-    width: 730,
-    height: 90,
+    width: '100%',
+    height: '100%',
   },
   board: {
-    width: 730,
-    height: 683,
+    width: '100%',
+    height: '95%',
+    display: 'flex',
+    flexDirection: 'row',
+    overflowY: 'auto',
   },
   chattingUserName: {
     fontSize: 20,
@@ -15,11 +18,12 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
   },
   inputField: {
-    width: 720,
-    height: 68,
+    width: '100%',
+    height: '100%',
     paddingLeft: 10,
   },
   chatbox: {
+    width: '100%',
     height: '100%',
     paddingLeft: 10,
   },
@@ -27,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     height: '10%',
   },
   chatboard: {
-    height: '80%',
+    height: '70%',
   },
   inputbox: {
     height: '10%',
@@ -86,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     width: 15,
   },
   chattingUserMessage: {
-    width: 280,
+    width: '100%',
     background: 'linear-gradient(to right bottom, #3b8eff, #6abfff)',
     color: 'white',
     fontSize: 18,
@@ -98,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 12,
   },
   currentUserMessage: {
-    width: 280,
+    width: '100%',
     backgroundColor: '#f4f6fa',
     color: '#b3bfd3',
     fontSize: 18,
