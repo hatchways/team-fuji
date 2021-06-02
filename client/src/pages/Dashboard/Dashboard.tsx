@@ -1,4 +1,5 @@
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import { Input, Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -66,10 +67,12 @@ export default function Dashboard(): JSX.Element {
         <Grid item>
           <Messages messages={messages} />
         </Grid>
-        <Grid item>
+        <Grid item style={{ paddingBottom: '50px' }}>
           <Form onSubmit={handleSubmit}>
-            <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
-            <Button type="submit">Send IT!</Button>
+            <Input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+            <Button type="submit" style={{ backgroundColor: 'lightBlue' }}>
+              Send IT!
+            </Button>
           </Form>
         </Grid>
       </Grid>
