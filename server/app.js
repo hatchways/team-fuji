@@ -20,12 +20,21 @@ const server = http.createServer(app);
 
 const io = socketio(server, {
   cors: {
-    origin: "*"
-  }
+    origin: "*",
+  },
 });
 
-io.on("connection", socket => {
-  console.log("connected");
+io.on("connect_error", (err) => {
+  console.log(`connect_error due to ${err.message}`);
+});
+
+io.on("connection", (socket) => {
+  console.log("connected - ", socket.id);
+
+  socket.on("chat", (args) => {
+    console.log("chat - ", args);
+    socket.broadcast.emit("chat", args);
+  });
 });
 
 if (process.env.NODE_ENV === "development") {
