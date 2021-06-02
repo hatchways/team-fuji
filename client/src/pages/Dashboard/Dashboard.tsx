@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
 import { useEffect, useState } from 'react';
 import Messages from '../../components/Messages';
+import ChatBox from '../../components/ChatBox/ChatBox';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -74,6 +75,9 @@ export default function Dashboard(): JSX.Element {
               Send IT!
             </Button>
           </Form>
+        </Grid>
+        <Grid item className={classes.chatboxWrapper}>
+          <ChatBox loggedInUser={loggedInUser} />
         </Grid>
       </Grid>
     </Grid>
