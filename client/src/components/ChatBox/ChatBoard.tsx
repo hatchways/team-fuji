@@ -32,6 +32,8 @@ const ChatBoard = ({ translate, primaryLanguage }: Props): JSX.Element => {
   const myPrimaryLanguage = 'fr';
   const [messages, setMessages] = useState<Message[]>([]);
   const [translation, setTranslation] = useState<Message[]>([]);
+
+  // load translation data
   async function getMessages() {
     const response = await fetchMessages({ conversationId: '60ad9dbf83f3ce14bc8cf961' });
     if (response && response.messages) {
@@ -47,6 +49,7 @@ const ChatBoard = ({ translate, primaryLanguage }: Props): JSX.Element => {
   }
   getMessages();
 
+  // listen for toggle translate
   useEffect(() => {
     if (!translate) {
       setMessages(translation);
@@ -61,26 +64,26 @@ const ChatBoard = ({ translate, primaryLanguage }: Props): JSX.Element => {
     state: 'online',
   };
 
-  const messagedemo = [
-    {
-      sender: '60af2acccce0b051a086abb0',
-      message: 'This is a short message from Thomas.',
-      createdAt: 1622109247064,
-    },
-    {
-      sender: '60af2acccce0b051a086abb0',
-      message: 'This is a  message from Thomas. I will send you an interesting story book.',
-      createdAt: 162210924990,
-    },
-    { sender: '60af2acccce0b051a086abb0', message: 'This is a message from Thomas.', createdAt: 162213425678 },
-    { sender: '60af2acccce0b051a086abb1', message: 'This is a message from me.', createdAt: 162211225678 },
-    {
-      sender: '60af2acccce0b051a086abb1',
-      message: 'This is a message from me. I would like to go swimming every day.',
-      createdAt: 162210925678,
-    },
-    { sender: '60af2acccce0b051a086abb1', message: 'This is a new message from me.', createdAt: 1622469142257 },
-  ];
+  // const messagedemo = [
+  //   {
+  //     sender: '60af2acccce0b051a086abb0',
+  //     message: 'This is a short message from Thomas.',
+  //     createdAt: 1622109247064,
+  //   },
+  //   {
+  //     sender: '60af2acccce0b051a086abb0',
+  //     message: 'This is a  message from Thomas. I will send you an interesting story book.',
+  //     createdAt: 162210924990,
+  //   },
+  //   { sender: '60af2acccce0b051a086abb0', message: 'This is a message from Thomas.', createdAt: 162213425678 },
+  //   { sender: '60af2acccce0b051a086abb1', message: 'This is a message from me.', createdAt: 162211225678 },
+  //   {
+  //     sender: '60af2acccce0b051a086abb1',
+  //     message: 'This is a message from me. I would like to go swimming every day.',
+  //     createdAt: 162210925678,
+  //   },
+  //   { sender: '60af2acccce0b051a086abb1', message: 'This is a new message from me.', createdAt: 1622469142257 },
+  // ];
 
   const sortedMessages = messages.sort((n1, n2) => n1.createdAt.valueOf() - n2.createdAt.valueOf());
   const theOtherUserId = '60a4086085cdae24a4f6a929';

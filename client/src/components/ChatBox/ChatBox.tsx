@@ -18,7 +18,6 @@ const chatBox = ({ loggedInUser }: Props): JSX.Element => {
 
   const handleSwitch = () => {
     setTranslate(!translate);
-    console.log(translate);
   };
 
   return (
