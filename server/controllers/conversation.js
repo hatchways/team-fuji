@@ -32,16 +32,16 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const otherUserId = req.params.userId;
 
-  const currentUser = await User.findById(userId);
-  const theOtherUser = await User.findById(otherUserId);
   const conversationExists = await Conversation.findOne({
     users: [otherUserId, userId].sort(),
   });
 
   if (conversationExists) {
-    return res.status(200).json({ message: "Conversation already exists" });
+    return res.status(400).json({ message: "Conversation already exists" });
   }
 
+  const currentUser = await User.findById(userId);
+  const theOtherUser = await User.findById(otherUserId);
   const conversation = await Conversation.create({
     users: [userId, otherUserId].sort(),
     languages: [currentUser.primaryLanguage, theOtherUser.primaryLanguage],
@@ -63,7 +63,6 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
 // @route POST /users/groupchat
 // create a new group chat with multiple users
 exports.postGroupChat = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
   const users = req.body.users;
   const languages = await Promise.all(
     users.map(async (uid) => {
@@ -89,63 +88,71 @@ exports.postGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
-// @route POST /users/groupchat/:groupChatId/:userId
-// add a user to the group chat and update supported languages
+// @route POST /users/groupchat/:groupChatId
+// add a list of users to the group chat and update supported languages
 // also update the translations of each existing messages
 exports.addUserToGroupChat = asyncHandler(async (req, res) => {
-  const userIdToAdd = req.params.userId;
+  const usersToAdd = req.body.users;
   const groupChatId = req.params.groupChatId;
 
+  const languages = await Promise.all(
+    usersToAdd.map(async (uid) => {
+      const user = await User.findById(uid);
+      return user.primaryLanguage;
+    })
+  );
+
   const conversation = await Conversation.findById(groupChatId);
-  const userToAdd = await User.findById(userIdToAdd);
 
   if (conversation) {
-    if (conversation.users.includes(userIdToAdd)) {
-      return res.status(200).json({
-        message: "User already exists in this group",
+    if (usersToAdd.every((user) => conversation.users.includes(user))) {
+      return res.status(400).json({
+        message: "User(s) already exist in this group",
       });
     }
     if (
       conversation.messages?.length &&
-      !conversation.languages.includes(userToAdd.primaryLanguage)
+      !languages.every((lang) => conversation.languages.includes(lang))
     ) {
       // if the newly-added user does not have language support,
       // and there are existing messages in the group chat
       // translate all existing messages to her language
       await Promise.all(
         conversation.messages.map(async (messageItem) => {
-          const translation = await translateMessage(
+          const translations = await translateMessage(
             messageItem.message,
             messageItem.language,
-            [userToAdd.primaryLanguage]
+            languages
           );
-          messageItem.translations.push(...translation);
+          messageItem.translations.push(...translations);
         })
       ).catch((error) => {
         res.status(500).json({ error });
-        throw new Error("User add failed");
+        throw new Error("User(s) add failed");
       });
-      const updated = await conversation.save();
+      await conversation.save();
     }
 
     // Add userid and language to the chat record
     conversation.updateOne(
       {
         $addToSet: {
-          users: userIdToAdd,
-          languages: userToAdd.primaryLanguage,
+          users: { $each: usersToAdd },
+          languages: { $each: languages },
         },
       },
       (error) => {
         if (error) {
           return res.status(500).json({ error });
         } else {
-          return res.status(200).json({ message: "User added successfully" });
+          return res
+            .status(200)
+            .json({ message: "User(s) added successfully" });
         }
       }
     );
   } else {
     res.status(404);
-    throw new Error("No conversations found");
+    throw new Error("Groupchat is not found");
   }
 });

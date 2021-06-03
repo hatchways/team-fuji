@@ -16,8 +16,6 @@ router.route("/conversation/:userId").post(protect, postUserConversation);
 router.route("/messages/:conversationId").get(protect, getMessages);
 router.route("/message/:conversationId").post(protect, postMessage);
 router.route("/groupchat").post(protect, postGroupChat);
-router
-  .route("/groupchat/:groupChatId/:userId")
-  .post(protect, addUserToGroupChat);
+router.route("/groupchat/:groupChatId").post(protect, addUserToGroupChat);
 
 module.exports = router;

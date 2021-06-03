@@ -17,7 +17,6 @@ exports.getMessages = asyncHandler(async (req, res) => {
 
   const conversation = await Conversation.findById(conversationId);
   const currentUser = await User.findById(userId);
-  const primaryLanguage = currentUser.primaryLanguage;
 
   if (conversation) {
     return res.status(200).json({ messages: conversation.messages });
