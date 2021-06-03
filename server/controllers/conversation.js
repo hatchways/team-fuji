@@ -55,7 +55,7 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
       },
     });
   } else {
-    res.status(400);
+    res.status(500);
     throw new Error("Conversation creation failed");
   }
 });
@@ -83,7 +83,7 @@ exports.postGroupChat = asyncHandler(async (req, res) => {
       },
     });
   } else {
-    res.status(400);
+    res.status(500);
     throw new Error("Groupchat creation failed");
   }
 });
