@@ -25,9 +25,10 @@ function getTime(timeStamp: number): string {
 interface Props {
   translate: boolean;
   primaryLanguage: string;
+  newMessage: Message;
 }
 
-const ChatBoard = ({ translate, primaryLanguage }: Props): JSX.Element => {
+const ChatBoard = ({ translate, primaryLanguage, newMessage }: Props): JSX.Element => {
   const classes = useStyles();
   const myPrimaryLanguage = 'fr';
   const [messages, setMessages] = useState<Message[]>([]);
@@ -54,9 +55,9 @@ const ChatBoard = ({ translate, primaryLanguage }: Props): JSX.Element => {
     if (!translate) {
       setMessages(translation);
     } else {
-      setMessages(messages);
+      setMessages([...messages, newMessage]);
     }
-  }, [translate, messages, translation]);
+  }, [translate, translation, newMessage]);
 
   const theOtherUser = {
     image: '/static/images/avatar/currentUser.jpg',
