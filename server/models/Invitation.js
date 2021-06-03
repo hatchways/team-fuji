@@ -7,9 +7,8 @@ const invitationSchema = new mongoose.Schema({
     required: true,
   },
   toUser: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+    type: String,
+    default: "",
   },
   toUserEmail: {
     type: String,
