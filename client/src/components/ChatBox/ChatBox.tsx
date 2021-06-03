@@ -32,7 +32,7 @@ const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
       const textMessage: Message = {
         message: args.message,
         _id: '45534',
-        sender: '60a4086085cdae24a4f6a929',
+        sender: args.user,
         language: 'en',
         translations: [{ language: 'fr', translation: 'French Version of this text' }],
         updatedAt: new Date(Date.now()),
@@ -44,25 +44,20 @@ const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
   }, [socket]);
 
   const handleMessage = (text: string) => {
-    if (loggedInUser) {
-      const email = loggedInUser.email;
-      if (email && socket) {
-        const textMessage: Message = {
-          message: text,
-          _id: '45534',
-          sender: '60a4086085cdae24a4f6a929',
-          language: 'English',
-          translations: [{ language: 'English', translation: 'English' }],
-          updatedAt: new Date(Date.now()),
-          createdAt: new Date(Date.now()),
-        };
-        setMessages(textMessage);
-        socket?.emit('chat', {
-          message: text,
-          user: email,
-        });
-      }
-    }
+    const textMessage: Message = {
+      message: text,
+      _id: '45534',
+      sender: '60a4086085cdae24a4f6a929',
+      language: 'English',
+      translations: [{ language: 'English', translation: 'English' }],
+      updatedAt: new Date(Date.now()),
+      createdAt: new Date(Date.now()),
+    };
+    setMessages(textMessage);
+    socket?.emit('chat', {
+      message: text,
+      user: '60a4086085cdae24a4f6a929', // Hard-coded for now
+    });
   };
 
   const handleSwitch = () => {
