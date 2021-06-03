@@ -6,7 +6,7 @@ import { useAuth } from '../../context/useAuthContext';
 import { useSocket } from '../../context/useSocketContext';
 import { useHistory } from 'react-router-dom';
 import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ChatBox from '../../components/ChatBox/ChatBox';
 
 export default function Dashboard(): JSX.Element {

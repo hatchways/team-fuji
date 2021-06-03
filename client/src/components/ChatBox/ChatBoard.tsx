@@ -28,7 +28,7 @@ interface Props {
   newMessage: Message;
 }
 
-const ChatBoard = ({ translate, primaryLanguage, newMessage }: Props): JSX.Element => {
+const ChatBoard = ({ translate, newMessage }: Props): JSX.Element => {
   const classes = useStyles();
   const myPrimaryLanguage = 'fr';
   const [messages, setMessages] = useState<Message[]>([]);
