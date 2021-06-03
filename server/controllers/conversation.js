@@ -39,9 +39,7 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
   });
 
   if (conversationExists) {
-    return res
-      .status(200)
-      .json({ message: "Conversation already existed", conversationExists });
+    return res.status(200).json({ message: "Conversation already exists" });
   }
 
   const conversation = await Conversation.create({
@@ -87,7 +85,7 @@ exports.postGroupChat = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(400);
-    throw new Error("Conversation creation failed");
+    throw new Error("Groupchat creation failed");
   }
 });
 
@@ -122,9 +120,11 @@ exports.addUserToGroupChat = asyncHandler(async (req, res) => {
             [userToAdd.primaryLanguage]
           );
           messageItem.translations.push(...translation);
-          console.log(messageItem.translations);
         })
-      );
+      ).catch((error) => {
+        res.status(500).json({ error });
+        throw new Error("User add failed");
+      });
       const updated = await conversation.save();
     }
 
