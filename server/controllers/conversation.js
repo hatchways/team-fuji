@@ -95,34 +95,46 @@ exports.addUserToGroupChat = asyncHandler(async (req, res) => {
   const usersToAdd = req.body.users;
   const groupChatId = req.params.groupChatId;
 
-  const languages = await Promise.all(
-    usersToAdd.map(async (uid) => {
-      const user = await User.findById(uid);
-      return user.primaryLanguage;
-    })
-  );
-
   const conversation = await Conversation.findById(groupChatId);
-
   if (conversation) {
-    if (usersToAdd.every((user) => conversation.users.includes(user))) {
+    // Check if all the new users already exist in the group
+    // and filter out the users that are already in the group
+    const filteredUsers = usersToAdd.filter(
+      (user) => !conversation.users.includes(user)
+    );
+    if (!filteredUsers?.length) {
       return res.status(400).json({
-        message: "User(s) already exist in this group",
+        message: "No user(s) to add in this group",
       });
     }
-    if (
-      conversation.messages?.length &&
-      !languages.every((lang) => conversation.languages.includes(lang))
-    ) {
-      // if the newly-added user does not have language support,
+
+    // Get all the languages of the newly-added users
+    const languages = await Promise.all(
+      filteredUsers.map(async (uid) => {
+        const user = await User.findById(uid);
+        return user.primaryLanguage;
+      })
+    );
+
+    // Filter languages so that the messages won't be translated twice
+    // for languages that are already supported
+    // Also remove duplicates since we only need to translate each new language once
+    const filteredLanguages = languages.filter(
+      (lang, index) =>
+        !conversation.languages.includes(lang) &&
+        languages.indexOf(lang) === index
+    );
+
+    if (conversation.messages?.length && filteredLanguages?.length) {
+      // if the newly-added users does not have language support,
       // and there are existing messages in the group chat
-      // translate all existing messages to her language
+      // translate all existing messages to their languages
       await Promise.all(
         conversation.messages.map(async (messageItem) => {
           const translations = await translateMessage(
             messageItem.message,
             messageItem.language,
-            languages
+            filteredLanguages
           );
           messageItem.translations.push(...translations);
         })
@@ -137,8 +149,8 @@ exports.addUserToGroupChat = asyncHandler(async (req, res) => {
     conversation.updateOne(
       {
         $addToSet: {
-          users: { $each: usersToAdd },
-          languages: { $each: languages },
+          users: { $each: filteredUsers },
+          languages: { $each: filteredLanguages },
         },
       },
       (error) => {
