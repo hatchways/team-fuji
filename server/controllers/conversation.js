@@ -32,23 +32,28 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const otherUserId = req.params.userId;
 
+  const currentUser = await User.findById(userId);
+  const theOtherUser = await User.findById(otherUserId);
   const conversationExists = await Conversation.findOne({
     users: [otherUserId, userId].sort(),
   });
 
   if (conversationExists) {
-    return res.status(200).json({ id: conversationExists._id });
+    return res
+      .status(200)
+      .json({ message: "Conversation already existed", conversationExists });
   }
 
   const conversation = await Conversation.create({
     users: [userId, otherUserId].sort(),
+    languages: [currentUser.primaryLanguage, theOtherUser.primaryLanguage],
     messages: [],
   });
 
   if (conversation) {
     res.status(201).json({
       success: {
-        id: conversation._id,
+        conversation,
       },
     });
   } else {
