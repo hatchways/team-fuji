@@ -2,7 +2,7 @@ import ChatHeader from './ChatHeader';
 import ChatBoard from './ChatBoard';
 import InputBox from './InputBox';
 import useStyles from './useStyles';
-import { Box, Grid, Divider } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 
 const chatBox = (): JSX.Element => {
   const classes = useStyles();

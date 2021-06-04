@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   header: {
     paddingTop: 20,
     width: 730,
