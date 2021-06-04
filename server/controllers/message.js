@@ -1,11 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const Conversation = require("../models/Conversation");
+const User = require("../models/User");
 const mongoose = require("mongoose");
 const translateMessage = require("../utils/translateMessage");
 
 // @route GET /users/messages/:conversationId
 
 exports.getMessages = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
   const conversationId = req.params.conversationId;
 
   if (!mongoose.Types.ObjectId.isValid(conversationId)) {
@@ -14,6 +16,7 @@ exports.getMessages = asyncHandler(async (req, res) => {
   }
 
   const conversation = await Conversation.findById(conversationId);
+  const currentUser = await User.findById(userId);
 
   if (conversation) {
     return res.status(200).json({ messages: conversation.messages });
@@ -24,14 +27,12 @@ exports.getMessages = asyncHandler(async (req, res) => {
 });
 
 // @route POST /users/message/:conversationId
-// Send a message and automatically translate it from sender's language to
+// send a message and automatically translate it from sender's language to
 // all other recipients' languages and save the record
 exports.postMessage = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const conversationId = req.params.conversationId;
   const message = req.body.message;
-  var fromLanguage = "";
-  var toLanguages = [];
 
   if (
     !mongoose.Types.ObjectId.isValid(userId) ||
@@ -42,19 +43,15 @@ exports.postMessage = asyncHandler(async (req, res) => {
   }
 
   const conversation = await Conversation.findById(conversationId);
+  const currentUser = await User.findById(userId);
 
   if (conversation) {
     // get sender's primary language
     // and all other recipients' primary languages
-    // here uid is a String object and userId is a string
-    for (let uid of conversation.users) {
-      let user = await User.findById(uid);
-      if (uid.toString() === userId) {
-        fromLanguage = user.primaryLanguage;
-      } else {
-        toLanguages.push(user.primaryLanguage);
-      }
-    }
+    const fromLanguage = currentUser.primaryLanguage;
+    const toLanguages = conversation.languages.filter(
+      (lang) => lang !== fromLanguage
+    );
 
     //translate
     const translations = await translateMessage(

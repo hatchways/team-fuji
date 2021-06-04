@@ -12,7 +12,7 @@ const MessageSchema = new mongoose.Schema(
       default: "",
     },
     language: String,
-    translations: [{ language: String, translation: String }],
+    translations: [{ language: String, translation: String, _id: false }],
   },
   { timestamps: true }
 );
