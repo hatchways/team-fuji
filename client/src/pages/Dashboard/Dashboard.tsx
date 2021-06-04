@@ -13,7 +13,7 @@ export default function Dashboard(): JSX.Element {
   const classes = useStyles();
 
   const { loggedInUser } = useAuth();
-  const { initSocket } = useSocket();
+  const { initSocket, socket } = useSocket();
 
   const history = useHistory();
 
@@ -35,7 +35,7 @@ export default function Dashboard(): JSX.Element {
         <ChatSideBanner loggedInUser={loggedInUser} />
       </Grid>
       <Grid item className={classes.chatboxWrapper}>
-        <ChatBox loggedInUser={loggedInUser} />
+        <ChatBox loggedInUser={loggedInUser} socket={socket} />
       </Grid>
     </Grid>
   );
