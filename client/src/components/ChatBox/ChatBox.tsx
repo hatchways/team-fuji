@@ -11,7 +11,6 @@ interface Props {
   loggedInUser: User;
   socket: Socket | undefined;
 }
-
 const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
   const primaryLanguage = loggedInUser.primaryLanguage;
   const classes = useStyles();
