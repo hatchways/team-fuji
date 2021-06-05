@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 285,
+    width: 300,
     backgroundColor: '#f5f7fb',
   },
   listStyle: {
@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     paddingTop: 12,
-  },
-  searchInput: {
-    backgroundColor: '#e9eef9',
   },
   userName: {
     '& span, & svg': {
@@ -24,14 +21,15 @@ const useStyles = makeStyles((theme) => ({
   leftPadding: {
     paddingLeft: 12,
   },
-  searchBottomSeparator: {
-    height: 10,
+  topPadding: {
+    paddingTop: 12,
   },
-  inviteButtonBlock: {
-    paddingLeft: 18,
+  rejectOrApproveButton: {
+    color: 'white',
+    backgroundColor: '#4ea2ff',
   },
-  inviteButton: {
-    fontSize: 14,
+  spacing: {
+    width: 10,
   },
 }));
 

@@ -10,10 +10,10 @@ const conversationSchema = new mongoose.Schema(
         required: true,
       },
     ],
-
+    languages: [String],
     messages: [Message],
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: true }
 );
 
 module.exports = Conversation = mongoose.model(

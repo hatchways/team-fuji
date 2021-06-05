@@ -4,7 +4,11 @@ import useStyles from './useStyles';
 import Switch from '@material-ui/core/Switch';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-export default function ChatHeader(): JSX.Element {
+interface Props {
+  handleSwitch: () => void;
+}
+
+export default function ChatHeader({ handleSwitch }: Props): JSX.Element {
   const classes = useStyles();
 
   const [state, setState] = useState({
@@ -24,6 +28,7 @@ export default function ChatHeader(): JSX.Element {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
+    handleSwitch();
   };
   return (
     <Grid container className={classes.header} direction="row" justify="space-between">
