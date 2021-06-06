@@ -15,7 +15,7 @@ interface Props {
 const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
   const primaryLanguage = loggedInUser.primaryLanguage;
   const classes = useStyles();
-
+  const currentUserId = '60a4086085cdae24a4f6a929';
   const [translate, setTranslate] = useState<boolean>(false);
   const [message, setMessages] = useState<Message>({
     message: 'Initial Startup',
@@ -29,8 +29,11 @@ const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
 
   useEffect(() => {
     socket?.on('chat', (args) => {
+      if (args.user === currentUserId) {
+        return;
+      }
       const textMessage: Message = {
-        message: args.message,
+        message: `message from socket${args.message}`,
         _id: '45534',
         sender: args.user,
         language: 'en',
@@ -44,12 +47,15 @@ const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
   }, [socket]);
 
   const handleMessage = (text: string) => {
+    if (!text) {
+      return;
+    }
     const textMessage: Message = {
       message: text,
       _id: '45534',
       sender: '60a4086085cdae24a4f6a929',
-      language: 'English',
-      translations: [{ language: 'English', translation: 'English' }],
+      language: 'en',
+      translations: [{ language: 'fr', translation: 'French Version of this text' }],
       updatedAt: new Date(Date.now()),
       createdAt: new Date(Date.now()),
     };
@@ -70,7 +76,12 @@ const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
         <ChatHeader handleSwitch={handleSwitch} />
       </Box>
       <Box className={classes.chatboard}>
-        <ChatBoard translate={translate} primaryLanguage={primaryLanguage} newMessage={message} />
+        <ChatBoard
+          translate={translate}
+          primaryLanguage="fr"
+          conversationId="60b82138d6f2b00d4cd80c86"
+          newMessage={message}
+        />
       </Box>
       <Box className={classes.inputbox}>
         <InputBox handleMessage={handleMessage} />

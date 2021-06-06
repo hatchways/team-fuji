@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   header: {
     paddingTop: 20,
     width: '100%',
@@ -7,10 +7,10 @@ const useStyles = makeStyles(() => ({
   },
   board: {
     width: '100%',
-    height: '95%',
-    display: 'flex',
-    flexDirection: 'row',
-    overflowY: 'auto',
+    height: '100%%',
+    // display: 'flex',
+    // flexDirection: 'row',
+    // overflowY: 'auto',
   },
   chattingUserName: {
     fontSize: 20,
@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
     height: '10%',
   },
   chatboard: {
-    height: '70%',
+    height: '80vh',
   },
   inputbox: {
     height: '10%',
@@ -116,6 +116,31 @@ const useStyles = makeStyles(() => ({
   },
   messageSeparator: {
     height: 6,
+  },
+  scroller: {
+    '&:hover': {
+      '&::-webkit-scrollbar': {
+        display: 'inline',
+      },
+    },
+    '&::-webkit-scrollbar': {
+      display: 'none',
+      width: '5px',
+    },
+    '&::-webkit-scrollbar-track': {
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: '#ddd',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#666',
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+  scrollerWrapper: {
+    overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
   },
 }));
 
