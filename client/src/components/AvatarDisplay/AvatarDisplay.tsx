@@ -1,20 +1,26 @@
 import { useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { User } from '../../interface/User';
-import ChatUserContext from '../../context/useChatUserContext';
+import { AuthContext } from '../../context/useAuthContext';
 
 interface Props {
   loggedIn: boolean;
   user: User;
-  profileImage: string;
 }
-// add state from profileImageUrl
-const AvatarDisplay = ({ user, profileImage }: Props): JSX.Element => {
-  const { profileImageUrl } = useContext(ChatUserContext);
-  console.log(profileImageUrl + 'This is ProfileImageUrl');
-  // Add a ternary here
+
+const AvatarDisplay = ({ user }: Props): JSX.Element => {
+  const { profileImageUrl } = useContext(AuthContext);
   return (
-    <Avatar alt="Profile Image" src={profileImageUrl ? profileImageUrl : `https://robohash.org/${user.email}.png`} />
+    <Avatar
+      alt="Profile Image"
+      src={
+        !profileImageUrl && !user.profileImageUrl
+          ? `https://robohash.org/${user.email}.png`
+          : profileImageUrl
+          ? profileImageUrl
+          : user.profileImageUrl
+      }
+    />
   );
 };
 

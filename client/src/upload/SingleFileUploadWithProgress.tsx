@@ -1,11 +1,8 @@
 import { Grid } from '@material-ui/core';
 import { useEffect, useState, useContext } from 'react';
 import { FileHeader } from './FileHeader';
-import { useAuth } from '../context/useAuthContext';
+import { AuthContext, useAuth } from '../context/useAuthContext';
 import { User } from '../interface/User';
-import ChatUserContext from '../context/useChatUserContext';
-
-import uploadFileFetch from '../helpers/APICalls/uploadProfileImage';
 export interface SingleFileUploadWithProgress {
   file: File;
   onDelete: (file: File) => void;
@@ -14,7 +11,7 @@ export interface SingleFileUploadWithProgress {
 
 export function SingleFileUploadWithProgress({ file, onDelete, onUpload }: SingleFileUploadWithProgress) {
   const { loggedInUser } = useAuth();
-  const { setProfileImageUrl } = useContext(ChatUserContext);
+  const { setProfileImageUrl } = useContext(AuthContext);
 
   useEffect(() => {
     function upload() {
