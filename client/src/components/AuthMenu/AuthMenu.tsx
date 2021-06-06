@@ -5,9 +5,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useAuth } from '../../context/useAuthContext';
 import { useHistory } from 'react-router-dom';
+import FormSubmit from '../../upload/FormSubmit';
+import FormDialog from '../../upload/FormDialog';
 
 const AuthMenu = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const open = Boolean(anchorEl);
   const { logout } = useAuth();
   const history = useHistory();
@@ -29,6 +32,13 @@ const AuthMenu = (): JSX.Element => {
     history.push('/profile');
   };
 
+  const openProfileImage = () => {
+    setOpenDialog(true);
+  };
+  const closeProfileImage = (args: boolean) => {
+    setOpenDialog(args);
+  };
+
   return (
     <div>
       <IconButton aria-label="show auth menu" aria-controls="auth-menu" aria-haspopup="true" onClick={handleClick}>
@@ -48,6 +58,9 @@ const AuthMenu = (): JSX.Element => {
       >
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={openProfileImage}>
+          Profile Image <FormDialog openDialog={openDialog} isOpen={closeProfileImage} />
+        </MenuItem>
       </Menu>
     </div>
   );

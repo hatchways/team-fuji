@@ -19,6 +19,9 @@ export const AuthContext = createContext<IAuthContext>({
 
 export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
   // default undefined before loading, once loaded provide user or null if logged out
+  // useState for profileImageUrl
+  // Pass it as value in the provider
+  // add it to IAuthContext
   const [loggedInUser, setLoggedInUser] = useState<User | null | undefined>();
   const history = useHistory();
 

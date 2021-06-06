@@ -2,6 +2,7 @@ export interface User {
   email: string;
   username: string;
   primaryLanguage: string;
+  profileImageUrl?: string;
 }
 
 export interface SearchUsersApiData {

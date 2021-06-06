@@ -7,7 +7,8 @@ const generateToken = require("../utils/generateToken");
 // @access Public
 exports.registerUser = asyncHandler(async (req, res, next) => {
   const { primaryLanguage, email, password } = req.body;
-
+  // This will late be initalized with an image on user regestration
+  const profileImageUrl = "";
   const emailExists = await User.findOne({ email });
 
   if (emailExists) {
@@ -18,7 +19,8 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
   const user = await User.create({
     primaryLanguage,
     email,
-    password
+    password,
+    profileImageUrl,
   });
 
   if (user) {
@@ -27,7 +29,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: secondsInWeek * 1000
+      maxAge: secondsInWeek * 1000,
     });
 
     res.status(201).json({
@@ -35,9 +37,9 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         user: {
           id: user._id,
           primaryLanguage: user.primaryLanguage,
-          email: user.email
-        }
-      }
+          email: user.email,
+        },
+      },
     });
   } else {
     res.status(400);
@@ -59,17 +61,18 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: secondsInWeek * 1000
+      maxAge: secondsInWeek * 1000,
     });
-
+    console.log(user);
     res.status(200).json({
       success: {
         user: {
           id: user._id,
           primaryLanguage: user.primaryLanguage,
-          email: user.email
-        }
-      }
+          email: user.email,
+          profileImageUrl: user.profileImageUrl,
+        },
+      },
     });
   } else {
     res.status(401);
@@ -87,15 +90,17 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("Not authorized");
   }
+  console.log(user + "This is User");
 
   res.status(200).json({
     success: {
       user: {
         id: user._id,
         primaryLanguage: user.primaryLanguage,
-        email: user.email
-      }
-    }
+        email: user.email,
+        profileImageUrl: user.profileImageUrl,
+      },
+    },
   });
 });
 

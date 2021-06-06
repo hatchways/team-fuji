@@ -1,9 +1,9 @@
-import React from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import useStyles from './useStyles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import InputBase from '@material-ui/core/InputBase';
+import FormDialog from '../../upload/FormDialog';
 
 export default function InputBox(): JSX.Element {
   const classes = useStyles();
@@ -21,11 +21,14 @@ export default function InputBox(): JSX.Element {
             <InputAdornment position="end">
               <EmojiEmotionsOutlinedIcon />
               <Grid className={classes.iconSpacing}></Grid>
-              <FileCopyOutlinedIcon />
+              {/* <FormDialog /> */}
             </InputAdornment>
           ),
         }}
       />
+      <Grid item>
+        <InputBase placeholder="Type Something" />
+      </Grid>
     </Grid>
   );
 }

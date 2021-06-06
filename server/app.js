@@ -11,12 +11,22 @@ const logger = require("morgan");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const invitationRouter = require("./routes/invitation");
-
+const imageUploadRouter = require("./routes/image-upload");
+const multer = require("multer");
+const cors = require("cors");
+const cloudinary = require("./utils/cloudinary");
+const upload = require("./utils/multer");
 const { json, urlencoded } = express;
 
 connectDB();
 const app = express();
 const server = http.createServer(app);
+app.use(cors());
+
+// This middleware will be put into an acutal middleware file
+// TODO: set how many can uploaded per hour or something
+// Look into "/" see what thats doing
+app.use("/", imageUploadRouter);
 
 const io = socketio(server, {
   cors: {
