@@ -142,6 +142,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: '100%',
   },
+  endMessages: {
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'gray',
+  },
 }));
 
 export default useStyles;

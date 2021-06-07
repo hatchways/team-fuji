@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography, CircularProgress } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Message } from '../../interface/Conversation';
 import { fetchMessages } from '../../helpers/APICalls/Conversation';
@@ -145,13 +145,9 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
         next={fetchMoreData}
         inverse={true}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={<CircularProgress style={{ alignSelf: 'center' }} />}
         scrollableTarget="scrollableDiv"
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>No more messages</b>
-          </p>
-        }
+        endMessage={<Typography className={classes.endMessages}>No more messages</Typography>}
       >
         <Grid container className={classes.board} direction="column">
           {sortedMessages.map((message) => {
