@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Message } from '../../interface/Conversation';
 import { User } from '../../interface/User';
@@ -32,11 +32,14 @@ interface Props {
   currentUser: User;
 }
 
+interface Names {
+  [key: string]: string;
+}
+
 const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentUser }: Props): JSX.Element => {
   const classes = useStyles();
   const myPrimaryLanguage = currentUser.primaryLanguage;
   const myUserId = currentUser.id;
-  const myName = currentUser.username;
   const [messages, setMessages] = useState<Message[]>([]);
   const [original, setOriginal] = useState<Message[]>([]);
   const [translation, setTranslation] = useState<Message[]>([]);
@@ -44,6 +47,11 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
   const [hasMore, setHasMore] = useState<boolean>(true);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const limit = 12;
+
+  const names: Names = otherUsers.reduce<Names>((map, user) => {
+    map[user.id] = user.username;
+    return map;
+  }, {});
 
   // Load translation data
   // Load the lastest messages first, scroll up to load more previous messages
@@ -119,8 +127,6 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
   // ];
 
   const sortedMessages = messages.sort((n1, n2) => n1.createdAt.valueOf() - n2.createdAt.valueOf());
-  //const theOtherUserId = '60a4086085cdae24a4f6a929';
-  //const myUserId = '60a4086085cdae24a4f6a929';
 
   // Fetch more previous messages and append it to current message list
   const fetchMoreData = async () => {
@@ -154,19 +160,15 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
         next={fetchMoreData}
         inverse={true}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={<Typography className={classes.loadingBar}> loading... </Typography>}
         scrollableTarget="scrollableDiv"
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>No more messages</b>
-          </p>
-        }
+        endMessage={<Typography className={classes.endMessages}>No more messages</Typography>}
       >
         <Grid container className={classes.board} direction="column">
           {sortedMessages.map((message) => {
             //  current chatting user message
             if (message.sender !== myUserId) {
-              const sendName = otherUsers.find((user) => user.id === message.sender)?.username;
+              const sendName = names[message.sender];
               return (
                 <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
                   <Grid item>
