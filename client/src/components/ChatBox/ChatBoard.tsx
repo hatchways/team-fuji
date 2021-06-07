@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Grid } from '@material-ui/core';
 import useStyles from './useStyles';
 import { Message } from '../../interface/Conversation';
+import { User } from '../../interface/User';
 import { fetchMessages } from '../../helpers/APICalls/Conversation';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -25,19 +26,23 @@ function getTime(timeStamp: number): string {
 
 interface Props {
   translate: boolean;
-  primaryLanguage: string;
   conversationId: string;
   newMessage: Message;
+  otherUsers: User[];
+  currentUser: User;
 }
 
-const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: Props): JSX.Element => {
+const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentUser }: Props): JSX.Element => {
   const classes = useStyles();
-  const myPrimaryLanguage = primaryLanguage;
+  const myPrimaryLanguage = currentUser.primaryLanguage;
+  const myUserId = currentUser.id;
+  const myName = currentUser.username;
   const [messages, setMessages] = useState<Message[]>([]);
   const [original, setOriginal] = useState<Message[]>([]);
   const [translation, setTranslation] = useState<Message[]>([]);
   const [offset, setOffset] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const limit = 12;
 
   // Load translation data
@@ -46,15 +51,15 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
     async function getMessages() {
       const response = await fetchMessages({ conversationId, offset, limit });
       setOffset(offset + limit);
-      console.log(response.messages);
-      if (response && response.messages) {
+      if (response && response.messages?.length) {
         const messages = response.messages.reverse();
         setOriginal(messages);
         setTranslation(
           messages.map((messageItem) => ({
             ...messageItem,
-            message: messageItem.translations.find((translation) => translation.language === myPrimaryLanguage)
-              ?.translation,
+            message:
+              messageItem.translations.find((translation) => translation.language === myPrimaryLanguage)?.translation ||
+              messageItem.message,
           })),
         );
       }
@@ -69,9 +74,12 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
       ...translation,
       {
         ...newMessage,
-        message: newMessage.translations.find((translation) => translation.language === myPrimaryLanguage)?.translation,
+        message:
+          newMessage.translations.find((translation) => translation.language === myPrimaryLanguage)?.translation ||
+          newMessage.message,
       },
     ]);
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'end' });
   }, [newMessage]);
 
   // Listen for toggle translate
@@ -111,8 +119,8 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
   // ];
 
   const sortedMessages = messages.sort((n1, n2) => n1.createdAt.valueOf() - n2.createdAt.valueOf());
-  const theOtherUserId = '60a4086085cdae24a4f6a929';
-  const myUserId = '60af2acccce0b051a086abb1';
+  //const theOtherUserId = '60a4086085cdae24a4f6a929';
+  //const myUserId = '60a4086085cdae24a4f6a929';
 
   // Fetch more previous messages and append it to current message list
   const fetchMoreData = async () => {
@@ -124,8 +132,9 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
       setTranslation([
         ...messages.map((messageItem) => ({
           ...messageItem,
-          message: messageItem.translations.find((translation) => translation.language === myPrimaryLanguage)
-            ?.translation,
+          message:
+            messageItem.translations.find((translation) => translation.language === myPrimaryLanguage)?.translation ||
+            messageItem.message,
         })),
         ...translation,
       ]);
@@ -139,7 +148,7 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
     <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
       <InfiniteScroll
         className={classes.scroller}
-        height={'80vh'}
+        height={'75vh'}
         style={{ display: 'flex', flexDirection: 'column-reverse' }}
         dataLength={messages.length}
         next={fetchMoreData}
@@ -156,7 +165,8 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
         <Grid container className={classes.board} direction="column">
           {sortedMessages.map((message) => {
             //  current chatting user message
-            if (message.sender == theOtherUserId) {
+            if (message.sender !== myUserId) {
+              const sendName = otherUsers.find((user) => user.id === message.sender)?.username;
               return (
                 <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
                   <Grid item>
@@ -166,7 +176,7 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
                     <Grid container direction="column">
                       <Grid item>
                         <label className={classes.nameTimeLabel}>
-                          {theOtherUser.name + '  ' + getTime(message.createdAt.valueOf()).toString()}
+                          {sendName + '  ' + getTime(message.createdAt.valueOf()).toString()}
                         </label>
                       </Grid>
                       <Grid className={classes.timeMessageSeparator} />
@@ -205,6 +215,7 @@ const ChatBoard = ({ translate, newMessage, conversationId, primaryLanguage }: P
               );
             }
           })}
+          <div ref={messagesEndRef} />
         </Grid>
       </InfiniteScroll>
     </Grid>

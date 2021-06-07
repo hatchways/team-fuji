@@ -67,7 +67,8 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
         user: {
           id: user._id,
           primaryLanguage: user.primaryLanguage,
-          email: user.email
+          email: user.email,
+          username: user.username
         }
       }
     });
