@@ -58,8 +58,6 @@ exports.validateInvitation = [
     "id",
     "Please enter a valid user id who invitates friends."
   ).isMongoId(),
-  check("toUser", "Please enter a valid user id to invite.").isMongoId(),
-  check("toUserEmail", "Please enter a valid Email.").isEmail(),
   (req, res, next) => {
     const errors = validationResult(req);
 
