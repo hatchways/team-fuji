@@ -7,7 +7,7 @@ export interface translation {
 
 export interface Message {
   message?: string;
-  _id: string;
+  _id?: string;
   sender: string;
   language: string;
   translations: translation[];
@@ -21,6 +21,16 @@ export interface Conversation {
 }
 
 export interface FetchMessagesApiData {
-  messages?: Message[];
+  messages: Message[];
+  error?: { message: string };
+}
+
+export interface PostMessageApiData {
+  message: Message;
+  error?: { message: string };
+}
+
+export interface GetUsersInChatApiData {
+  users: [User];
   error?: { message: string };
 }

@@ -6,14 +6,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   board: {
-    width: '100%',
-    height: '100%%',
+    width: '65vw',
     // display: 'flex',
     // flexDirection: 'row',
     // overflowY: 'auto',
   },
   chattingUserName: {
-    fontSize: 20,
+    width: '20vw',
+    fontSize: 10,
     fontWeight: 700,
     paddingLeft: 10,
   },
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
   originalLanText: {
     color: '#cdd4e2',
-    fontSize: 16,
+    fontSize: 10,
     fontWeight: 700,
   },
   nameTimeLabel: {
@@ -144,6 +144,11 @@ const useStyles = makeStyles((theme) => ({
   },
   endMessages: {
     textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'gray',
+  },
+  loadingBar: {
+    alignSelf: 'center',
     fontStyle: 'italic',
     color: 'gray',
   },
