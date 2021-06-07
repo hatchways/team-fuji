@@ -36,12 +36,10 @@ export default function SubmitForm({ handleClose }: Props): JSX.Element {
                     variant="contained"
                     disabled={!isValid || isSubmitting}
                   >
-                    Send
+                    Submit
                   </Button>
                 </Grid>
               </Grid>
-
-              {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
             </Form>
           )}
         </Formik>
