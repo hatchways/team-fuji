@@ -9,7 +9,7 @@ interface Props {
   dialogControl: (submitted: boolean) => void;
 }
 
-export default function FormDialog({ open, dialogControl }: Props) {
+export default function FormDialog({ open, dialogControl }: Props): JSX.Element {
   return (
     <div>
       <Dialog open={open} aria-labelledby="form-dialog-title">

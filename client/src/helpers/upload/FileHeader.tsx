@@ -5,7 +5,7 @@ export interface FileHeaderProps {
   onDelete: (file: File) => void;
 }
 
-export function FileHeader({ file, onDelete }: FileHeaderProps) {
+export function FileHeader({ file, onDelete }: FileHeaderProps): JSX.Element {
   return (
     <Grid container justify="space-between" alignItems="center">
       <Grid item>{file.name}</Grid>

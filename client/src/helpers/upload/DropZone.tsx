@@ -22,8 +22,13 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
   },
 }));
-export function DropZone({ name, isSubmitting }: { name: string; isSubmitting: boolean }) {
-  const [_, __, helpers] = useField(name);
+
+interface Props {
+  name: string;
+  isSubmitting: boolean;
+}
+export function DropZone({ name, isSubmitting }: Props): JSX.Element {
+  const [, , helpers] = useField(name);
   const classes = useStyles();
   const [files, setFiles] = useState<UploadableFile[]>([]);
   const onDrop = useCallback((accFiles: File[], rejFiles: FileRejection[]) => {

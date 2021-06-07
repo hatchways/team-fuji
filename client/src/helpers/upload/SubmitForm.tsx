@@ -1,15 +1,13 @@
 import { Button, Card, CardContent, Grid } from '@material-ui/core';
 import { Form, Formik } from 'formik';
-import { SetStateAction } from 'react';
-import { Dispatch } from 'react';
-import { array, object, string } from 'yup';
+import { object } from 'yup';
 import * as yup from 'yup';
 import { DropZone } from './DropZone';
 
 interface Props {
   handleClose: (submitted: boolean) => void;
 }
-export default function SubmitForm({ handleClose }: Props) {
+export default function SubmitForm({ handleClose }: Props): JSX.Element {
   return (
     <Card>
       <CardContent>

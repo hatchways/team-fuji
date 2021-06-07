@@ -1,20 +1,20 @@
 import { Grid } from '@material-ui/core';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect } from 'react';
 import { FileHeader } from './FileHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { User } from '../../interface/User';
-export interface SingleFileUploadWithProgress {
+export interface Props {
   file: File;
   onDelete: (file: File) => void;
   isSubmitting: boolean;
 }
 
-export function SubmitFile({ file, onDelete, isSubmitting }: SingleFileUploadWithProgress) {
+export function SubmitFile({ file, onDelete, isSubmitting }: Props): JSX.Element {
   const { loggedInUser } = useAuth();
   const { setProfileImageUrl } = useAuth();
 
   useEffect(() => {
-    if (isSubmitting) uploadFile(file, loggedInUser, setProfileImageUrl!);
+    if (isSubmitting && setProfileImageUrl !== undefined) uploadFile(file, loggedInUser, setProfileImageUrl);
   }, [isSubmitting]);
   return (
     <Grid item>
