@@ -31,8 +31,9 @@ const AuthMenu = (): JSX.Element => {
     history.push('/profile');
   };
 
-  const toggleProfileImageDialog = () => {
+  const toggleProfileImageDialog = (submitted: boolean) => {
     setOpenDialog(!openDialog);
+    if (submitted) handleClose();
   };
 
   return (
@@ -54,7 +55,7 @@ const AuthMenu = (): JSX.Element => {
       >
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
-        <MenuItem onClick={toggleProfileImageDialog}>Profile Image</MenuItem>
+        <MenuItem onClick={() => toggleProfileImageDialog(false)}>Profile Image</MenuItem>
         <FormDialog open={openDialog} dialogControl={toggleProfileImageDialog} />
       </Menu>
     </div>

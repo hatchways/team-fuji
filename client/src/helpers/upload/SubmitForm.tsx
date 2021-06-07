@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { DropZone } from './DropZone';
 
 interface Props {
-  handleClose: () => void;
+  handleClose: (submitted: boolean) => void;
 }
 export default function SubmitForm({ handleClose }: Props) {
   return (
@@ -28,11 +28,11 @@ export default function SubmitForm({ handleClose }: Props) {
               <Grid container spacing={2} direction="column">
                 <DropZone name="files" isSubmitting={isSubmitting} />
                 <Grid item container justify="space-between">
-                  <Button onClick={handleClose} color="secondary" variant="contained">
+                  <Button onClick={() => handleClose(false)} color="secondary" variant="contained">
                     Cancel
                   </Button>
                   <Button
-                    onClick={handleClose}
+                    onClick={() => handleClose(true)}
                     color="primary"
                     type="submit"
                     variant="contained"
