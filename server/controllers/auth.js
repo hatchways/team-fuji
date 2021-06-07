@@ -71,6 +71,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
           primaryLanguage: user.primaryLanguage,
           email: user.email,
           profileImageUrl: user.profileImageUrl,
+          username: user.username
         },
       },
     });

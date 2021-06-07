@@ -111,15 +111,17 @@ exports.postMessage = asyncHandler(async (req, res) => {
           },
         },
       },
-      (err) => {
-        if (err) {
-          return res.status(500).json({ error: err });
+      (error) => {
+        if (error) {
+          return res.status(500).json({ error });
         } else {
           return res.status(200).json({
-            message,
-            senderId: userId,
-            chatId: conversationId,
-            translations,
+            message: {
+              message,
+              senderId: userId,
+              chatId: conversationId,
+              translations,
+            },
           });
         }
       }

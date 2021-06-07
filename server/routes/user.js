@@ -7,6 +7,7 @@ const {
   postUserConversation,
   postGroupChat,
   addUserToGroupChat,
+  getUsersInAChat,
 } = require("../controllers/conversation");
 const {
   getMessages,
@@ -21,5 +22,8 @@ router.route("/messages/:conversationId").get(protect, getLimitedMessages);
 router.route("/message/:conversationId").post(protect, postMessage);
 router.route("/groupchat").post(protect, postGroupChat);
 router.route("/groupchat/:groupChatId").post(protect, addUserToGroupChat);
+router
+  .route("/conversation/:conversationId/users")
+  .get(protect, getUsersInAChat);
 
 module.exports = router;
