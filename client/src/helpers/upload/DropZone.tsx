@@ -1,9 +1,9 @@
 import { FileError, FileRejection, useDropzone } from 'react-dropzone';
 import React, { useCallback, useState, useEffect } from 'react';
-import { SingleFileUploadWithProgress } from './SingleFileUploadWithProgress';
+import { SubmitFile } from './SubmitFile';
 import { Grid, makeStyles } from '@material-ui/core';
 import { useField } from 'formik';
-import { UploadError } from './UploadError';
+import { SubmitError } from './SubmitError';
 
 export interface UploadableFile {
   file: File;
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     outline: 'none',
   },
 }));
-export function MultipleFileUploadField({ name }: { name: string }) {
+export function DropZone({ name, isSubmitting }: { name: string; isSubmitting: boolean }) {
   const [_, __, helpers] = useField(name);
   const classes = useStyles();
   const [files, setFiles] = useState<UploadableFile[]>([]);
@@ -33,45 +33,34 @@ export function MultipleFileUploadField({ name }: { name: string }) {
 
   useEffect(() => {
     helpers.setValue(files);
-    //  helpers.setTouched(true);
   }, [files]);
 
-  function onUpload(file: File) {
-    setFiles((curr) =>
-      curr.map((fw) => {
-        if (fw.file === file) {
-          return { ...fw };
-        }
-        return fw;
-      }),
-    );
-  }
   function onDelete(file: File) {
     setFiles((curr) => curr.filter((fw) => fw.file !== file));
   }
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: ['image/*', 'video/*'],
-    // maxSize: 300 * 1024, // 300kb
+    accept: ['image/*'],
+    maxFiles: 1,
   });
 
   return (
-    <React.Fragment>
+    <>
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
           <input {...getInputProps()} />
-          <p>Drag n drop some files here, or click to select files</p>
+          <p>Drag n drop Profile Image Here, or click to select the file</p>
         </div>
       </Grid>
       {files.map((fileWrapper, idx) => (
         <Grid item key={idx}>
           {fileWrapper.errors.length ? (
-            <UploadError file={fileWrapper.file} errors={fileWrapper.errors} onDelete={onDelete} />
+            <SubmitError file={fileWrapper.file} errors={fileWrapper.errors} onDelete={onDelete} />
           ) : (
-            <SingleFileUploadWithProgress onDelete={onDelete} onUpload={onUpload} file={fileWrapper.file} />
+            <SubmitFile onDelete={onDelete} file={fileWrapper.file} isSubmitting={isSubmitting} />
           )}
         </Grid>
       ))}
-    </React.Fragment>
+    </>
   );
 }

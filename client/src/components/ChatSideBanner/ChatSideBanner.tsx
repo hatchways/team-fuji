@@ -8,7 +8,6 @@ import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
 import ContactsTab from '../ContactsTab/ContactsTab';
-import { useAuth } from '../../context/useAuthContext';
 
 interface Props {
   loggedInUser: User;
@@ -19,7 +18,6 @@ const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
   const [search, setSearch] = useState<string>('test');
   const [newChatUser, setNewChatUser] = useState<User | null>(null);
   const classes = useStyles();
-  const { profileImageUrl } = useAuth();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, newInputValue: string) => {
     setSearch(newInputValue);

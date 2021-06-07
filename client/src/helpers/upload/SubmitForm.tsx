@@ -3,34 +3,31 @@ import { Form, Formik } from 'formik';
 import { SetStateAction } from 'react';
 import { Dispatch } from 'react';
 import { array, object, string } from 'yup';
-import { MultipleFileUploadField } from './MultipleFileUploadField';
+import * as yup from 'yup';
+import { DropZone } from './DropZone';
 
 interface Props {
   handleClose: () => void;
 }
-export default function FormSubmit({ handleClose }: Props) {
+export default function SubmitForm({ handleClose }: Props) {
   return (
     <Card>
       <CardContent>
         <Formik
           initialValues={{ files: [] }}
-          // validationSchema={object({
-          //   files: array(
-          //     object({
-          //       url: string().required(),
-          //     }),
-          //   ),
-          // })}
+          validationSchema={object({
+            files: yup.array().min(1).max(1).required(),
+          })}
           onSubmit={(values) => {
             console.log('values', values);
             return new Promise((res) => setTimeout(res, 2000));
           }}
         >
-          {({ values, errors, isValid, isSubmitting }) => (
+          {({ isValid, isSubmitting }) => (
             <Form>
               <Grid container spacing={2} direction="column">
-                <MultipleFileUploadField name="files" />
-                <Grid item container>
+                <DropZone name="files" isSubmitting={isSubmitting} />
+                <Grid item container justify="space-between">
                   <Button onClick={handleClose} color="secondary" variant="contained">
                     Cancel
                   </Button>
@@ -46,7 +43,7 @@ export default function FormSubmit({ handleClose }: Props) {
                 </Grid>
               </Grid>
 
-              <pre>{JSON.stringify({ values, errors }, null, 4)}</pre>
+              {/* <pre>{JSON.stringify({ values, errors }, null, 4)}</pre> */}
             </Form>
           )}
         </Formik>
@@ -54,5 +51,3 @@ export default function FormSubmit({ handleClose }: Props) {
     </Card>
   );
 }
-
-//

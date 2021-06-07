@@ -3,7 +3,7 @@ import useStyles from './useStyles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import InputBase from '@material-ui/core/InputBase';
-import FormDialog from '../../upload/FormDialog';
+import FormDialog from '../../helpers/upload/FormDialog';
 
 export default function InputBox(): JSX.Element {
   const classes = useStyles();

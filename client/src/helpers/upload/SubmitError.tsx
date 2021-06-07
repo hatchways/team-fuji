@@ -18,7 +18,7 @@ const ErrorLinearProgress = withStyles((theme) =>
   }),
 )(LinearProgress);
 
-export function UploadError({ file, onDelete, errors }: UploadErrorProps) {
+export function SubmitError({ file, onDelete, errors }: UploadErrorProps) {
   return (
     <React.Fragment>
       <FileHeader file={file} onDelete={onDelete} />

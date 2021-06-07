@@ -4,7 +4,6 @@ import { AuthApiData, AuthApiDataSuccess } from '../interface/AuthApiData';
 import { User } from '../interface/User';
 import loginWithCookies from '../helpers/APICalls/loginWithCookies';
 import logoutAPI from '../helpers/APICalls/logout';
-import { string } from 'yup';
 
 interface IAuthContext {
   loggedInUser: User | null | undefined;
@@ -23,10 +22,6 @@ export const AuthContext = createContext<IAuthContext>({
 
 export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
   // default undefined before loading, once loaded provide user or null if logged out
-
-  // useState for profileImageUrl
-  // Pass it as value in the provider
-  // add it to IAuthContext
   const [loggedInUser, setLoggedInUser] = useState<User | null | undefined>();
   const [profileImageUrl, setProfileImageUrl] = useState<string>('');
   const history = useHistory();

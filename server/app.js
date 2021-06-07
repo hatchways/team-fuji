@@ -23,11 +23,6 @@ const app = express();
 const server = http.createServer(app);
 app.use(cors());
 
-// This middleware will be put into an acutal middleware file
-// TODO: set how many can uploaded per hour or something
-// Look into "/" see what thats doing
-app.use("/", imageUploadRouter);
-
 const io = socketio(server, {
   cors: {
     origin: "*",
@@ -54,6 +49,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/", invitationRouter);
+app.use("/", imageUploadRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));

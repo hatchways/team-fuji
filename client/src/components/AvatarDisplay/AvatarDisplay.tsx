@@ -1,7 +1,6 @@
-import { useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { User } from '../../interface/User';
-import { AuthContext } from '../../context/useAuthContext';
+import { useAuth } from '../../context/useAuthContext';
 
 interface Props {
   loggedIn: boolean;
@@ -9,7 +8,7 @@ interface Props {
 }
 
 const AvatarDisplay = ({ user }: Props): JSX.Element => {
-  const { profileImageUrl } = useContext(AuthContext);
+  const { profileImageUrl } = useAuth();
   return (
     <Avatar
       alt="Profile Image"

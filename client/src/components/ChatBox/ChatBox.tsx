@@ -5,8 +5,8 @@ import useStyles from './useStyles';
 import { Box, Grid } from '@material-ui/core';
 import { useState } from 'react';
 import { User } from '../../interface/User';
-import FormSubmit from '../../upload/FormSubmit';
-import FormDialog from '../../upload/FormDialog';
+import SubmitForm from '../../helpers/upload/SubmitForm';
+import FormDialog from '../../helpers/upload/FormDialog';
 interface Props {
   loggedInUser: User;
 }
