@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -8,10 +8,8 @@ import Avatar from '@material-ui/core/Avatar';
 import useStyles from './useStyles';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-export default function InvitationsTab() {
+export default function InvitationsTab(): JSX.Element {
   const classes = useStyles();
-
-  const [value, setValue] = useState<number>(0);
 
   //TODO replace with list of pending invitations
   const invitations = [0, 1, 2, 3, 4];

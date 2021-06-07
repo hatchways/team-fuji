@@ -9,6 +9,7 @@ import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import ChatsContactsInvitationsTabs from './components/ChatsContactsInvitationTabs/ChatsContactsInvitationTabs';
 
 import './App.css';
 
@@ -16,21 +17,22 @@ function App(): JSX.Element {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
-        <SnackBarProvider>
+        {/* <SnackBarProvider>
           <AuthProvider>
-            <SocketProvider>
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
-                <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-                <ProtectedRoute exact path="/profile" component={Profile} />
-                <Route path="*">
-                  <Redirect to="/login" />
-                </Route>
-              </Switch>
-            </SocketProvider>
+            <SocketProvider> */}
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/tabs" component={ChatsContactsInvitationsTabs} />
+          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoute exact path="/profile" component={Profile} />
+          <Route path="*">
+            <Redirect to="/login" />
+          </Route>
+        </Switch>
+        {/* </SocketProvider>
           </AuthProvider>
-        </SnackBarProvider>
+        </SnackBarProvider> */}
       </BrowserRouter>
     </MuiThemeProvider>
   );
