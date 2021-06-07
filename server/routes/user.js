@@ -8,12 +8,16 @@ const {
   postGroupChat,
   addUserToGroupChat,
 } = require("../controllers/conversation");
-const { getMessages, postMessage } = require("../controllers/message");
+const {
+  getMessages,
+  postMessage,
+  getLimitedMessages,
+} = require("../controllers/message");
 
 router.route("/").get(protect, searchUsers);
 router.route("/conversations").get(protect, getUserConversations);
 router.route("/conversation/:userId").post(protect, postUserConversation);
-router.route("/messages/:conversationId").get(protect, getMessages);
+router.route("/messages/:conversationId").get(protect, getLimitedMessages);
 router.route("/message/:conversationId").post(protect, postMessage);
 router.route("/groupchat").post(protect, postGroupChat);
 router.route("/groupchat/:groupChatId").post(protect, addUserToGroupChat);

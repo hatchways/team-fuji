@@ -3,15 +3,17 @@ import { FetchMessagesApiData } from '../../interface/Conversation';
 
 interface Props {
   conversationId: string;
+  offset: number;
+  limit: number;
 }
 
-export async function fetchMessages({ conversationId }: Props): Promise<FetchMessagesApiData> {
+export async function fetchMessages({ conversationId, offset, limit }: Props): Promise<FetchMessagesApiData> {
   const fetchOptions: FetchOptions = {
     method: 'GET',
     credentials: 'include',
   };
 
-  return await fetch(`/users/messages/${conversationId}`, fetchOptions)
+  return await fetch(`/users/messages/${conversationId}?offset=${offset}&limit=${limit}`, fetchOptions)
     .then((res) => res.json())
     .catch(() => ({
       error: {
