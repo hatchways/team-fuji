@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useAuth } from '../../context/useAuthContext';
 import { useHistory } from 'react-router-dom';
-import FormDialog from '../../helpers/upload/FormDialog';
+import FormDialog from '../UploadImageForm/FormDialog';
 
 const AuthMenu = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
