@@ -13,7 +13,7 @@ export default function FormDialog({ open, dialogControl }: Props): JSX.Element 
   return (
     <div>
       <Dialog open={open} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title" style={{ width: '40vw' }}>
+        <DialogTitle id="form-dialog-title" style={{ width: '30vw' }}>
           Upload Profile Image
         </DialogTitle>
         <DialogContent>
