@@ -1,4 +1,4 @@
-import React, { ReactNode, ChangeEvent } from 'react';
+import React, { ReactNode, useState, ChangeEvent } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -6,11 +6,12 @@ import Box from '@material-ui/core/Box';
 import ContactsTab from '../ContactsTab/ContactsTab';
 import InvitationsTab from '../InvitationsTab/InvitationTab';
 import ChatsTab from '../ChatsTab/ChatsTab';
+import useStyles from './useStyles';
 
 interface TabPanelProps {
   children?: ReactNode;
-  index: any;
-  value: any;
+  index: number;
+  value: number;
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -27,26 +28,53 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: any) {
+function a11yProps(index: number) {
   return {
     id: `tab-${index}`,
     'aria-controls': `tabpanel-${index}`,
   };
 }
 
-export default function ChatsContactsInvitationsTabs() {
-  const [value, setValue] = React.useState(0);
+export default function ChatsContactsInvitationsTabs(): JSX.Element {
+  const classes = useStyles();
+  const [value, setValue] = useState(1);
 
-  const handleChange = (event: React.FormEvent<{}>, newValue: number) => {
+  const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
   return (
     <div>
-      <Tabs value={value} onChange={handleChange} aria-label="tabs">
-        <Tab disableRipple label="Chats" {...a11yProps(0)} />
-        <Tab disableRipple label="Contacts" {...a11yProps(1)} />
-        <Tab disableRipple label="Invitations" {...a11yProps(2)} />
+      <Tabs
+        TabIndicatorProps={{ className: classes.indicator }}
+        value={value}
+        onChange={handleChange}
+        aria-label="tabs"
+      >
+        <Tab
+          classes={{
+            root: classes.root,
+          }}
+          disableRipple
+          label="Chats"
+          {...a11yProps(0)}
+        />
+        <Tab
+          classes={{
+            root: classes.root,
+          }}
+          disableRipple
+          label="Contacts"
+          {...a11yProps(1)}
+        />
+        <Tab
+          classes={{
+            root: classes.root,
+          }}
+          disableRipple
+          label="Invitations"
+          {...a11yProps(2)}
+        />
       </Tabs>
       <TabPanel value={value} index={0}>
         <ChatsTab />
