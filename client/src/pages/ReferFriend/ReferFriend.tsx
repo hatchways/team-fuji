@@ -11,11 +11,16 @@ import { useParams } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 
-export default function InvitationDialog(): JSX.Element {
+export interface InvitationDialogProps {
+  open: boolean;
+}
+
+export default function InvitationDialog(props: InvitationDialogProps): JSX.Element {
   const classes = useStyles();
 
   // open or close this dialog
   const [open, setOpen] = useState(true);
+  const openState = props.open;
 
   // open or close email sent successfully snackbar
   const [openEmailSnackbar, setOpenEmailSnackbar] = useState(false);
@@ -263,12 +268,17 @@ export default function InvitationDialog(): JSX.Element {
         }
       }
     }
+
     setOpen(false);
   };
-
   return (
     <Grid container spacing={0} direction="column">
-      <Dialog onClose={handleClose} aria-labelledby="invite friends" open={open} className={classes.dialogue}>
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="invite friends"
+        open={open && openState}
+        className={classes.dialogue}
+      >
         <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
           <CloseIcon />
         </IconButton>

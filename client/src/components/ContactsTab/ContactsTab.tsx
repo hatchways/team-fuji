@@ -7,13 +7,11 @@ import { Grid, Button } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import useStyles from './useStyles';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import ReferFriend from '../../pages/ReferFriend/ReferFriend';
 
 export default function ContactsTab(): JSX.Element {
   const classes = useStyles();
   const [contacts, setContacts] = useState<number[]>([...Array(50).keys()]);
-
-  //TODO replace with list of contacts
-  //const contacts = [0, 1, 2, 3, 4];
 
   // Implement loading contacts here
   const fetchMoreData = () => {
@@ -22,13 +20,20 @@ export default function ContactsTab(): JSX.Element {
     }, 1500);
   };
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <Grid container className={classes.root} direction="column">
       <Grid className={classes.searchBottomSeparator}></Grid>
       <Grid className={classes.inviteButtonBlock}>
-        <Button className={classes.inviteButton} color="primary">
+        <Button onClick={handleClickOpen} className={classes.inviteButton} color="primary">
           + invite friends
         </Button>
+        <ReferFriend open={open} />
       </Grid>
       <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
         <InfiniteScroll
