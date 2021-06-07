@@ -15,7 +15,7 @@ const translateMessage = async (textToTranslate, fromLanguage, toLanguages) => {
     })
   ).catch((err) => {
     res.status(500).json({ error: err });
-    throw new Error("translation error");
+    throw new Error("Translation error");
   });
 
   return translations;

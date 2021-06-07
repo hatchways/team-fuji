@@ -29,8 +29,17 @@ const io = socketio(server, {
   },
 });
 
+io.on("connect_error", (err) => {
+  console.log(`connect_error due to ${err.message}`);
+});
+
 io.on("connection", (socket) => {
-  console.log("connected");
+  console.log("connected - ", socket.id);
+
+  socket.on("chat", (args) => {
+    console.log("chat - ", args);
+    socket.broadcast.emit("chat", args);
+  });
 });
 
 if (process.env.NODE_ENV === "development") {
