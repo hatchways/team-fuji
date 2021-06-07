@@ -1,13 +1,26 @@
 import { FetchOptions } from '../../interface/FetchOptions';
-import { FetchMessagesApiData } from '../../interface/Conversation';
+import { FetchMessagesApiData, PostMessageApiData, GetUsersInChatApiData } from '../../interface/Conversation';
 
-interface Props {
+interface fectchMessagesProps {
   conversationId: string;
   offset: number;
   limit: number;
 }
 
-export async function fetchMessages({ conversationId, offset, limit }: Props): Promise<FetchMessagesApiData> {
+interface postMessageProps {
+  conversationId: string;
+  message: string;
+}
+
+interface getUsersInChatProps {
+  conversationId: string;
+}
+
+export async function fetchMessages({
+  conversationId,
+  offset,
+  limit,
+}: fectchMessagesProps): Promise<FetchMessagesApiData> {
   const fetchOptions: FetchOptions = {
     method: 'GET',
     credentials: 'include',
@@ -15,9 +28,34 @@ export async function fetchMessages({ conversationId, offset, limit }: Props): P
 
   return await fetch(`/users/messages/${conversationId}?offset=${offset}&limit=${limit}`, fetchOptions)
     .then((res) => res.json())
-    .catch(() => ({
-      error: {
-        message: 'Unable to connect to server. Please try again',
-      },
+    .catch((error) => ({
+      error,
+    }));
+}
+
+export async function postMessage({ conversationId, message }: postMessageProps): Promise<PostMessageApiData> {
+  const fetchOptions: FetchOptions = {
+    method: 'POST',
+    body: JSON.stringify({ message }),
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+  };
+
+  return await fetch(`/users/message/${conversationId}`, fetchOptions)
+    .then((res) => res.json())
+    .catch((error) => ({
+      error,
+    }));
+}
+
+export async function getUsersInChat({ conversationId }: getUsersInChatProps): Promise<GetUsersInChatApiData> {
+  const fetchOptions: FetchOptions = {
+    method: 'GET',
+    credentials: 'include',
+  };
+  return await fetch(`/users/conversation/${conversationId}/users`, fetchOptions)
+    .then((res) => res.json())
+    .catch((error) => ({
+      error,
     }));
 }
