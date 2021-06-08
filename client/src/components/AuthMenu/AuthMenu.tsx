@@ -14,7 +14,7 @@ const AuthMenu = (): JSX.Element => {
   const { logout } = useAuth();
   const history = useHistory();
   const fetch = {
-    url: 'http://localhost:3001/uploadProfileImage/',
+    url: '/uploadProfileImage/',
     handler: 'image',
     maxFiles: 1,
   };

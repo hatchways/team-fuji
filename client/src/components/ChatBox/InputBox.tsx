@@ -18,7 +18,7 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   const [images, setImages] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const fetch = {
-    url: 'http://localhost:3001/uploadImageMessage/',
+    url: '/uploadImageMessage/',
     handler: 'images',
     maxFiles: 3,
   };

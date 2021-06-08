@@ -3,7 +3,6 @@ import React from 'react';
 import { FileError } from 'react-dropzone';
 import { FileHeader } from './FileHeader';
 
-// Change the name of this file because the error is acutally validating before we upload
 export interface SubmitErrorProps {
   file: File;
   onDelete: (file: File) => void;

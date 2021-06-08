@@ -137,8 +137,8 @@ exports.postMessage = asyncHandler(async (req, res) => {
   }
 });
 
-// @route POST /image-upload/uploadImageMessage/
-// @desc Update Profile Image
+// @route POST /uploadImageMessage/:conversationId
+// @desc Upload Message Image
 // @access Private
 exports.uploadImageMessage = asyncHandler(async (req, res, next) => {
   try {

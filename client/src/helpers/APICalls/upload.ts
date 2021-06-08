@@ -15,6 +15,7 @@ const uploadFile = async (
   return await fetch(fetchConfig.url + loggedInUser?.id, {
     method: 'POST',
     body: data,
+    credentials: 'include',
   })
     .then((res) => res.json())
     .catch((err) => {

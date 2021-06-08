@@ -12,10 +12,7 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const invitationRouter = require("./routes/invitation");
 const imageUploadRouter = require("./routes/image-upload");
-const multer = require("multer");
 const cors = require("cors");
-const cloudinary = require("./utils/cloudinary");
-const upload = require("./utils/multer");
 const { json, urlencoded } = express;
 
 connectDB();
