@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const cloudinary = require("../utils/cloudinary");
-const upload = require("../utils/multer");
 // @route PUT /image-upload/profileImage
 // @desc Update Profile Image
 // @access Private
@@ -11,6 +10,8 @@ exports.uploadProfileImage = asyncHandler(async (req, res, next) => {
     const result = await cloudinary.uploader.upload(req.file.path);
 
     await User.updateOne(
+      // find by id instead
+      // req.user.id
       { email: req.params.userEmail },
       { profileImageUrl: String(result.url) }
     );

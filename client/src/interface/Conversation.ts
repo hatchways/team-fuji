@@ -7,6 +7,7 @@ export interface translation {
 
 export interface Message {
   message?: string;
+  imageUrl?: string[];
   _id?: string;
   sender: string;
   language: string;

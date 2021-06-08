@@ -183,7 +183,14 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
                       </Grid>
                       <Grid className={classes.timeMessageSeparator} />
                       <Grid item>
-                        <label className={classes.chattingUserMessage}>{message.message}</label>
+                        <label className={classes.chattingUserMessage}>
+                          {message.message}
+                          {message.imageUrl
+                            ? message.imageUrl.map((image, idx) => {
+                                return <img key={idx} src={image} alt="" width="50px" height="50px" />;
+                              })
+                            : null}
+                        </label>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -208,7 +215,14 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
                         </Grid>
                         <Grid className={classes.timeMessageSeparator} />
                         <Grid item>
-                          <label className={classes.currentUserMessage}>{message.message}</label>
+                          <label className={classes.currentUserMessage}>
+                            {message.message}
+                            {message.imageUrl
+                              ? message.imageUrl.map((image, idx) => {
+                                  return <img key={idx} src={image} alt="" width="50px" height="50px" />;
+                                })
+                              : null}
+                          </label>
                         </Grid>
                       </Grid>
                     </Grid>

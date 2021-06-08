@@ -1,14 +1,11 @@
 import { FileError, FileRejection, useDropzone } from 'react-dropzone';
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { SubmitFile } from './SubmitFile';
 import { Grid, makeStyles } from '@material-ui/core';
 import { useField } from 'formik';
 import { SubmitError } from './SubmitError';
-
-export interface UploadableFile {
-  file: File;
-  errors: FileError[];
-}
+import { FileHeader } from './FileHeader';
+import { UploadableFile } from '../../interface/Upload';
 
 const useStyles = makeStyles((theme) => ({
   dropzone: {
@@ -26,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
   name: string;
   isSubmitting: boolean;
+  fetch: { url: string; handler: string; maxFiles: number };
+  imageSubmit?: (imageUrl: string[]) => void;
 }
-export function DropZone({ name, isSubmitting }: Props): JSX.Element {
+export function DropZone({ name, isSubmitting, fetch, imageSubmit }: Props): JSX.Element {
   const [, , helpers] = useField(name);
   const classes = useStyles();
   const [files, setFiles] = useState<UploadableFile[]>([]);
@@ -46,7 +45,7 @@ export function DropZone({ name, isSubmitting }: Props): JSX.Element {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: ['image/*'],
-    maxFiles: 1,
+    maxFiles: fetch.maxFiles,
   });
 
   return (
@@ -62,10 +61,11 @@ export function DropZone({ name, isSubmitting }: Props): JSX.Element {
           {fileWrapper.errors.length ? (
             <SubmitError file={fileWrapper.file} errors={fileWrapper.errors} onDelete={onDelete} />
           ) : (
-            <SubmitFile onDelete={onDelete} file={fileWrapper.file} isSubmitting={isSubmitting} />
+            <FileHeader file={fileWrapper.file} onDelete={onDelete} />
           )}
         </Grid>
       ))}
+      <SubmitFile files={files} isSubmitting={isSubmitting} fetch={fetch} imageSubmit={imageSubmit} />
     </>
   );
 }

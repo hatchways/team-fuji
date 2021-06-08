@@ -3,7 +3,7 @@ const Conversation = require("../models/Conversation");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const translateMessage = require("../utils/translateMessage");
-
+const cloudinary = require("../utils/cloudinary");
 // @route GET /users/messages/:conversationId
 
 exports.getMessages = asyncHandler(async (req, res) => {
@@ -67,7 +67,8 @@ exports.postMessage = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const conversationId = req.params.conversationId;
   const message = req.body.message;
-
+  const imageUrl = req.body.imageUrl;
+  console.log(imageUrl + "THIS IS IMAGE URL");
   if (
     !mongoose.Types.ObjectId.isValid(userId) ||
     !mongoose.Types.ObjectId.isValid(conversationId)
@@ -78,7 +79,6 @@ exports.postMessage = asyncHandler(async (req, res) => {
 
   const conversation = await Conversation.findById(conversationId);
   const currentUser = await User.findById(userId);
-
   if (conversation) {
     // get sender's primary language
     // and all other recipients' primary languages
@@ -103,6 +103,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
               {
                 sender: userId,
                 message,
+                imageUrl,
                 language: fromLanguage,
                 translations,
               },
@@ -118,6 +119,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
           return res.status(200).json({
             message: {
               message,
+              imageUrl,
               senderId: userId,
               chatId: conversationId,
               translations,
@@ -129,5 +131,25 @@ exports.postMessage = asyncHandler(async (req, res) => {
   } else {
     res.status(404);
     throw new Error("Conversation not found");
+  }
+});
+
+// TODO: Might need to change user Email to Conversation ID // add protect
+// @route POST /image-upload/uploadImageMessage/:userEmail/:conversationId
+// @desc Update Profile Image
+// @access Private
+exports.uploadImageMessage = asyncHandler(async (req, res, next) => {
+  try {
+    // Upload image to cloudinary
+    const promises = req.files.map(async (file) => {
+      const cloudinaryImage = await cloudinary.uploader.upload(file.path);
+      return cloudinaryImage.url;
+    });
+
+    Promise.all(promises).then(function (results) {
+      res.json(results);
+    });
+  } catch (err) {
+    console.log(err);
   }
 });

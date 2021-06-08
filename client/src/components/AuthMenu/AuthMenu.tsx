@@ -13,7 +13,11 @@ const AuthMenu = (): JSX.Element => {
   const open = Boolean(anchorEl);
   const { logout } = useAuth();
   const history = useHistory();
-
+  const fetch = {
+    url: 'http://localhost:3001/uploadProfileImage/',
+    handler: 'image',
+    maxFiles: 1,
+  };
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -56,7 +60,12 @@ const AuthMenu = (): JSX.Element => {
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <MenuItem onClick={() => toggleProfileImageDialog(false)}>Profile Image</MenuItem>
-        <FormDialog open={openDialog} dialogControl={toggleProfileImageDialog} />
+        <FormDialog
+          open={openDialog}
+          dialogControl={toggleProfileImageDialog}
+          action={'Upload Profile Image'}
+          fetch={fetch}
+        />
       </Menu>
     </div>
   );

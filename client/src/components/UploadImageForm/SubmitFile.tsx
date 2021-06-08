@@ -3,41 +3,53 @@ import { useEffect } from 'react';
 import { FileHeader } from './FileHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { User } from '../../interface/User';
+import { UploadableFile } from '../../interface/Upload';
+
 export interface Props {
-  file: File;
-  onDelete: (file: File) => void;
+  files: UploadableFile[];
   isSubmitting: boolean;
+  fetch: { url: string; handler: string; maxFiles: number };
+  imageSubmit?: (imageUrl: string[]) => void;
 }
 
-export function SubmitFile({ file, onDelete, isSubmitting }: Props): JSX.Element {
+export function SubmitFile({ files, isSubmitting, fetch, imageSubmit }: Props): JSX.Element {
   const { loggedInUser } = useAuth();
   const { setProfileImageUrl } = useAuth();
 
   useEffect(() => {
-    if (isSubmitting && setProfileImageUrl !== undefined) uploadFile(file, loggedInUser, setProfileImageUrl);
+    if (isSubmitting && setProfileImageUrl !== undefined)
+      uploadFile(files, loggedInUser, setProfileImageUrl, fetch, imageSubmit);
   }, [isSubmitting]);
-  return (
-    <Grid item>
-      <FileHeader file={file} onDelete={onDelete} />
-    </Grid>
-  );
+  return <Grid item>{/* <FileHeader file={file} onDelete={onDelete} /> */}</Grid>;
 }
 
-function uploadFile(file: File, loggedInUser: User | null | undefined, setProfileImageUrl: (args: string) => void) {
-  const fileData = file;
-
+function uploadFile(
+  files: UploadableFile[],
+  loggedInUser: User | null | undefined,
+  setProfileImageUrl: (args: string) => void,
+  fetchConfig: { url: string; handler: string; maxFiles: number },
+  imageSubmit?: (imageUrl: string[]) => void,
+) {
   const data = new FormData();
 
-  data.append('image', fileData);
+  files.map((fileWrapper) => {
+    data.append(fetchConfig.handler, fileWrapper.file);
+  });
+
   // TODO put this in Apicalls folder
-  fetch(`http://localhost:3001/uploadProfileImage/${loggedInUser?.email}`, {
+  fetch(fetchConfig.url + loggedInUser?.email, {
     method: 'POST',
     body: data,
   })
     .then((res) => res.json())
     .then((result) => {
       console.log('File Sent Successful');
-      setProfileImageUrl(result);
+      if (fetchConfig.handler === 'image') {
+        setProfileImageUrl(result);
+        console.log("the one we wanted didn't fire");
+      } else if (fetchConfig.handler === 'images') {
+        if (imageSubmit) imageSubmit(result);
+      }
     })
     .catch((err) => {
       console.log(err.message);

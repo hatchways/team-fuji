@@ -35,7 +35,7 @@ export default function Dashboard(): JSX.Element {
         <ChatSideBanner loggedInUser={loggedInUser} />
       </Grid>
       <Grid item className={classes.chatboxWrapper}>
-        <ChatBox loggedInUser={loggedInUser} socket={socket} conversationId="60b82138d6f2b00d4cd80c86" />
+        <ChatBox loggedInUser={loggedInUser} socket={socket} conversationId="60be998d3771835bffaae014" />
       </Grid>
     </Grid>
   );

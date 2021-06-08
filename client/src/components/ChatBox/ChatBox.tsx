@@ -49,6 +49,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
       }
       const textMessage: Message = {
         message: `${args.message}`,
+        imageUrl: args.imageUrl,
         sender: args.user,
         language: args.language,
         translations: args.translations,
@@ -60,15 +61,16 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
     });
   }, [socket]);
 
-  const handleMessage = async (message: string) => {
-    if (!message) {
+  const handleMessage = async (message: string, imageUrl: string[]) => {
+    if (!message && !imageUrl) {
       return;
     }
 
-    const response = await postMessage({ conversationId, message });
+    const response = await postMessage({ conversationId, message, imageUrl });
 
     const sentMessage: Message = {
       message: response.message.message,
+      imageUrl: response.message.imageUrl,
       sender: currentUserId,
       language: currentUserLanguage,
       translations: response.message.translations,
@@ -78,6 +80,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
     setMessages(sentMessage);
     socket?.emit('chat', {
       message,
+      imageUrl,
       user: currentUserId, // Hard-coded for now
       language: currentUserLanguage,
       translations: response.message.translations,
