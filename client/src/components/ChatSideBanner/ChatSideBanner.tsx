@@ -7,7 +7,7 @@ import { User } from '../../interface/User';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
-import ContactsTab from '../ContactsTab/ContactsTab';
+import ChatsContactsInvitationTabs from '../ChatsContactsInvitationTabs/ChatsContactsInvitationTabs';
 
 interface Props {
   loggedInUser: User;
@@ -43,7 +43,7 @@ const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
         <Search search={search} handleChange={handleChange} />
       </Box>
       <Box>
-        <ContactsTab />
+        <ChatsContactsInvitationTabs />
       </Box>
     </Grid>
   );
