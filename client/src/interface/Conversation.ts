@@ -8,7 +8,7 @@ export interface translation {
 export interface Message {
   message?: string;
   imageUrl?: string[];
-  _id?: string;
+  _id: string;
   sender: string;
   language: string;
   translations: translation[];
@@ -33,5 +33,10 @@ export interface PostMessageApiData {
 
 export interface GetUsersInChatApiData {
   users: [User];
+  error?: { message: string };
+}
+
+export interface DeleteMessageApiData {
+  success: string;
   error?: { message: string };
 }

@@ -1,6 +1,6 @@
 import { Box, Grid, IconButton, TextField } from '@material-ui/core';
 import useStyles from './useStyles';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
@@ -8,11 +8,12 @@ import FormDialog from '../UploadImageForm/FormDialog';
 
 interface Props {
   handleMessage: (message: string, imageUrl: string[]) => void;
+  messageUndo: string | undefined;
 }
 
-const InputBox = ({ handleMessage }: Props): JSX.Element => {
+const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   const classes = useStyles();
-
+  const textRef = useRef<any>();
   const [text, setText] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -21,6 +22,16 @@ const InputBox = ({ handleMessage }: Props): JSX.Element => {
     handler: 'images',
     maxFiles: 3,
   };
+
+  useEffect(() => {
+    if (messageUndo) {
+      setText(messageUndo);
+      if (textRef.current) {
+        textRef.current.focus();
+      }
+    }
+  }, [messageUndo]);
+
   function handleSubmit(e: React.SyntheticEvent): void {
     e.preventDefault();
 
@@ -43,9 +54,11 @@ const InputBox = ({ handleMessage }: Props): JSX.Element => {
           className={classes.inputField}
           onChange={(e) => setText(e.target.value)}
           value={text}
+          inputRef={textRef}
           id="inputContent"
           variant="filled"
           placeholder="Type something..."
+          inputProps={{ style: { paddingTop: '10px' } }}
           InputProps={{
             classes,
             endAdornment: (
@@ -55,10 +68,10 @@ const InputBox = ({ handleMessage }: Props): JSX.Element => {
                       return <img key={idx} src={image} alt="" width="50px" height="50px" style={{ margin: '10px' }} />;
                     })
                   : null}
-                <EmojiEmotionsOutlinedIcon />
-                <Grid className={classes.iconSpacing}></Grid>
+                <EmojiEmotionsOutlinedIcon fontSize="small" />
+                <Grid className={classes.iconSpacing} />
                 <IconButton onClick={() => toggleMessageImageDialog(false)}>
-                  <FileCopyOutlinedIcon />
+                  <FileCopyOutlinedIcon fontSize="small" />
                 </IconButton>
                 <FormDialog
                   open={openDialog}
