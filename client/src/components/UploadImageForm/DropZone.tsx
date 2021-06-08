@@ -44,11 +44,7 @@ export function DropZone({ name, isSubmitting, fetch, imageSubmit }: Props): JSX
       if (isSubmitting && setProfileImageUrl !== undefined) {
         const result = await uploadFile(files, loggedInUser, fetch);
         if (result) {
-          fetch.handler == 'image'
-            ? setProfileImageUrl(String(result))
-            : imageSubmit && result
-            ? imageSubmit(result)
-            : null;
+          fetch.handler == 'image' ? setProfileImageUrl(String(result)) : imageSubmit ? imageSubmit(result) : null;
         }
       }
     }

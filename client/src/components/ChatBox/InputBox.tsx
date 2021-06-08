@@ -34,7 +34,7 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
 
   function handleSubmit(e: React.SyntheticEvent): void {
     e.preventDefault();
-
+    console.log(images + 'IMAGES');
     handleMessage(text, images);
     setText('');
     setImages([]);

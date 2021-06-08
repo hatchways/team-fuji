@@ -68,7 +68,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
   const conversationId = req.params.conversationId;
   const message = req.body.message;
   const imageUrl = req.body.imageUrl;
-  console.log(imageUrl + "THIS IS IMAGE URL");
+
   if (
     !mongoose.Types.ObjectId.isValid(userId) ||
     !mongoose.Types.ObjectId.isValid(conversationId)

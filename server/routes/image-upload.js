@@ -9,7 +9,7 @@ router
   .post(upload.single("image"), uploadProfileImage);
 
 router
-  .route("/uploadImageMessage/")
+  .route("/uploadImageMessage/:userId")
   .post(upload.array("images", 3), uploadImageMessage);
 
 module.exports = router;

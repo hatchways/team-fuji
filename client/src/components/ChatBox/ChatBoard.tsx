@@ -238,7 +238,6 @@ const ChatBoard = ({
                                 <UndoIcon />
                               </IconButton>
                             )}
-                            {message.message}
                           </label>
                         </Grid>
                       </Grid>
