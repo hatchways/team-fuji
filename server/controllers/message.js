@@ -143,10 +143,11 @@ exports.deleteMessage = asyncHandler(async (req, res) => {
 
   if (
     !mongoose.Types.ObjectId.isValid(userId) ||
-    !mongoose.Types.ObjectId.isValid(conversationId)
+    !mongoose.Types.ObjectId.isValid(conversationId) ||
+    !mongoose.Types.ObjectId.isValid(messageId)
   ) {
     res.status(400);
-    throw new Error("Invaid user id or conversation id");
+    throw new Error("Invaid user id or conversation id, or message id");
   }
 
   const conversation = await Conversation.findById(conversationId);
