@@ -4,7 +4,7 @@ import { FileError } from 'react-dropzone';
 import { FileHeader } from './FileHeader';
 
 // Change the name of this file because the error is acutally validating before we upload
-export interface UploadErrorProps {
+export interface SubmitErrorProps {
   file: File;
   onDelete: (file: File) => void;
   errors: FileError[];
@@ -18,7 +18,7 @@ const ErrorLinearProgress = withStyles((theme) =>
   }),
 )(LinearProgress);
 
-export function SubmitError({ file, onDelete, errors }: UploadErrorProps): JSX.Element {
+export function SubmitError({ file, onDelete, errors }: SubmitErrorProps): JSX.Element {
   return (
     <React.Fragment>
       <FileHeader file={file} onDelete={onDelete} />

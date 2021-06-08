@@ -1,24 +1,13 @@
-import { FileError, FileRejection, useDropzone } from 'react-dropzone';
+import { FileRejection, useDropzone } from 'react-dropzone';
 import { useCallback, useState, useEffect } from 'react';
-import { SubmitFile } from './SubmitFile';
 import { Grid, makeStyles } from '@material-ui/core';
 import { useField } from 'formik';
 import { SubmitError } from './SubmitError';
 import { FileHeader } from './FileHeader';
 import { UploadableFile } from '../../interface/Upload';
-
-const useStyles = makeStyles((theme) => ({
-  dropzone: {
-    border: `2px dashed ${theme.palette.primary.main}`,
-    borderRadius: theme.shape.borderRadius,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: theme.palette.background.default,
-    height: theme.spacing(10),
-    outline: 'none',
-  },
-}));
+import { useAuth } from '../../context/useAuthContext';
+import uploadFile from '../../helpers/APICalls/upload';
+import useStyles from './useStyles';
 
 interface Props {
   name: string;
@@ -47,6 +36,24 @@ export function DropZone({ name, isSubmitting, fetch, imageSubmit }: Props): JSX
     accept: ['image/*'],
     maxFiles: fetch.maxFiles,
   });
+  const { loggedInUser } = useAuth();
+  const { setProfileImageUrl } = useAuth();
+
+  useEffect(() => {
+    async function upload() {
+      if (isSubmitting && setProfileImageUrl !== undefined) {
+        const result = await uploadFile(files, loggedInUser, fetch);
+        if (result) {
+          fetch.handler == 'image'
+            ? setProfileImageUrl(String(result))
+            : imageSubmit && result
+            ? imageSubmit(result)
+            : null;
+        }
+      }
+    }
+    upload();
+  }, [isSubmitting]);
 
   return (
     <>
@@ -65,7 +72,6 @@ export function DropZone({ name, isSubmitting, fetch, imageSubmit }: Props): JSX
           )}
         </Grid>
       ))}
-      <SubmitFile files={files} isSubmitting={isSubmitting} fetch={fetch} imageSubmit={imageSubmit} />
     </>
   );
 }
