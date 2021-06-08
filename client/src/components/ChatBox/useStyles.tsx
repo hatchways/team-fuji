@@ -1,24 +1,21 @@
 import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   header: {
     paddingTop: 20,
     width: '100%',
     height: '100%',
   },
   board: {
-    width: '100%',
-    height: '95%',
-    display: 'flex',
-    flexDirection: 'row',
-    overflowY: 'auto',
+    width: '65vw',
   },
   chattingUserName: {
-    fontSize: 20,
+    width: '20vw',
+    fontSize: 10,
     fontWeight: 700,
     paddingLeft: 10,
   },
   inputField: {
-    width: '100%',
+    width: '65vw',
     height: '100%',
     paddingLeft: 10,
   },
@@ -31,7 +28,7 @@ const useStyles = makeStyles(() => ({
     height: '10%',
   },
   chatboard: {
-    height: '70%',
+    height: '80vh',
   },
   inputbox: {
     height: '10%',
@@ -66,7 +63,7 @@ const useStyles = makeStyles(() => ({
   },
   originalLanText: {
     color: '#cdd4e2',
-    fontSize: 16,
+    fontSize: 10,
     fontWeight: 700,
   },
   nameTimeLabel: {
@@ -116,6 +113,41 @@ const useStyles = makeStyles(() => ({
   },
   messageSeparator: {
     height: 6,
+  },
+  scroller: {
+    '&:hover': {
+      '&::-webkit-scrollbar': {
+        display: 'inline',
+      },
+    },
+    '&::-webkit-scrollbar': {
+      display: 'none',
+      width: '5px',
+    },
+    '&::-webkit-scrollbar-track': {
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: '#ddd',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#666',
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+  scrollerWrapper: {
+    overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+  },
+  endMessages: {
+    textAlign: 'center',
+    fontStyle: 'italic',
+    color: 'gray',
+  },
+  loadingBar: {
+    alignSelf: 'center',
+    fontStyle: 'italic',
+    color: 'gray',
   },
 }));
 

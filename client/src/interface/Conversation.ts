@@ -21,6 +21,21 @@ export interface Conversation {
 }
 
 export interface FetchMessagesApiData {
-  messages?: Message[];
+  messages: Message[];
+  error?: { message: string };
+}
+
+export interface PostMessageApiData {
+  message: Message;
+  error?: { message: string };
+}
+
+export interface GetUsersInChatApiData {
+  users: [User];
+  error?: { message: string };
+}
+
+export interface DeleteMessageApiData {
+  success: string;
   error?: { message: string };
 }

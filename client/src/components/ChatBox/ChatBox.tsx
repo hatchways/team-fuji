@@ -7,14 +7,17 @@ import { useEffect, useState } from 'react';
 import { User } from '../../interface/User';
 import { Socket } from 'socket.io-client';
 import { Message } from '../../interface/Conversation';
+import { postMessage, getUsersInChat, deleteMessage } from '../../helpers/APICalls/Conversation';
 interface Props {
   loggedInUser: User;
   socket: Socket | undefined;
+  conversationId: string;
 }
-const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
-  const primaryLanguage = loggedInUser.primaryLanguage;
-  const classes = useStyles();
 
+const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element => {
+  const currentUserLanguage = loggedInUser.primaryLanguage;
+  const classes = useStyles();
+  const currentUserId = loggedInUser.id;
   const [translate, setTranslate] = useState<boolean>(false);
   const [message, setMessages] = useState<Message>({
     message: 'Initial Startup',
@@ -26,37 +29,48 @@ const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
     createdAt: new Date(Date.now()),
   });
 
+  const [users, setUsers] = useState<User[]>([]);
+  const [messageUndo, SetMessageUndo] = useState<Message | null>(null);
+
+  useEffect(() => {
+    async function getUsers() {
+      const response = await getUsersInChat({ conversationId });
+      if (response && response.users?.length) {
+        setUsers(response.users);
+      }
+    }
+    getUsers();
+  }, [conversationId]);
+
   useEffect(() => {
     socket?.on('chat', (args) => {
+      if (args.sender === currentUserId) {
+        return;
+      }
       const textMessage: Message = {
-        message: args.message,
-        _id: '45534',
-        sender: args.user,
-        language: 'en',
-        translations: [{ language: 'fr', translation: 'French Version of this text' }],
-        updatedAt: new Date(Date.now()),
-        createdAt: new Date(Date.now()),
+        ...args,
       };
       setMessages(textMessage);
-      console.log('received server emit', args);
     });
   }, [socket]);
 
-  const handleMessage = (text: string) => {
-    const textMessage: Message = {
-      message: text,
-      _id: '45534',
-      sender: '60a4086085cdae24a4f6a929',
-      language: 'English',
-      translations: [{ language: 'English', translation: 'English' }],
+  const undoSend = (message: Message) => {
+    SetMessageUndo(message);
+    deleteMessage({ conversationId, messageId: message._id }).then();
+  };
+  const handleMessage = async (message: string) => {
+    if (!message) {
+      return;
+    }
+
+    const response = await postMessage({ conversationId, message });
+    const sentMessage: Message = {
+      ...response.message,
       updatedAt: new Date(Date.now()),
       createdAt: new Date(Date.now()),
     };
-    setMessages(textMessage);
-    socket?.emit('chat', {
-      message: text,
-      user: '60a4086085cdae24a4f6a929', // Hard-coded for now
-    });
+    setMessages(sentMessage);
+    socket?.emit('chat', sentMessage);
   };
 
   const handleSwitch = () => {
@@ -66,13 +80,20 @@ const chatBox = ({ loggedInUser, socket }: Props): JSX.Element => {
   return (
     <Grid className={classes.chatbox}>
       <Box className={classes.chatheader}>
-        <ChatHeader handleSwitch={handleSwitch} />
+        <ChatHeader handleSwitch={handleSwitch} users={users} />
       </Box>
       <Box className={classes.chatboard}>
-        <ChatBoard translate={translate} primaryLanguage={primaryLanguage} newMessage={message} />
+        <ChatBoard
+          translate={translate}
+          conversationId={conversationId}
+          otherUsers={users}
+          currentUser={loggedInUser}
+          newMessage={message}
+          undoSend={undoSend}
+        />
       </Box>
       <Box className={classes.inputbox}>
-        <InputBox handleMessage={handleMessage} />
+        <InputBox handleMessage={handleMessage} messageUndo={messageUndo?.message} />
       </Box>
     </Grid>
   );

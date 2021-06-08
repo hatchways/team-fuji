@@ -168,3 +168,30 @@ exports.addUserToGroupChat = asyncHandler(async (req, res) => {
     throw new Error("Groupchat is not found");
   }
 });
+
+// @route GET /users/conversation/:conversationId/users
+exports.getUsersInAChat = asyncHandler(async (req, res) => {
+  const conversationId = req.params.conversationId;
+  const currentUserId = req.user.id;
+  const conversation = Conversation.findById(conversationId)
+    .populate({
+      path: "users",
+    })
+    .select("users")
+    .then((result) =>
+      res.status(200).json({
+        users: result.users.reduce((result, user) => {
+          if (user._id.toString() !== currentUserId) {
+            result.push({
+              username: user.username,
+              email: user.email,
+              primaryLanguage: user.primaryLanguage,
+              id: user._id,
+            });
+          }
+          return result;
+        }, []),
+      })
+    )
+    .catch((error) => res.status(500).json({ error }));
+});

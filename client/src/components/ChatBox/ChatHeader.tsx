@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Box, Button, Typography } from '@material-ui/core';
 import useStyles from './useStyles';
 import Switch from '@material-ui/core/Switch';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import { User } from '../../interface/User';
 
 interface Props {
   handleSwitch: () => void;
+  users: User[];
 }
 
-export default function ChatHeader({ handleSwitch }: Props): JSX.Element {
+export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element {
   const classes = useStyles();
-
   const [state, setState] = useState({
     checkedSwitch: false,
   });
@@ -30,6 +31,7 @@ export default function ChatHeader({ handleSwitch }: Props): JSX.Element {
     setState({ ...state, [event.target.name]: event.target.checked });
     handleSwitch();
   };
+
   return (
     <Grid container className={classes.header} direction="row" justify="space-between">
       <Grid item>
@@ -38,7 +40,10 @@ export default function ChatHeader({ handleSwitch }: Props): JSX.Element {
             <img src={currentLanguage.languageFlag} />
           </Grid>
           <Grid item>
-            <Typography className={classes.chattingUserName}>{currentChattingUser.name}</Typography>
+            <Typography noWrap className={classes.chattingUserName}>
+              {/* {currentChattingUser.name} */}
+              {users.map((user) => user.username).join(', ')}
+            </Typography>
           </Grid>
           <Grid className={classes.separatorStatePointleft} />
           <Grid item>
