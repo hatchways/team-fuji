@@ -7,9 +7,6 @@ const useStyles = makeStyles((theme) => ({
   },
   board: {
     width: '65vw',
-    // display: 'flex',
-    // flexDirection: 'row',
-    // overflowY: 'auto',
   },
   chattingUserName: {
     width: '20vw',
@@ -18,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
   },
   inputField: {
-    width: '100%',
+    width: '65vw',
     height: '100%',
     paddingLeft: 10,
   },

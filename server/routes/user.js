@@ -13,6 +13,7 @@ const {
   getMessages,
   postMessage,
   getLimitedMessages,
+  deleteMessage,
 } = require("../controllers/message");
 
 router.route("/").get(protect, searchUsers);
@@ -25,5 +26,7 @@ router.route("/groupchat/:groupChatId").post(protect, addUserToGroupChat);
 router
   .route("/conversation/:conversationId/users")
   .get(protect, getUsersInAChat);
-
+router
+  .route("/message/:conversationId/:messageId")
+  .delete(protect, deleteMessage);
 module.exports = router;

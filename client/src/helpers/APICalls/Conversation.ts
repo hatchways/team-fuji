@@ -1,5 +1,10 @@
 import { FetchOptions } from '../../interface/FetchOptions';
-import { FetchMessagesApiData, PostMessageApiData, GetUsersInChatApiData } from '../../interface/Conversation';
+import {
+  FetchMessagesApiData,
+  PostMessageApiData,
+  GetUsersInChatApiData,
+  DeleteMessageApiData,
+} from '../../interface/Conversation';
 
 interface fectchMessagesProps {
   conversationId: string;
@@ -14,6 +19,11 @@ interface postMessageProps {
 
 interface getUsersInChatProps {
   conversationId: string;
+}
+
+interface deleteMessageProps {
+  conversationId: string;
+  messageId: string;
 }
 
 export async function fetchMessages({
@@ -54,6 +64,18 @@ export async function getUsersInChat({ conversationId }: getUsersInChatProps): P
     credentials: 'include',
   };
   return await fetch(`/users/conversation/${conversationId}/users`, fetchOptions)
+    .then((res) => res.json())
+    .catch((error) => ({
+      error,
+    }));
+}
+
+export async function deleteMessage({ conversationId, messageId }: deleteMessageProps): Promise<DeleteMessageApiData> {
+  const fetchOptions: FetchOptions = {
+    method: 'DELETE',
+    credentials: 'include',
+  };
+  return await fetch(`/users/message/${conversationId}/${messageId}`, fetchOptions)
     .then((res) => res.json())
     .catch((error) => ({
       error,
