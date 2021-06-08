@@ -30,10 +30,7 @@ io.on("connect_error", (err) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("connected - ", socket.id);
-
   socket.on("chat", (args) => {
-    console.log("chat - ", args);
     socket.broadcast.emit("chat", args);
   });
 });

@@ -95,12 +95,14 @@ exports.postMessage = asyncHandler(async (req, res) => {
     );
 
     // update database and return response
+    const Id = new mongoose.Types.ObjectId().toHexString();
     conversation.updateOne(
       {
         $push: {
           messages: {
             $each: [
               {
+                _id: Id,
                 sender: userId,
                 message,
                 language: fromLanguage,
@@ -117,11 +119,52 @@ exports.postMessage = asyncHandler(async (req, res) => {
         } else {
           return res.status(200).json({
             message: {
+              _id: Id,
               message,
-              senderId: userId,
+              sender: userId,
               chatId: conversationId,
               translations,
             },
+          });
+        }
+      }
+    );
+  } else {
+    res.status(404);
+    throw new Error("Conversation not found");
+  }
+});
+
+// @route DELETE  /users/message/:conversationId/:messageId
+exports.deleteMessage = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const conversationId = req.params.conversationId;
+  const messageId = req.params.messageId;
+
+  if (
+    !mongoose.Types.ObjectId.isValid(userId) ||
+    !mongoose.Types.ObjectId.isValid(conversationId)
+  ) {
+    res.status(400);
+    throw new Error("Invaid user id or conversation id");
+  }
+
+  const conversation = await Conversation.findById(conversationId);
+  if (conversation) {
+    conversation.updateOne(
+      {
+        $pull: {
+          messages: {
+            _id: messageId,
+          },
+        },
+      },
+      (error) => {
+        if (error) {
+          return res.status(500).json({ error });
+        } else {
+          return res.status(200).json({
+            success: "Delete success!",
           });
         }
       }
