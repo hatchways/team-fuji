@@ -10,9 +10,7 @@ exports.uploadProfileImage = asyncHandler(async (req, res, next) => {
     const result = await cloudinary.uploader.upload(req.file.path);
 
     await User.updateOne(
-      // find by id instead
-      // req.user.id
-      { email: req.params.userEmail },
+      { _id: req.params.userId },
       { profileImageUrl: String(result.url) }
     );
 

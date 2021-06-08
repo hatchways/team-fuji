@@ -134,8 +134,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
   }
 });
 
-// TODO: Might need to change user Email to Conversation ID // add protect
-// @route POST /image-upload/uploadImageMessage/:userEmail/:conversationId
+// @route POST /image-upload/uploadImageMessage/
 // @desc Update Profile Image
 // @access Private
 exports.uploadImageMessage = asyncHandler(async (req, res, next) => {
