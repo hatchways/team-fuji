@@ -12,7 +12,6 @@ exports.approve = asyncHandler(async (req, res, next) => {
     res.json({
       status: "success",
       message: "Invitation approved successfully",
-      data: updatedInvitationInfo,
     });
   } catch (error) {
     console.log(new Date(), error);
@@ -34,7 +33,6 @@ exports.reject = asyncHandler(async (req, res, next) => {
     res.json({
       status: "success",
       message: "Invitation rejected successfully",
-      data: updatedInvitationInfo,
     });
   } catch (error) {
     console.log(new Date(), error);

@@ -25,17 +25,16 @@ router
   .get(protect, validateUserId, getPendingInvitation);
 
 // list accepted invitations
-router.route("/user/:id/contacts").get(protect, validateUserId, getContacts);
+router.route("/user/contacts").get(protect, getContacts);
 
 // approve an invitation
 router
-  .route("invitation/:id/approve")
+  .route("/invitation/:id/approve")
   .patch(protect, validateInvitationId, approve);
 
 // reject an invitation
 router
-  .route("invitation/:id/reject")
+  .route("/invitation/:id/reject")
   .patch(protect, validateInvitationId, reject);
-
 
 module.exports = router;

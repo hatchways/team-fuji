@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, ChangeEvent } from 'react';
+import React, { ReactNode, useState, ChangeEvent, useEffect } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +7,10 @@ import ContactsTab from '../ContactsTab/ContactsTab';
 import InvitationsTab from '../InvitationsTab/InvitationTab';
 import ChatsTab from '../ChatsTab/ChatsTab';
 import useStyles from './useStyles';
+import { Invitation } from '../../interface/Invitation';
+import { User } from '../../interface/User';
+import { getInvitations, patchInvitation, getContacts } from '../../helpers/APICalls/Invitation';
+import { useAuth } from '../../context/useAuthContext';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -20,7 +24,7 @@ function TabPanel(props: TabPanelProps) {
   return (
     <div role="tabpanel" hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`tab-${index}`} {...other}>
       {value === index && (
-        <Box p={3}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -36,6 +40,27 @@ function a11yProps(index: number) {
 }
 
 export default function ChatsContactsInvitationsTabs(): JSX.Element {
+  const { loggedInUser } = useAuth();
+  const [invitations, setInvitaions] = useState<Invitation[]>([]);
+  const [contacts, setContacts] = useState<User[]>([]);
+  const [offset, setOffset] = useState<number>(0);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const limit = 2;
+
+  useEffect(() => {
+    async function loadInvitations() {
+      const response = await getInvitations({ userId: loggedInUser?.id });
+      setInvitaions(response.invitations);
+    }
+    async function loadContacts() {
+      const response = await getContacts({ offset, limit });
+      setOffset(offset + limit);
+      setContacts(response.contacts);
+    }
+    loadContacts();
+    loadInvitations();
+  }, []);
+
   const classes = useStyles();
   const [value, setValue] = useState(1);
 
@@ -43,9 +68,30 @@ export default function ChatsContactsInvitationsTabs(): JSX.Element {
     setValue(newValue);
   };
 
+  const handleReject = async (index: number, invitationId: string) => {
+    const response = await patchInvitation({ invitationId, action: 'reject' });
+    setInvitaions(invitations.filter((inv, idx) => idx !== index));
+  };
+  const handleApprove = async (index: number, invitationId: string) => {
+    const response = await patchInvitation({ invitationId, action: 'approve' });
+    setInvitaions(invitations.filter((inv, idx) => idx !== index));
+  };
+
+  const fetchMoreData = async () => {
+    const response = await getContacts({ offset, limit });
+    setOffset(offset + limit);
+    if (response.contacts?.length) {
+      setContacts([...contacts, ...response.contacts]);
+    } else {
+      setHasMore(false);
+      return;
+    }
+  };
+
   return (
     <div>
       <Tabs
+        variant="fullWidth"
         TabIndicatorProps={{ className: classes.indicator }}
         value={value}
         onChange={handleChange}
@@ -80,10 +126,10 @@ export default function ChatsContactsInvitationsTabs(): JSX.Element {
         <ChatsTab />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ContactsTab />
+        <ContactsTab contacts={contacts} fetchMoreData={fetchMoreData} hasMore={hasMore} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <InvitationsTab />
+        <InvitationsTab invitations={invitations} handleReject={handleReject} handleApprove={handleApprove} />
       </TabPanel>
     </div>
   );

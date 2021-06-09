@@ -12,6 +12,7 @@ const logger = require("morgan");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const invitationRouter = require("./routes/invitation");
+const emailRouter = require("./routes/email");
 
 const { json, urlencoded } = express;
 
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/user", emailRouter);
 app.use("/", invitationRouter);
 
 if (process.env.NODE_ENV === "production") {

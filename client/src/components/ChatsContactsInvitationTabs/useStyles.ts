@@ -6,8 +6,8 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 32,
     maxWidth: 96,
     fontWeight: 400,
-    fontSize: 14,
-    paddingRight: 3,
+    fontSize: '1.25vw',
+    paddingRight: '2vw',
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
     '&:focus': {
       color: '#000000',
-      fontSize: 18,
+      fontSize: '1.25vw',
       fontWeight: 700,
     },
   },
