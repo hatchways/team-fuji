@@ -8,8 +8,9 @@ interface Props {
   handleClose: (submitted: boolean) => void;
   fetch: { url: string; handler: string; maxFiles: number };
   imageSubmit?: (imageUrl: string[]) => void;
+  action: string[];
 }
-export default function SubmitForm({ handleClose, fetch, imageSubmit }: Props): JSX.Element {
+export default function SubmitForm({ handleClose, fetch, imageSubmit, action }: Props): JSX.Element {
   return (
     <Card>
       <CardContent>
@@ -38,7 +39,7 @@ export default function SubmitForm({ handleClose, fetch, imageSubmit }: Props): 
                     variant="contained"
                     disabled={!isValid || isSubmitting}
                   >
-                    Submit
+                    {action[1]}
                   </Button>
                 </Grid>
               </Grid>

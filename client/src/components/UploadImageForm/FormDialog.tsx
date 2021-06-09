@@ -7,7 +7,7 @@ interface Props {
   open: boolean;
   dialogControl: (submitted: boolean) => void;
   imageSubmit?: (imageUrl: string[]) => void;
-  action: string;
+  action: string[];
   fetch: { url: string; handler: string; maxFiles: number };
 }
 
@@ -16,10 +16,10 @@ export default function FormDialog({ open, dialogControl, action, fetch, imageSu
     <div>
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" style={{ width: '30vw' }}>
-          {action}
+          {action[0]}
         </DialogTitle>
         <DialogContent>
-          <SubmitForm handleClose={dialogControl} fetch={fetch} imageSubmit={imageSubmit} />
+          <SubmitForm handleClose={dialogControl} fetch={fetch} imageSubmit={imageSubmit} action={action} />
         </DialogContent>
       </Dialog>
     </div>

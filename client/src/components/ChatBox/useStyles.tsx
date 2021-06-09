@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     width: '65vw',
     height: '100%',
     paddingLeft: 10,
+    borderRadius: 0,
   },
   chatbox: {
     width: '100%',

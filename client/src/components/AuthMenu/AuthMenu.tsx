@@ -63,7 +63,7 @@ const AuthMenu = (): JSX.Element => {
         <FormDialog
           open={openDialog}
           dialogControl={toggleProfileImageDialog}
-          action={'Upload Profile Image'}
+          action={['Upload Profile Image', 'Submit']}
           fetch={fetch}
         />
       </Menu>
