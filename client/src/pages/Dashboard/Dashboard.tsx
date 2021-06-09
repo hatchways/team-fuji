@@ -6,7 +6,7 @@ import { useAuth } from '../../context/useAuthContext';
 import { useSocket } from '../../context/useSocketContext';
 import { useHistory } from 'react-router-dom';
 import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ChatBox from '../../components/ChatBox/ChatBox';
 
 export default function Dashboard(): JSX.Element {
@@ -16,6 +16,12 @@ export default function Dashboard(): JSX.Element {
   const { initSocket, socket } = useSocket();
 
   const history = useHistory();
+  // conversationId is set to the first person in Contacts
+  const [conversationId, setConversationId] = useState<string>('60be998d3771835bffaae014');
+
+  const handleConversationId = (conversationId: string) => {
+    setConversationId(conversationId);
+  };
 
   useEffect(() => {
     initSocket();
@@ -32,10 +38,10 @@ export default function Dashboard(): JSX.Element {
     <Grid container component="main" className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <Grid item className={classes.drawerWrapper}>
-        <ChatSideBanner loggedInUser={loggedInUser} />
+        <ChatSideBanner loggedInUser={loggedInUser} handleConversationId={handleConversationId} />
       </Grid>
       <Grid item className={classes.chatboxWrapper}>
-        <ChatBox loggedInUser={loggedInUser} socket={socket} conversationId="60b82138d6f2b00d4cd80c86" />
+        <ChatBox loggedInUser={loggedInUser} socket={socket} conversationId={conversationId} />
       </Grid>
     </Grid>
   );

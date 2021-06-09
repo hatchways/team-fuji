@@ -69,8 +69,10 @@ const ChatBoard = ({
   // Load the lastest messages first, scroll up to load more previous messages
   useEffect(() => {
     async function getMessages() {
+      console.log(conversationId + 'ConversationId');
       const response = await fetchMessages({ conversationId, offset, limit });
-      setOffset(offset + limit);
+      console.log(response.messages + 'ConversationId RESPONSE');
+      // setOffset(offset + limit);
       if (response && response.messages?.length) {
         const messages = response.messages.reverse();
         setOriginal(messages);
@@ -123,7 +125,7 @@ const ChatBoard = ({
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'end' });
       }
     }
-  }, [translate, original, translation]);
+  }, [translate, original, translation, conversationId]);
 
   const theOtherUser = {
     image: '/static/images/avatar/currentUser.jpg',
