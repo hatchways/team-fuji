@@ -56,7 +56,9 @@ export function DropZone({ name, isSubmitting, fetch, imageSubmit }: Props): JSX
       <Grid item>
         <div {...getRootProps({ className: classes.dropzone })}>
           <input {...getInputProps()} />
-          <p>Drag n drop Profile Image Here, or click to select the file</p>
+          <p style={{ marginLeft: '10px', marginRight: '10px' }}>
+            Drag n Drop Images Here, or click to select the file
+          </p>
         </div>
       </Grid>
       {files.map((fileWrapper, idx) => (
