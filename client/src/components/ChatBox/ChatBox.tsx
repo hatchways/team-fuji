@@ -15,7 +15,6 @@ interface Props {
 }
 
 const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element => {
-  const currentUserLanguage = loggedInUser.primaryLanguage;
   const classes = useStyles();
   const currentUserId = loggedInUser.id;
   const [translate, setTranslate] = useState<boolean>(false);
@@ -58,12 +57,12 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
     SetMessageUndo(message);
     deleteMessage({ conversationId, messageId: message._id }).then();
   };
-  const handleMessage = async (message: string) => {
-    if (!message) {
+  const handleMessage = async (message: string, imageUrl: string[]) => {
+    if (!message && !imageUrl) {
       return;
     }
 
-    const response = await postMessage({ conversationId, message });
+    const response = await postMessage({ conversationId, message, imageUrl });
     const sentMessage: Message = {
       ...response.message,
       updatedAt: new Date(Date.now()),
@@ -84,6 +83,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
       </Box>
       <Box className={classes.chatboard}>
         <ChatBoard
+          key={conversationId}
           translate={translate}
           conversationId={conversationId}
           otherUsers={users}

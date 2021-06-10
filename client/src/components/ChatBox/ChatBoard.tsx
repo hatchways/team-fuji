@@ -132,7 +132,7 @@ const ChatBoard = ({
       setMessages(translation);
     }
     if (chatContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      const { scrollHeight, clientHeight } = chatContainerRef.current;
 
       // Only when user is at the bottom, do auto scroll to bottom
       if (clientHeight < scrollHeight) {
@@ -223,7 +223,27 @@ const ChatBoard = ({
                             allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                           />
-                        )}
+                        )} 
+                        <Grid item container direction="row">
+                        <Grid item>
+                          {message.imageUrl && message.imageUrl.length !== 0 ? (
+                            <Grid container direction="column">
+                              {message.imageUrl.map((image, idx) => {
+                                return (
+                                  <img
+                                    key={idx}
+                                    className={classes.chattingUserImageMessage}
+                                    src={image}
+                                    alt="Image Message"
+                                  />
+                                );
+                              })}
+                            </Grid>
+                          ) : null}
+                          {message.message ? (
+                            <label className={classes.chattingUserMessage}>{message.message}</label>
+                          ) : null}
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -247,6 +267,7 @@ const ChatBoard = ({
                           </Grid>
                         </Grid>
                         <Grid className={classes.timeMessageSeparator} />
+
                         <Grid item>
                           <Grid>
                             <label className={classes.currentUserMessage}>
@@ -271,8 +292,27 @@ const ChatBoard = ({
                                 allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                               />
-                            )}
-                          </Grid>
+                              )}
+                        <Grid item container direction="row">
+                          <Grid item>
+                            {message.imageUrl && message.imageUrl.length !== 0 ? (
+                              <Grid container direction="column">
+                                {message.imageUrl.map((image, idx) => {
+                                  return (
+                                    <img
+                                      key={idx}
+                                      className={classes.currentUserImageMessage}
+                                      src={image}
+                                      alt="Image Message"
+                                    />
+                                  );
+                                })}
+                              </Grid>
+                            ) : null}
+                            {message.message ? (
+                              <label className={classes.currentUserMessage}>{message.message}</label>
+                            ) : null}
+                          </Grid>                          
                         </Grid>
                       </Grid>
                     </Grid>
