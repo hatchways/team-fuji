@@ -11,6 +11,7 @@ const MessageSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    imageUrl: [{ type: String }],
     language: String,
     translations: [{ language: String, translation: String, _id: false }],
   },
