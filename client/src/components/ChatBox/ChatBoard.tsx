@@ -223,26 +223,27 @@ const ChatBoard = ({
                             allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                           />
-                        )} 
+                        )}
                         <Grid item container direction="row">
-                        <Grid item>
-                          {message.imageUrl && message.imageUrl.length !== 0 ? (
-                            <Grid container direction="column">
-                              {message.imageUrl.map((image, idx) => {
-                                return (
-                                  <img
-                                    key={idx}
-                                    className={classes.chattingUserImageMessage}
-                                    src={image}
-                                    alt="Image Message"
-                                  />
-                                );
-                              })}
-                            </Grid>
-                          ) : null}
-                          {message.message ? (
-                            <label className={classes.chattingUserMessage}>{message.message}</label>
-                          ) : null}
+                          <Grid item>
+                            {message.imageUrl && message.imageUrl.length !== 0 ? (
+                              <Grid container direction="column">
+                                {message.imageUrl.map((image, idx) => {
+                                  return (
+                                    <img
+                                      key={idx}
+                                      className={classes.chattingUserImageMessage}
+                                      src={image}
+                                      alt="Image Message"
+                                    />
+                                  );
+                                })}
+                              </Grid>
+                            ) : null}
+                            {message.message ? (
+                              <label className={classes.chattingUserMessage}>{message.message}</label>
+                            ) : null}
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -254,7 +255,7 @@ const ChatBoard = ({
             // current user message
             if (message.sender == myUserId) {
               return (
-                <Grid>
+                <Grid item>
                   <Grid className={classes.messageSeparator} />
                   <Grid container key={message.createdAt.valueOf()} justify="flex-end" direction="row">
                     <Grid item>
@@ -269,7 +270,7 @@ const ChatBoard = ({
                         <Grid className={classes.timeMessageSeparator} />
 
                         <Grid item>
-                          <Grid>
+                          <Grid item>
                             <label className={classes.currentUserMessage}>
                               {!hideUndoButton && message._id === newMessage._id && (
                                 <IconButton size="small" onClick={() => onClick(message)}>
@@ -292,27 +293,29 @@ const ChatBoard = ({
                                 allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                               />
-                              )}
-                        <Grid item container direction="row">
-                          <Grid item>
-                            {message.imageUrl && message.imageUrl.length !== 0 ? (
-                              <Grid container direction="column">
-                                {message.imageUrl.map((image, idx) => {
-                                  return (
-                                    <img
-                                      key={idx}
-                                      className={classes.currentUserImageMessage}
-                                      src={image}
-                                      alt="Image Message"
-                                    />
-                                  );
-                                })}
+                            )}
+                            <Grid item container direction="row">
+                              <Grid item>
+                                {message.imageUrl && message.imageUrl.length !== 0 ? (
+                                  <Grid container direction="column">
+                                    {message.imageUrl.map((image, idx) => {
+                                      return (
+                                        <img
+                                          key={idx}
+                                          className={classes.currentUserImageMessage}
+                                          src={image}
+                                          alt="Image Message"
+                                        />
+                                      );
+                                    })}
+                                  </Grid>
+                                ) : null}
+                                {message.message ? (
+                                  <label className={classes.currentUserMessage}>{message.message}</label>
+                                ) : null}
                               </Grid>
-                            ) : null}
-                            {message.message ? (
-                              <label className={classes.currentUserMessage}>{message.message}</label>
-                            ) : null}
-                          </Grid>                          
+                            </Grid>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
