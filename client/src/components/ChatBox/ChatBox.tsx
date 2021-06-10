@@ -58,7 +58,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
     deleteMessage({ conversationId, messageId: message._id }).then();
   };
   const handleMessage = async (message: string, imageUrl: string[]) => {
-    if (!message && !imageUrl) {
+    if (!message && !imageUrl?.length) {
       return;
     }
 

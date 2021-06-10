@@ -210,7 +210,6 @@ const ChatBoard = ({
                       </Grid>
                       <Grid className={classes.timeMessageSeparator} />
                       <Grid item>
-                        <label className={classes.chattingUserMessage}>{message.message}</label>
                         {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
                           <iframe
                             id="video"
@@ -268,17 +267,8 @@ const ChatBoard = ({
                           </Grid>
                         </Grid>
                         <Grid className={classes.timeMessageSeparator} />
-
                         <Grid item>
                           <Grid item>
-                            <label className={classes.currentUserMessage}>
-                              {!hideUndoButton && message._id === newMessage._id && (
-                                <IconButton size="small" onClick={() => onClick(message)}>
-                                  <UndoIcon />
-                                </IconButton>
-                              )}
-                              {message.message}
-                            </label>
                             {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
                               <iframe
                                 id="video"
@@ -313,6 +303,17 @@ const ChatBoard = ({
                                 {message.message ? (
                                   <label className={classes.currentUserMessage}>{message.message}</label>
                                 ) : null}
+                              </Grid>
+                              <Grid item>
+                                {!hideUndoButton && message._id === newMessage._id && (
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => onClick(message)}
+                                    style={{ marginTop: '15px', marginLeft: '10px', height: '80%' }}
+                                  >
+                                    <UndoIcon />
+                                  </IconButton>
+                                )}
                               </Grid>
                             </Grid>
                           </Grid>
