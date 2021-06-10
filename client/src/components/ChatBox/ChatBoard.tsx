@@ -69,10 +69,8 @@ const ChatBoard = ({
   // Load the lastest messages first, scroll up to load more previous messages
   useEffect(() => {
     async function getMessages() {
-      console.log(conversationId + 'ConversationId');
       const response = await fetchMessages({ conversationId, offset, limit });
-      console.log(response.messages + 'ConversationId RESPONSE');
-      // setOffset(offset + limit);
+      setOffset(offset + limit);
       if (response && response.messages?.length) {
         const messages = response.messages.reverse();
         setOriginal(messages);
