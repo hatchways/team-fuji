@@ -69,15 +69,16 @@ const ChatBoard = ({
   function isYoutubeUrl(message: string): { haveYoutubeLink: boolean; youtubeUrl: string } {
     const re = RegExp(/http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/);
     const matchResult = re.exec(message);
+    let url: string;
+    let isThereYoutubeLink: boolean;
     if (matchResult) {
-      const url = matchResult[0];
-      const isThereYoutubeLink = true;
-      return { haveYoutubeLink: isThereYoutubeLink, youtubeUrl: url };
+      url = matchResult[0];
+      isThereYoutubeLink = true;
     } else {
-      const url = '';
-      const isThereYoutubeLink = false;
-      return { haveYoutubeLink: isThereYoutubeLink, youtubeUrl: url };
+      url = '';
+      isThereYoutubeLink = false;
     }
+    return { haveYoutubeLink: isThereYoutubeLink, youtubeUrl: url };
   }
 
   // Load translation data
@@ -209,23 +210,19 @@ const ChatBoard = ({
                       </Grid>
                       <Grid className={classes.timeMessageSeparator} />
                       <Grid item>
-                        {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink ? (
-                          <Grid>
-                            <label className={classes.chattingUserMessage}>{message.message}</label>
-                            <iframe
-                              id="video"
-                              width="230"
-                              src={
-                                'https://www.youtube.com/embed/' +
-                                isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split('=')[1]
-                              }
-                              frameBorder="0"
-                              allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </Grid>
-                        ) : (
-                          <label className={classes.chattingUserMessage}>{message.message}</label>
+                        <label className={classes.chattingUserMessage}>{message.message}</label>
+                        {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
+                          <iframe
+                            id="video"
+                            width="230"
+                            src={
+                              'https://www.youtube.com/embed/' +
+                              isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split('=')[1]
+                            }
+                            frameBorder="0"
+                            allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
                         )}
                       </Grid>
                     </Grid>
@@ -251,16 +248,16 @@ const ChatBoard = ({
                         </Grid>
                         <Grid className={classes.timeMessageSeparator} />
                         <Grid item>
-                          {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink ? (
-                            <Grid>
-                              <label className={classes.currentUserMessage}>
-                                {!hideUndoButton && message._id === newMessage._id && (
-                                  <IconButton size="small" onClick={() => onClick(message)}>
-                                    <UndoIcon />
-                                  </IconButton>
-                                )}
-                                {message.message}
-                              </label>
+                          <Grid>
+                            <label className={classes.currentUserMessage}>
+                              {!hideUndoButton && message._id === newMessage._id && (
+                                <IconButton size="small" onClick={() => onClick(message)}>
+                                  <UndoIcon />
+                                </IconButton>
+                              )}
+                              {message.message}
+                            </label>
+                            {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
                               <iframe
                                 id="video"
                                 width="230"
@@ -274,17 +271,8 @@ const ChatBoard = ({
                                 allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                               />
-                            </Grid>
-                          ) : (
-                            <label className={classes.currentUserMessage}>
-                              {!hideUndoButton && message._id === newMessage._id && (
-                                <IconButton size="small" onClick={() => onClick(message)}>
-                                  <UndoIcon />
-                                </IconButton>
-                              )}
-                              {message.message}
-                            </label>
-                          )}
+                            )}
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
