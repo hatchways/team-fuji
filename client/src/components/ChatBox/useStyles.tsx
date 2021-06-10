@@ -99,6 +99,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     padding: 12,
   },
+  chattingUserImageMessage: {
+    maxHeight: '300px',
+    maxWidth: '200px',
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
   currentUserMessage: {
     width: '100%',
     backgroundColor: '#f4f6fa',
@@ -111,6 +118,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     textAlign: 'left',
     padding: 12,
+  },
+  currentUserImageMessage: {
+    maxHeight: '300px',
+    maxWidth: '200px',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   messageSeparator: {
     height: 6,
