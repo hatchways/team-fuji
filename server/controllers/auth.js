@@ -63,7 +63,6 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
       httpOnly: true,
       maxAge: secondsInWeek * 1000,
     });
-    console.log(user);
     res.status(200).json({
       success: {
         user: {
