@@ -31,6 +31,10 @@ const ChatsTab = ({ conversations, handleConversationId }: Props): JSX.Element =
               ? ''
               : conversation.users.find((user) => user._id === conversation.messages[0].sender)?.username;
           const previewMessage = conversation.messages?.length && conversation.messages[0].message;
+          const chatName =
+            conversation.users.length === 2
+              ? conversation.users.find((user) => user._id === loggedInUser?._id)?.username
+              : conversation.users.map((user) => user.username).join(', ');
           return (
             <ListItem
               key={index}
@@ -42,22 +46,26 @@ const ChatsTab = ({ conversations, handleConversationId }: Props): JSX.Element =
               selected={selectedIndex === index + 1}
             >
               <ListItemAvatar>
-                <AvatarGroup classes={{ root: classes.AvatarGroup }} max={4}>
-                  {conversation.users.map((user, index) => {
-                    return (
-                      <Avatar
-                        key={index}
-                        alt={`Avatar of ${index + 1}`}
-                        src={`/static/images/avatar/${index + 1}.jpg`}
-                      />
-                    );
-                  })}
-                </AvatarGroup>
+                {(conversation.users.length === 2 && (
+                  <Avatar alt={`Avatar of 1`} src={`/static/images/avatar/1.jpg`} />
+                )) || (
+                  <AvatarGroup classes={{ root: classes.AvatarGroup }} max={4}>
+                    {conversation.users.map((user, index) => {
+                      return (
+                        <Avatar
+                          key={index}
+                          alt={`Avatar of ${index + 1}`}
+                          src={`/static/images/avatar/${index + 1}.jpg`}
+                        />
+                      );
+                    })}
+                  </AvatarGroup>
+                )}
               </ListItemAvatar>
               <ListItemText
                 className={classes.conversationPreview}
                 id={labelId}
-                primary={conversation.users.map((user) => user.username).join(', ')}
+                primary={chatName}
                 primaryTypographyProps={{ noWrap: true }}
                 secondary={previewSender && `${previewSender}: ${previewMessage}`}
                 secondaryTypographyProps={{ noWrap: true }}
