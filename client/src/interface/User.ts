@@ -3,6 +3,7 @@ export interface User {
   username: string;
   primaryLanguage: string;
   _id: string;
+  profileImageUrl?: string;
 }
 
 export interface SearchUsersApiData {

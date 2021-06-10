@@ -6,7 +6,7 @@ const useStyles = makeStyles(() => ({
     minWidth: 32,
     maxWidth: 96,
     fontWeight: 400,
-    fontSize: '1.25vw',
+    fontSize: 15,
     paddingRight: '2vw',
     fontFamily: [
       '-apple-system',
@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
     },
     '&:focus': {
       color: '#000000',
-      fontSize: '1.25vw',
+      fontSize: 15,
       fontWeight: 700,
     },
   },

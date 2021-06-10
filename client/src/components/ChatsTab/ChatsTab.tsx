@@ -3,14 +3,22 @@ import { AvatarGroup } from '@material-ui/lab';
 import useStyles from './useStyles';
 import { Conversation } from '../../interface/Conversation';
 import { useAuth } from '../../context/useAuthContext';
+import { useState } from 'react';
 
 interface Props {
   conversations: Conversation[];
+  handleConversationId: (conversationId: string) => void;
 }
 
-const ChatsTab = ({ conversations }: Props): JSX.Element => {
+const ChatsTab = ({ conversations, handleConversationId }: Props): JSX.Element => {
   const { loggedInUser } = useAuth();
   const classes = useStyles();
+
+  const [selectedIndex, setSelectedIndex] = useState<number>(1);
+  const handleListItemClick = (index: number) => {
+    setSelectedIndex(index);
+  };
+
   return (
     <Grid className={classes.root}>
       <List>
@@ -24,7 +32,15 @@ const ChatsTab = ({ conversations }: Props): JSX.Element => {
               : conversation.users.find((user) => user._id === conversation.messages[0].sender)?.username;
           const previewMessage = conversation.messages?.length && conversation.messages[0].message;
           return (
-            <ListItem key={index} button>
+            <ListItem
+              key={index}
+              button
+              onClick={() => {
+                handleConversationId(conversation._id);
+                handleListItemClick(index + 1);
+              }}
+              selected={selectedIndex === index + 1}
+            >
               <ListItemAvatar>
                 <AvatarGroup classes={{ root: classes.AvatarGroup }} max={4}>
                   {conversation.users.map((user, index) => {

@@ -7,7 +7,8 @@ const generateToken = require("../utils/generateToken");
 // @access Public
 exports.registerUser = asyncHandler(async (req, res, next) => {
   const { primaryLanguage, email, password } = req.body;
-
+  // This will late be initalized with an image on user regestration
+  const profileImageUrl = "";
   const emailExists = await User.findOne({ email });
 
   if (emailExists) {
@@ -19,6 +20,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     primaryLanguage,
     email,
     password,
+    profileImageUrl,
   });
 
   if (user) {
@@ -61,13 +63,13 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
       httpOnly: true,
       maxAge: secondsInWeek * 1000,
     });
-
     res.status(200).json({
       success: {
         user: {
           _id: user._id,
           primaryLanguage: user.primaryLanguage,
           email: user.email,
+          profileImageUrl: user.profileImageUrl,
           username: user.username,
         },
       },
@@ -88,6 +90,7 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("Not authorized");
   }
+  console.log(user + "This is User");
 
   res.status(200).json({
     success: {
@@ -95,6 +98,7 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
         _id: user._id,
         primaryLanguage: user.primaryLanguage,
         email: user.email,
+        profileImageUrl: user.profileImageUrl,
       },
     },
   });

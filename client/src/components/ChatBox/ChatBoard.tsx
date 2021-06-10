@@ -193,8 +193,26 @@ const ChatBoard = ({
                         </label>
                       </Grid>
                       <Grid className={classes.timeMessageSeparator} />
-                      <Grid item>
-                        <label className={classes.chattingUserMessage}>{message.message}</label>
+                      <Grid item container direction="row">
+                        <Grid item>
+                          {message.imageUrl && message.imageUrl.length !== 0 ? (
+                            <Grid container direction="column">
+                              {message.imageUrl.map((image, idx) => {
+                                return (
+                                  <img
+                                    key={idx}
+                                    className={classes.chattingUserImageMessage}
+                                    src={image}
+                                    alt="Image Message"
+                                  />
+                                );
+                              })}
+                            </Grid>
+                          ) : null}
+                          {message.message ? (
+                            <label className={classes.chattingUserMessage}>{message.message}</label>
+                          ) : null}
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -218,15 +236,37 @@ const ChatBoard = ({
                           </Grid>
                         </Grid>
                         <Grid className={classes.timeMessageSeparator} />
-                        <Grid item>
-                          <label className={classes.currentUserMessage}>
+                        <Grid item container direction="row">
+                          <Grid item>
+                            {message.imageUrl && message.imageUrl.length !== 0 ? (
+                              <Grid container direction="column">
+                                {message.imageUrl.map((image, idx) => {
+                                  return (
+                                    <img
+                                      key={idx}
+                                      className={classes.currentUserImageMessage}
+                                      src={image}
+                                      alt="Image Message"
+                                    />
+                                  );
+                                })}
+                              </Grid>
+                            ) : null}
+                            {message.message ? (
+                              <label className={classes.currentUserMessage}>{message.message}</label>
+                            ) : null}
+                          </Grid>
+                          <Grid item>
                             {!hideUndoButton && message._id === newMessage._id && (
-                              <IconButton size="small" onClick={() => onClick(message)}>
+                              <IconButton
+                                size="small"
+                                onClick={() => onClick(message)}
+                                style={{ marginTop: '15px', marginLeft: '10px', height: '80%' }}
+                              >
                                 <UndoIcon />
                               </IconButton>
                             )}
-                            {message.message}
-                          </label>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </Grid>

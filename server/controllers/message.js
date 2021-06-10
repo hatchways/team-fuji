@@ -3,7 +3,7 @@ const Conversation = require("../models/Conversation");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const translateMessage = require("../utils/translateMessage");
-
+const cloudinary = require("../utils/cloudinary");
 // @route GET /users/messages/:conversationId
 
 exports.getMessages = asyncHandler(async (req, res) => {
@@ -67,6 +67,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const conversationId = req.params.conversationId;
   const message = req.body.message;
+  const imageUrl = req.body.imageUrl;
 
   if (
     !mongoose.Types.ObjectId.isValid(userId) ||
@@ -78,7 +79,6 @@ exports.postMessage = asyncHandler(async (req, res) => {
 
   const conversation = await Conversation.findById(conversationId);
   const currentUser = await User.findById(userId);
-
   if (conversation) {
     // get sender's primary language
     // and all other recipients' primary languages
@@ -106,6 +106,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
                 _id: Id,
                 sender: userId,
                 message,
+                imageUrl,
                 language: fromLanguage,
                 translations: translations,
               },
@@ -122,6 +123,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
             message: {
               _id: Id,
               message,
+              imageUrl,
               sender: userId,
               chatId: conversationId,
               translations,
@@ -136,6 +138,24 @@ exports.postMessage = asyncHandler(async (req, res) => {
   }
 });
 
+// @route POST /uploadImageMessage/:conversationId
+// @desc Upload Message Image
+// @access Private
+exports.uploadImageMessage = asyncHandler(async (req, res, next) => {
+  try {
+    // Upload image to cloudinary
+    const promises = req.files.map(async (file) => {
+      const cloudinaryImage = await cloudinary.uploader.upload(file.path);
+      return cloudinaryImage.url;
+    });
+
+    Promise.all(promises).then(function (results) {
+      res.json(results);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 // @route DELETE  /users/message/:conversationId/:messageId
 exports.deleteMessage = asyncHandler(async (req, res) => {
   const userId = req.user.id;

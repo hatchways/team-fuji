@@ -16,6 +16,7 @@ interface fectchMessagesProps {
 interface postMessageProps {
   conversationId: string;
   message: string;
+  imageUrl: string[];
 }
 
 interface getUsersInChatProps {
@@ -44,14 +45,17 @@ export async function fetchMessages({
     }));
 }
 
-export async function postMessage({ conversationId, message }: postMessageProps): Promise<PostMessageApiData> {
+export async function postMessage({
+  conversationId,
+  message,
+  imageUrl,
+}: postMessageProps): Promise<PostMessageApiData> {
   const fetchOptions: FetchOptions = {
     method: 'POST',
-    body: JSON.stringify({ message }),
+    body: JSON.stringify({ message, imageUrl }),
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
   };
-
   return await fetch(`/users/message/${conversationId}`, fetchOptions)
     .then((res) => res.json())
     .catch((error) => ({

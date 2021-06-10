@@ -41,7 +41,11 @@ function a11yProps(index: number) {
   };
 }
 
-export default function ChatsContactsInvitationsTabs(): JSX.Element {
+interface Props {
+  handleConversationId: (conversationId: string) => void;
+}
+
+export default function ChatsContactsInvitationsTabs({ handleConversationId }: Props): JSX.Element {
   const { loggedInUser } = useAuth();
   const [invitations, setInvitaions] = useState<Invitation[]>([]);
   const [contacts, setContacts] = useState<User[]>([]);
@@ -133,7 +137,7 @@ export default function ChatsContactsInvitationsTabs(): JSX.Element {
         />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <ChatsTab conversations={conversations} />
+        <ChatsTab conversations={conversations} handleConversationId={handleConversationId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <ContactsTab contacts={contacts} fetchMoreData={fetchMoreData} hasMore={hasMore} />

@@ -8,17 +8,20 @@ import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
 import ChatsContactsInvitationTabs from '../ChatsContactsInvitationTabs/ChatsContactsInvitationTabs';
+import ContactsTab from '../ContactsTab/ContactsTab';
 
 interface Props {
   loggedInUser: User;
   handleDrawerToggle?: () => void;
+  handleConversationId: (conversationId: string) => void;
 }
 
-const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
+const ChatSideBanner = ({ loggedInUser, handleConversationId }: Props): JSX.Element => {
   const [search, setSearch] = useState<string>('test');
   const [newChatUser, setNewChatUser] = useState<User | null>(null);
   const classes = useStyles();
   // React.FormEvent<FormControl & FormControlProps>)
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>, newInputValue: string) => {
     setSearch(newInputValue);
     if (newChatUser) {
@@ -42,7 +45,7 @@ const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
         <Search search={search} handleChange={handleChange} />
       </Box>
       <Box>
-        <ChatsContactsInvitationTabs />
+        <ChatsContactsInvitationTabs handleConversationId={handleConversationId} />
       </Box>
     </Grid>
   );

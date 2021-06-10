@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const drawerWidth = '25vw';
 const chatboxWidth = '70vw';
 
+// `calc(100%-${drawerWidth}px)`;
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   chatboxWrapper: {
     width: chatboxWidth,
+    height: 800,
   },
 }));
 

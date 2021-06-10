@@ -18,6 +18,11 @@ const useStyles = makeStyles((theme) => ({
     width: '65vw',
     height: '100%',
     paddingLeft: 10,
+    borderRadius: 0,
+  },
+  inputIcon: {
+    fontSize: '25px',
+    color: 'lightGrey',
   },
   chatbox: {
     width: '100%',
@@ -98,6 +103,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     padding: 12,
   },
+  chattingUserImageMessage: {
+    maxHeight: '300px',
+    maxWidth: '200px',
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
   currentUserMessage: {
     width: '100%',
     backgroundColor: '#f4f6fa',
@@ -110,6 +122,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     textAlign: 'left',
     padding: 12,
+  },
+  currentUserImageMessage: {
+    maxHeight: '300px',
+    maxWidth: '200px',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   messageSeparator: {
     height: 6,

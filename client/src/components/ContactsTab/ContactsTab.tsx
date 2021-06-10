@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import { Grid, Button, Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import useStyles from './useStyles';
+import { useStyles, ListItem } from './useStyles';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ReferFriend from '../../pages/ReferFriend/ReferFriend';
 import { User } from '../../interface/User';
