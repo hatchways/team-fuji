@@ -7,7 +7,6 @@ import { Message } from '../../interface/Conversation';
 import { User } from '../../interface/User';
 import { fetchMessages } from '../../helpers/APICalls/Conversation';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { LabelImportant } from '@material-ui/icons';
 
 function getTime(timeStamp: number): string {
   const date = new Date(timeStamp);
@@ -117,7 +116,7 @@ const ChatBoard = ({
       setMessages(translation);
     }
     if (chatContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      const { scrollHeight, clientHeight } = chatContainerRef.current;
 
       // Only when user is at the bottom, do auto scroll to bottom
       if (clientHeight < scrollHeight) {

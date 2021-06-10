@@ -15,7 +15,6 @@ interface Props {
 }
 
 const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element => {
-  const currentUserLanguage = loggedInUser.primaryLanguage;
   const classes = useStyles();
   const currentUserId = loggedInUser.id;
   const [translate, setTranslate] = useState<boolean>(false);

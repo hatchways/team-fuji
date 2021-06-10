@@ -1,4 +1,4 @@
-import { UploadableFile, UploadApiData } from '../../interface/Upload';
+import { UploadableFile } from '../../interface/Upload';
 import { User } from '../../interface/User';
 
 const uploadFile = async (

@@ -13,7 +13,7 @@ interface Props {
 
 const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   const classes = useStyles();
-  const textRef = useRef<any>();
+  const textRef = useRef<HTMLElement>();
   const [text, setText] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -43,7 +43,7 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
     setImages(imageUrls);
   }
 
-  const toggleMessageImageDialog = (submitted: boolean) => {
+  const toggleMessageImageDialog = () => {
     setOpenDialog(!openDialog);
   };
 
@@ -71,7 +71,7 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
                   <Grid className={classes.iconSpacing} />
                   <EmojiEmotionsOutlinedIcon className={classes.inputIcon} />
                   <Grid className={classes.iconSpacing} />
-                  <IconButton onClick={() => toggleMessageImageDialog(false)} style={{ marginRight: '10px' }}>
+                  <IconButton onClick={toggleMessageImageDialog} style={{ marginRight: '10px' }}>
                     <FileCopyOutlinedIcon className={classes.inputIcon} />
                   </IconButton>
                   <FormDialog

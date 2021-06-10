@@ -1,6 +1,6 @@
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { useCallback, useState, useEffect } from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useField } from 'formik';
 import { SubmitError } from './SubmitError';
 import { FileHeader } from './FileHeader';
