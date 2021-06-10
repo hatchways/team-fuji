@@ -58,7 +58,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
     deleteMessage({ conversationId, messageId: message._id }).then();
   };
   const handleMessage = async (message: string, imageUrl: string[]) => {
-    if (!message && !imageUrl) {
+    if (!message && !imageUrl?.length) {
       return;
     }
 
@@ -93,7 +93,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
         />
       </Box>
       <Box className={classes.inputbox}>
-        <InputBox handleMessage={handleMessage} messageUndo={messageUndo?.message} />
+        <InputBox handleMessage={handleMessage} messageUndo={messageUndo ? messageUndo : undefined} />
       </Box>
     </Grid>
   );
