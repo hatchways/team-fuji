@@ -19,7 +19,6 @@ const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
   const [newChatUser, setNewChatUser] = useState<User | null>(null);
   const classes = useStyles();
 
-  // React.FormEvent<FormControl & FormControlProps>)
   const handleChange = (e: ChangeEvent<HTMLInputElement>, newInputValue: string) => {
     setSearch(newInputValue);
     if (newChatUser) {
