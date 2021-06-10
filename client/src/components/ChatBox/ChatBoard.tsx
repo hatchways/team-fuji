@@ -123,7 +123,7 @@ const ChatBoard = ({
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'end' });
       }
     }
-  }, [translate, original, translation, conversationId]);
+  }, [translate, original, translation]);
 
   const theOtherUser = {
     image: '/static/images/avatar/currentUser.jpg',
