@@ -49,7 +49,7 @@ const ChatBoard = ({
 }: Props): JSX.Element => {
   const classes = useStyles();
   const myPrimaryLanguage = currentUser.primaryLanguage;
-  const myUserId = currentUser.id;
+  const myUserId = currentUser._id;
   const [messages, setMessages] = useState<Message[]>([]);
   const [original, setOriginal] = useState<Message[]>([]);
   const [translation, setTranslation] = useState<Message[]>([]);
@@ -61,7 +61,7 @@ const ChatBoard = ({
   const limit = 12;
 
   const names: Names = otherUsers.reduce<Names>((map, user) => {
-    map[user.id] = user.username;
+    map[user._id] = user.username;
     return map;
   }, {});
 
@@ -116,11 +116,11 @@ const ChatBoard = ({
       setMessages(translation);
     }
     if (chatContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      const { scrollHeight, clientHeight } = chatContainerRef.current;
 
       // Only when user is at the bottom, do auto scroll to bottom
       if (clientHeight < scrollHeight) {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'end' });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }
     }
   }, [translate, original, translation]);

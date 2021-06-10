@@ -2,7 +2,7 @@ export interface User {
   email: string;
   username: string;
   primaryLanguage: string;
-  id: string;
+  _id: string;
 }
 
 export interface SearchUsersApiData {

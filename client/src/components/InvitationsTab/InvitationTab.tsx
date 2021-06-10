@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,7 +14,7 @@ interface Props {
   handleApprove: (index: number, id: string) => void;
 }
 
-export default function InvitationsTab({ invitations, handleReject, handleApprove }: Props) {
+export default function InvitationsTab({ invitations, handleReject, handleApprove }: Props): JSX.Element {
   const classes = useStyles();
   return (
     <Grid container className={classes.root} direction="column">

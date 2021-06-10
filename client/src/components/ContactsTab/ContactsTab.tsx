@@ -23,7 +23,6 @@ export default function ContactsTab({ contacts, fetchMoreData, hasMore }: Props)
 
   const handleClickOpen = () => {
     setOpen(true);
-    history.back;
   };
   const handleClose = () => {
     setOpen(false);

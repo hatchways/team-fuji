@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { Grid } from '@material-ui/core';
 import useStyles from './useStyles';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { useAuth } from '../../context/useAuthContext';
@@ -53,7 +53,7 @@ export default function InvitationDialog({ open, handleClose }: InvitationDialog
 
   // after logged in or signed up, current user info can get from MongoDB
   const currentUser = {
-    id: loggedInUser?.id,
+    id: loggedInUser?._id,
     email: loggedInUser?.email,
   };
 
@@ -64,7 +64,7 @@ export default function InvitationDialog({ open, handleClose }: InvitationDialog
   const registeredEmailForSendGrid = 'lei.wang2@ucalgary.ca';
 
   //generate referring link to connect
-  const refLinkHeader = 'http://localhost:3000/join/';
+  const refLinkHeader = 'http://localhost:3001/join/';
   const linkText = refLinkHeader + currentUser.id;
 
   // to store email state

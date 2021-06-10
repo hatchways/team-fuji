@@ -15,9 +15,8 @@ interface Props {
 }
 
 const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element => {
-  const currentUserLanguage = loggedInUser.primaryLanguage;
   const classes = useStyles();
-  const currentUserId = loggedInUser.id;
+  const currentUserId = loggedInUser._id;
   const [translate, setTranslate] = useState<boolean>(false);
   const [message, setMessages] = useState<Message>({
     message: 'Initial Startup',

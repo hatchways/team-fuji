@@ -9,7 +9,9 @@ import ChatsTab from '../ChatsTab/ChatsTab';
 import useStyles from './useStyles';
 import { Invitation } from '../../interface/Invitation';
 import { User } from '../../interface/User';
+import { Conversation } from '../../interface/Conversation';
 import { getInvitations, patchInvitation, getContacts } from '../../helpers/APICalls/Invitation';
+import { getConversations } from '../../helpers/APICalls/Conversation';
 import { useAuth } from '../../context/useAuthContext';
 
 interface TabPanelProps {
@@ -43,13 +45,14 @@ export default function ChatsContactsInvitationsTabs(): JSX.Element {
   const { loggedInUser } = useAuth();
   const [invitations, setInvitaions] = useState<Invitation[]>([]);
   const [contacts, setContacts] = useState<User[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [offset, setOffset] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const limit = 2;
 
   useEffect(() => {
     async function loadInvitations() {
-      const response = await getInvitations({ userId: loggedInUser?.id });
+      const response = await getInvitations({ userId: loggedInUser?._id });
       setInvitaions(response.invitations);
     }
     async function loadContacts() {
@@ -57,8 +60,15 @@ export default function ChatsContactsInvitationsTabs(): JSX.Element {
       setOffset(offset + limit);
       setContacts(response.contacts);
     }
+
+    async function loadConversations() {
+      const response = await getConversations();
+      setConversations(response.conversations);
+    }
+
     loadContacts();
     loadInvitations();
+    loadConversations();
   }, []);
 
   const classes = useStyles();
@@ -69,11 +79,11 @@ export default function ChatsContactsInvitationsTabs(): JSX.Element {
   };
 
   const handleReject = async (index: number, invitationId: string) => {
-    const response = await patchInvitation({ invitationId, action: 'reject' });
+    await patchInvitation({ invitationId, action: 'reject' });
     setInvitaions(invitations.filter((inv, idx) => idx !== index));
   };
   const handleApprove = async (index: number, invitationId: string) => {
-    const response = await patchInvitation({ invitationId, action: 'approve' });
+    await patchInvitation({ invitationId, action: 'approve' });
     setInvitaions(invitations.filter((inv, idx) => idx !== index));
   };
 
@@ -123,7 +133,7 @@ export default function ChatsContactsInvitationsTabs(): JSX.Element {
         />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <ChatsTab />
+        <ChatsTab conversations={conversations} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <ContactsTab contacts={contacts} fetchMoreData={fetchMoreData} hasMore={hasMore} />

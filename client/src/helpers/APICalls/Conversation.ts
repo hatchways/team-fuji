@@ -4,6 +4,7 @@ import {
   PostMessageApiData,
   GetUsersInChatApiData,
   DeleteMessageApiData,
+  FetchConversationsApiData,
 } from '../../interface/Conversation';
 
 interface fectchMessagesProps {
@@ -76,6 +77,18 @@ export async function deleteMessage({ conversationId, messageId }: deleteMessage
     credentials: 'include',
   };
   return await fetch(`/users/message/${conversationId}/${messageId}`, fetchOptions)
+    .then((res) => res.json())
+    .catch((error) => ({
+      error,
+    }));
+}
+
+export async function getConversations(): Promise<FetchConversationsApiData> {
+  const fetchOptions: FetchOptions = {
+    method: 'GET',
+    credentials: 'include',
+  };
+  return await fetch(`/users/conversations`, fetchOptions)
     .then((res) => res.json())
     .catch((error) => ({
       error,

@@ -14,12 +14,21 @@ exports.getUserConversations = asyncHandler(async (req, res) => {
     throw new Error("User id is not valid");
   }
 
-  const conversationList = await Conversation.find({
-    users: userId,
+  const conversationList = await Conversation.find(
+    {
+      users: userId,
+    },
+    {
+      messages: {
+        $slice: [0, 1],
+      },
+    }
+  ).populate({
+    path: "users",
   });
 
   if (conversationList?.length) {
-    return res.status(200).json(conversationList);
+    return res.status(200).json({ conversations: conversationList });
   } else {
     res.status(404);
     throw new Error("No conversations found");
@@ -186,7 +195,7 @@ exports.getUsersInAChat = asyncHandler(async (req, res) => {
               username: user.username,
               email: user.email,
               primaryLanguage: user.primaryLanguage,
-              id: user._id,
+              _id: user._id,
             });
           }
           return result;

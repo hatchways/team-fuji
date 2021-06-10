@@ -11,7 +11,7 @@ interface Props {
 
 const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   const classes = useStyles();
-  const textRef = useRef<any>();
+  const textRef = useRef<HTMLInputElement>();
   const [text, setText] = useState('');
 
   useEffect(() => {

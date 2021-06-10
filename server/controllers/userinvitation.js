@@ -1,11 +1,39 @@
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const Invitation = require("../models/Invitation");
+const { ObjectId } = require("mongodb");
+const e = require("express");
 
 // @route POST /user/:id/invitation
 // @desc Create invitation from specific user
 exports.createInvitation = asyncHandler(async (req, res, next) => {
   const { toUser, toUserEmail } = req.body;
+  const currentUserId = req.params.id;
+  const { email: currentEmail } = await User.findById(currentUserId);
+  const touser = await User.findOne({ email: toUserEmail });
+
+  if (
+    touser &&
+    (await Invitation.exists({
+      $or: [
+        {
+          fromUser: currentUserId,
+          toUserEmail: touser.email,
+          rejected: false,
+        },
+        {
+          fromUser: touser._id,
+          toUserEmail: currentEmail,
+          rejected: false,
+        },
+      ],
+    }))
+  ) {
+    return res.status(201).json({
+      message: "Invitation already exists !",
+    });
+  }
+
   try {
     const invitation = new Invitation({
       fromUser: req.params.id,
@@ -26,6 +54,47 @@ exports.createInvitation = asyncHandler(async (req, res, next) => {
       status: 500,
       message: error,
     });
+  }
+});
+
+// @route GET /join/:id
+exports.referInvitation = asyncHandler(async (req, res) => {
+  const currentUserId = req.user.id;
+  const referredUserId = req.params.id;
+
+  const { email: currentEmail } = await User.findById(currentUserId);
+  const { email: referredEmail } = await User.findById(referredUserId);
+  if (
+    await Invitation.exists({
+      $or: [
+        {
+          fromUser: currentUserId,
+          toUserEmail: referredEmail,
+          rejected: false,
+        },
+        {
+          fromUser: referredUserId,
+          toUserEmail: currentEmail,
+          rejected: false,
+        },
+      ],
+    })
+  ) {
+    return res.status(201).send("Invitation already exists !");
+  } else {
+    Invitation.create({
+      fromUser: currentUserId,
+      toUser: referredUserId,
+      toUserEmail: referredEmail,
+      approved: false,
+      rejected: false,
+    })
+      .then((result) => {
+        return res.status(200).send("Invitation is sent successfully");
+      })
+      .catch((error) => {
+        return res.status(500).jsend("Unable to send the invitation");
+      });
   }
 });
 

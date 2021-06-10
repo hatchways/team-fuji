@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Grid, Box, Button, Typography } from '@material-ui/core';
 import useStyles from './useStyles';
 import Switch from '@material-ui/core/Switch';
@@ -41,7 +41,6 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
           </Grid>
           <Grid item>
             <Typography noWrap className={classes.chattingUserName}>
-              {/* {currentChattingUser.name} */}
               {users.map((user) => user.username).join(', ')}
             </Typography>
           </Grid>
