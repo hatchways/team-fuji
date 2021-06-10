@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Grid, Typography } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import UndoIcon from '@material-ui/icons/Undo';
 import useStyles from './useStyles';
 import { Message } from '../../interface/Conversation';
 import { User } from '../../interface/User';
@@ -30,13 +32,21 @@ interface Props {
   newMessage: Message;
   otherUsers: User[];
   currentUser: User;
+  undoSend: (message: Message) => void;
 }
 
 interface Names {
   [key: string]: string;
 }
 
-const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentUser }: Props): JSX.Element => {
+const ChatBoard = ({
+  translate,
+  newMessage,
+  conversationId,
+  otherUsers,
+  currentUser,
+  undoSend,
+}: Props): JSX.Element => {
   const classes = useStyles();
   const myPrimaryLanguage = currentUser.primaryLanguage;
   const myUserId = currentUser.id;
@@ -45,7 +55,9 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
   const [translation, setTranslation] = useState<Message[]>([]);
   const [offset, setOffset] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [hideUndoButton, setHideUndoButton] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const limit = 12;
 
   const names: Names = otherUsers.reduce<Names>((map, user) => {
@@ -87,7 +99,13 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
           newMessage.message,
       },
     ]);
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'end' });
+    setHideUndoButton(false);
+    const timer = setTimeout(() => {
+      setHideUndoButton(true);
+    }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [newMessage]);
 
   // Listen for toggle translate
@@ -97,6 +115,14 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
     } else {
       setMessages(translation);
     }
+    if (chatContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+
+      // Only when user is at the bottom, do auto scroll to bottom
+      if (clientHeight < scrollHeight) {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', inline: 'end' });
+      }
+    }
   }, [translate, original, translation]);
 
   const theOtherUser = {
@@ -104,27 +130,6 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
     name: 'Thomas',
     state: 'online',
   };
-
-  // const messagedemo = [
-  //   {
-  //     sender: '60af2acccce0b051a086abb0',
-  //     message: 'This is a short message from Thomas.',
-  //     createdAt: 1622109247064,
-  //   },
-  //   {
-  //     sender: '60af2acccce0b051a086abb0',
-  //     message: 'This is a  message from Thomas. I will send you an interesting story book.',
-  //     createdAt: 162210924990,
-  //   },
-  //   { sender: '60af2acccce0b051a086abb0', message: 'This is a message from Thomas.', createdAt: 162213425678 },
-  //   { sender: '60af2acccce0b051a086abb1', message: 'This is a message from me.', createdAt: 162211225678 },
-  //   {
-  //     sender: '60af2acccce0b051a086abb1',
-  //     message: 'This is a message from me. I would like to go swimming every day.',
-  //     createdAt: 162210925678,
-  //   },
-  //   { sender: '60af2acccce0b051a086abb1', message: 'This is a new message from me.', createdAt: 1622469142257 },
-  // ];
 
   const sortedMessages = messages.sort((n1, n2) => n1.createdAt.valueOf() - n2.createdAt.valueOf());
 
@@ -150,6 +155,12 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
     }
   };
 
+  const onClick = (message: Message) => {
+    undoSend(message);
+    setOriginal(original.filter((messageItem) => messageItem._id !== message._id));
+    setTranslation(translation.filter((messageItem) => messageItem._id !== message._id));
+  };
+
   return (
     <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
       <InfiniteScroll
@@ -164,7 +175,7 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
         scrollableTarget="scrollableDiv"
         endMessage={<Typography className={classes.endMessages}>No more messages</Typography>}
       >
-        <Grid container className={classes.board} direction="column">
+        <Grid container ref={chatContainerRef} className={classes.board} direction="column">
           {sortedMessages.map((message) => {
             //  current chatting user message
             if (message.sender !== myUserId) {
@@ -208,7 +219,14 @@ const ChatBoard = ({ translate, newMessage, conversationId, otherUsers, currentU
                         </Grid>
                         <Grid className={classes.timeMessageSeparator} />
                         <Grid item>
-                          <label className={classes.currentUserMessage}>{message.message}</label>
+                          <label className={classes.currentUserMessage}>
+                            {!hideUndoButton && message._id === newMessage._id && (
+                              <IconButton size="small" onClick={() => onClick(message)}>
+                                <UndoIcon />
+                              </IconButton>
+                            )}
+                            {message.message}
+                          </label>
                         </Grid>
                       </Grid>
                     </Grid>
