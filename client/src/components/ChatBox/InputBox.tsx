@@ -57,9 +57,8 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
             value={text}
             inputRef={textRef}
             id="inputContent"
-            // variant="filled"
             placeholder="Type something..."
-            inputProps={{ style: { paddingTop: '30px', paddingBottom: '15px', fontSize: '15px' } }}
+            inputProps={{ style: { padding: '25px 30px', fontSize: '15px', fontWeight: 'bold' } }}
             InputProps={{
               classes,
               endAdornment: (
@@ -70,10 +69,10 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
                       })
                     : null}
                   <Grid className={classes.iconSpacing} />
-                  <EmojiEmotionsOutlinedIcon style={{ fontSize: '25px', color: 'lightGrey' }} />
+                  <EmojiEmotionsOutlinedIcon className={classes.inputIcon} />
                   <Grid className={classes.iconSpacing} />
-                  <IconButton onClick={() => toggleMessageImageDialog(false)}>
-                    <FileCopyOutlinedIcon style={{ fontSize: '25px', color: 'lightGrey', marginRight: '10px' }} />
+                  <IconButton onClick={() => toggleMessageImageDialog(false)} style={{ marginRight: '10px' }}>
+                    <FileCopyOutlinedIcon className={classes.inputIcon} />
                   </IconButton>
                   <FormDialog
                     open={openDialog}
@@ -92,8 +91,3 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   );
 };
 export default InputBox;
-
-//
-{
-  /* <img key={idx} src={image} alt="" width="50px" height="50px" style={{ margin: '10px' }} />; */
-}

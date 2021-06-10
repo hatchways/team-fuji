@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
     borderRadius: 0,
   },
+  inputIcon: {
+    fontSize: '25px',
+    color: 'lightGrey',
+  },
   chatbox: {
     width: '100%',
     height: '100%',
