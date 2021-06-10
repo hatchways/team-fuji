@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, withStyles } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
-import useStyles from './useStyles';
+import { useStyles, ListItem } from './useStyles';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
@@ -40,6 +39,10 @@ export default function ContactsTab({ handleConversationId }: Props): JSX.Elemen
   ];
 
   const [contacts, setContacts] = useState<Contact[]>([group1, group2, private1, ...contactArray]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(1);
+  const handleListItemClick = (index: number) => {
+    setSelectedIndex(index);
+  };
 
   // Implement loading contacts here
   const fetchMoreData = () => {
@@ -74,7 +77,11 @@ export default function ContactsTab({ handleConversationId }: Props): JSX.Elemen
                   className={classes.item}
                   key={value.id}
                   button
-                  onClick={() => handleConversationId(value.conversationId)}
+                  onClick={() => {
+                    handleConversationId(value.conversationId);
+                    handleListItemClick(value.id);
+                  }}
+                  selected={selectedIndex === value.id}
                 >
                   <ListItemAvatar>
                     <Avatar alt={`Avatar of ${value.id}`} src={`/static/images/avatar/${value.id}.jpg`} />
