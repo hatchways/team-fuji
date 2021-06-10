@@ -40,7 +40,7 @@ export default function ContactsTab({ contacts, fetchMoreData, hasMore }: Props)
       <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
         <InfiniteScroll
           className={classes.scroller}
-          height={`10vh`}
+          height={`60vh`}
           dataLength={contacts.length}
           next={fetchMoreData}
           hasMore={hasMore}

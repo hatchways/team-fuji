@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     textTransform: 'none',
     minWidth: 32,
@@ -23,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: '#40a9ff',
       opacity: 1,
-    },
-    '&$selected': {
-      color: '#1890ff',
-      fontWeight: theme.typography.fontWeightMedium,
     },
     '&:focus': {
       color: '#000000',
