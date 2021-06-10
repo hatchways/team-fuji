@@ -116,7 +116,7 @@ const ChatBoard = ({
       setMessages(translation);
     }
     if (chatContainerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      const { scrollHeight, clientHeight } = chatContainerRef.current;
 
       // Only when user is at the bottom, do auto scroll to bottom
       if (clientHeight < scrollHeight) {

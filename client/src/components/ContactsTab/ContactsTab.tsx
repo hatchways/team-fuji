@@ -2,7 +2,7 @@ import { useState } from 'react';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { Grid, Button, withStyles } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { useStyles, ListItem } from './useStyles';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -37,8 +37,7 @@ export default function ContactsTab({ handleConversationId }: Props): JSX.Elemen
     { id: 15, conversationId: '60be998d3771835bffaae014' },
     { id: 16, conversationId: '60be998d3771835bffaae014' },
   ];
-
-  const [contacts, setContacts] = useState<Contact[]>([group1, group2, private1, ...contactArray]);
+  const contacts: Contact[] = [group1, group2, private1, ...contactArray];
   const [selectedIndex, setSelectedIndex] = useState<number>(1);
   const handleListItemClick = (index: number) => {
     setSelectedIndex(index);
