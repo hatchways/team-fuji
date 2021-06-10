@@ -12,9 +12,10 @@ import ContactsTab from '../ContactsTab/ContactsTab';
 interface Props {
   loggedInUser: User;
   handleDrawerToggle?: () => void;
+  handleConversationId: (conversationId: string) => void;
 }
 
-const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
+const ChatSideBanner = ({ loggedInUser, handleConversationId }: Props): JSX.Element => {
   const [search, setSearch] = useState<string>('test');
   const [newChatUser, setNewChatUser] = useState<User | null>(null);
   const classes = useStyles();
@@ -42,7 +43,7 @@ const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
         <Search search={search} handleChange={handleChange} />
       </Box>
       <Box>
-        <ContactsTab />
+        <ContactsTab handleConversationId={handleConversationId} />
       </Box>
     </Grid>
   );

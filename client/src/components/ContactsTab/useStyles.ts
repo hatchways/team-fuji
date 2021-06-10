@@ -1,6 +1,7 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import MuiListItem from '@material-ui/core/ListItem';
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: theme.shape.borderRadius,
     backgroundColor: '#f5f7fb',
@@ -11,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     paddingTop: 12,
+    borderRadius: 5,
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.08)',
+    marginBottom: '10px',
+    paddingBottom: '10px',
   },
   searchInput: {
     backgroundColor: '#e9eef9',
@@ -61,4 +66,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default useStyles;
+export const ListItem = withStyles({
+  root: {
+    '&$selected': {
+      backgroundColor: '#FFFFFF',
+      color: 'black',
+      '& .MuiListItemIcon-root': {
+        color: 'white',
+      },
+    },
+    '&$selected:hover': {
+      backgroundColor: 'white',
+      color: 'black',
+      '& .MuiListItemIcon-root': {
+        color: 'white',
+      },
+    },
+    '&:hover': {
+      backgroundColor: '#dee0e3',
+      color: 'white',
+      '& .MuiListItemIcon-root': {
+        color: 'white',
+      },
+    },
+  },
+  selected: {},
+})(MuiListItem);

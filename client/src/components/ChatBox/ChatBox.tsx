@@ -83,6 +83,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
       </Box>
       <Box className={classes.chatboard}>
         <ChatBoard
+          key={conversationId}
           translate={translate}
           conversationId={conversationId}
           otherUsers={users}
