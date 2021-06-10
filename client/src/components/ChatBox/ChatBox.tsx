@@ -93,7 +93,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
         />
       </Box>
       <Box className={classes.inputbox}>
-        <InputBox handleMessage={handleMessage} messageUndo={messageUndo?.message} />
+        <InputBox handleMessage={handleMessage} messageUndo={messageUndo ? messageUndo : undefined} />
       </Box>
     </Grid>
   );

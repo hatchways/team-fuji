@@ -5,16 +5,17 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import FormDialog from '../UploadImageForm/FormDialog';
+import { Message } from '../../interface/Conversation';
 
 interface Props {
   handleMessage: (message: string, imageUrl: string[]) => void;
-  messageUndo: string | undefined;
+  messageUndo: Message | undefined;
 }
 
 const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   const classes = useStyles();
   const textRef = useRef<HTMLElement>();
-  const [text, setText] = useState('');
+  const [text, setText] = useState<string>('');
   const [images, setImages] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const fetch = {
@@ -24,8 +25,14 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    if (messageUndo) {
-      setText(messageUndo);
+    if (messageUndo?.message) {
+      setText(messageUndo.message);
+      if (textRef.current) {
+        textRef.current.focus();
+      }
+    }
+    if (messageUndo?.imageUrl?.length) {
+      setImages(messageUndo.imageUrl);
       if (textRef.current) {
         textRef.current.focus();
       }
