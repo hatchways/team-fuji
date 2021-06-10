@@ -29,7 +29,7 @@ function getTime(timeStamp: number): string {
 interface Props {
   translate: boolean;
   conversationId: string;
-  newMessage: Message;
+  newMessage: Message | null;
   otherUsers: User[];
   currentUser: User;
   undoSend: (message: Message) => void;
@@ -105,23 +105,25 @@ const ChatBoard = ({
 
   // Listen for new messages
   useEffect(() => {
-    setOriginal([...original, newMessage]);
-    setTranslation([
-      ...translation,
-      {
-        ...newMessage,
-        message:
-          newMessage.translations.find((translation) => translation.language === myPrimaryLanguage)?.translation ||
-          newMessage.message,
-      },
-    ]);
-    setHideUndoButton(false);
-    const timer = setTimeout(() => {
-      setHideUndoButton(true);
-    }, 3000);
-    return () => {
-      clearTimeout(timer);
-    };
+    if (newMessage) {
+      setOriginal([...original, newMessage]);
+      setTranslation([
+        ...translation,
+        {
+          ...newMessage,
+          message:
+            newMessage.translations.find((translation) => translation.language === myPrimaryLanguage)?.translation ||
+            newMessage.message,
+        },
+      ]);
+      setHideUndoButton(false);
+      const timer = setTimeout(() => {
+        setHideUndoButton(true);
+      }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   }, [newMessage]);
 
   // Listen for toggle translate
@@ -305,7 +307,7 @@ const ChatBoard = ({
                                 ) : null}
                               </Grid>
                               <Grid item>
-                                {!hideUndoButton && message._id === newMessage._id && (
+                                {!hideUndoButton && message._id === newMessage?._id && (
                                   <IconButton
                                     size="small"
                                     onClick={() => onClick(message)}
