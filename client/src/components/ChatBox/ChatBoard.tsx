@@ -65,6 +65,22 @@ const ChatBoard = ({
     return map;
   }, {});
 
+  // suppose there only one youtube link in one message.
+  function isYoutubeUrl(message: string): { haveYoutubeLink: boolean; youtubeUrl: string } {
+    const re = RegExp(/http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/);
+    const matchResult = re.exec(message);
+    let url: string;
+    let isThereYoutubeLink: boolean;
+    if (matchResult) {
+      url = matchResult[0];
+      isThereYoutubeLink = true;
+    } else {
+      url = '';
+      isThereYoutubeLink = false;
+    }
+    return { haveYoutubeLink: isThereYoutubeLink, youtubeUrl: url };
+  }
+
   // Load translation data
   // Load the lastest messages first, scroll up to load more previous messages
   useEffect(() => {
@@ -193,7 +209,22 @@ const ChatBoard = ({
                         </label>
                       </Grid>
                       <Grid className={classes.timeMessageSeparator} />
-                      <Grid item container direction="row">
+                      <Grid item>
+                        <label className={classes.chattingUserMessage}>{message.message}</label>
+                        {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
+                          <iframe
+                            id="video"
+                            width="230"
+                            src={
+                              'https://www.youtube.com/embed/' +
+                              isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split('=')[1]
+                            }
+                            frameBorder="0"
+                            allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          />
+                        )} 
+                        <Grid item container direction="row">
                         <Grid item>
                           {message.imageUrl && message.imageUrl.length !== 0 ? (
                             <Grid container direction="column">
@@ -236,6 +267,32 @@ const ChatBoard = ({
                           </Grid>
                         </Grid>
                         <Grid className={classes.timeMessageSeparator} />
+
+                        <Grid item>
+                          <Grid>
+                            <label className={classes.currentUserMessage}>
+                              {!hideUndoButton && message._id === newMessage._id && (
+                                <IconButton size="small" onClick={() => onClick(message)}>
+                                  <UndoIcon />
+                                </IconButton>
+                              )}
+                              {message.message}
+                            </label>
+                            {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
+                              <iframe
+                                id="video"
+                                width="230"
+                                src={
+                                  'https://www.youtube.com/embed/' +
+                                  isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split(
+                                    '=',
+                                  )[1]
+                                }
+                                frameBorder="0"
+                                allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                              )}
                         <Grid item container direction="row">
                           <Grid item>
                             {message.imageUrl && message.imageUrl.length !== 0 ? (
@@ -255,18 +312,7 @@ const ChatBoard = ({
                             {message.message ? (
                               <label className={classes.currentUserMessage}>{message.message}</label>
                             ) : null}
-                          </Grid>
-                          <Grid item>
-                            {!hideUndoButton && message._id === newMessage._id && (
-                              <IconButton
-                                size="small"
-                                onClick={() => onClick(message)}
-                                style={{ marginTop: '15px', marginLeft: '10px', height: '80%' }}
-                              >
-                                <UndoIcon />
-                              </IconButton>
-                            )}
-                          </Grid>
+                          </Grid>                          
                         </Grid>
                       </Grid>
                     </Grid>
