@@ -8,7 +8,6 @@ import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
 import ChatsContactsInvitationTabs from '../ChatsContactsInvitationTabs/ChatsContactsInvitationTabs';
-import ContactsTab from '../ContactsTab/ContactsTab';
 
 interface Props {
   loggedInUser: User;
