@@ -10,6 +10,18 @@ const conversationSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    nickname: [
+      {
+        type: String,
+        default: "",
+      },
+    ],
+    image: [
+      {
+        data: Buffer,
+        contentType: String,
+      },
+    ],
     languages: [String],
     messages: [Message],
   },

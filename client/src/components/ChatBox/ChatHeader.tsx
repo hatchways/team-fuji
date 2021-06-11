@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
-import { Grid, Box, Button, Typography } from '@material-ui/core';
+
+import React, { useState, MouseEvent } from 'react';
+import { Grid, Box, Typography } from '@material-ui/core';
 import useStyles from './useStyles';
 import Switch from '@material-ui/core/Switch';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { User } from '../../interface/User';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   handleSwitch: () => void;
@@ -15,6 +20,23 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
   const [state, setState] = useState({
     checkedSwitch: false,
   });
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  //   const { logout } = useAuth();
+  const history = useHistory();
+
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfile = () => {
+    history.push('/conversationprofile');
+  };
 
   //TODO replace with chatting user
   const currentLanguage = {
@@ -69,9 +91,28 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
             />
           </Grid>
           <Grid item>
-            <Button>
+            <IconButton
+              aria-label="show conversation profile menu"
+              aria-controls="conversation-profile-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+            >
               <MoreHorizIcon />
-            </Button>
+            </IconButton>
+            <Menu
+              id="conversation-profile-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              getContentAnchorEl={null}
+            >
+              <MenuItem onClick={handleProfile}>Profile</MenuItem>
+            </Menu>
           </Grid>
         </Grid>
       </Grid>
