@@ -2,90 +2,60 @@ import { useState } from 'react';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import { useStyles, ListItem } from './useStyles';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import ReferFriend from '../../pages/ReferFriend/ReferFriend';
+import { User } from '../../interface/User';
 
 interface Props {
-  handleConversationId: (conversationId: string) => void;
+  contacts: User[];
+  fetchMoreData: () => void;
+  hasMore: boolean;
 }
 
-interface Contact {
-  id: number;
-  conversationId: string;
-}
-export default function ContactsTab({ handleConversationId }: Props): JSX.Element {
+export default function ContactsTab({ contacts, fetchMoreData, hasMore }: Props): JSX.Element {
   const classes = useStyles();
 
-  // Mock Data, to use it POST 3 conversations and paste their conversationId
-  // When invites are implemented this will no longer happen
-  const group1: Contact = { id: 1, conversationId: '60be998d3771835bffaae014' };
-  const group2: Contact = { id: 2, conversationId: '60c022229e61668ea77e1485' };
-  const private1: Contact = { id: 3, conversationId: '60c023749e61668ea77e1486' };
-  const contactArray: Contact[] = [
-    { id: 4, conversationId: '60be998d3771835bffaae014' },
-    { id: 5, conversationId: '60be998d3771835bffaae014' },
-    { id: 6, conversationId: '60be998d3771835bffaae014' },
-    { id: 7, conversationId: '60be998d3771835bffaae014' },
-    { id: 8, conversationId: '60be998d3771835bffaae014' },
-    { id: 9, conversationId: '60be998d3771835bffaae014' },
-    { id: 11, conversationId: '60be998d3771835bffaae014' },
-    { id: 12, conversationId: '60be998d3771835bffaae014' },
-    { id: 13, conversationId: '60be998d3771835bffaae014' },
-    { id: 14, conversationId: '60be998d3771835bffaae014' },
-    { id: 15, conversationId: '60be998d3771835bffaae014' },
-    { id: 16, conversationId: '60be998d3771835bffaae014' },
-  ];
-  const contacts: Contact[] = [group1, group2, private1, ...contactArray];
-  const [selectedIndex, setSelectedIndex] = useState<number>(1);
-  const handleListItemClick = (index: number) => {
-    setSelectedIndex(index);
-  };
+  const [open, setOpen] = useState(false);
 
-  // Implement loading contacts here
-  const fetchMoreData = () => {
-    setTimeout(() => {
-      // setContacts(contacts.concat([...Array(4).keys()]));
-    }, 1500);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <Grid container className={classes.root} direction="column">
       <Grid className={classes.searchBottomSeparator}></Grid>
       <Grid className={classes.inviteButtonBlock}>
-        <Button className={classes.inviteButton} color="primary">
-          + invite friends
+        <Button onClick={handleClickOpen} className={classes.inviteButton} color="primary">
+          + Invite friends
         </Button>
+        <ReferFriend open={open} handleClose={handleClose} />
       </Grid>
       <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
         <InfiniteScroll
           className={classes.scroller}
-          height={`calc(80vh - 200px)`}
+          height={`60vh`}
           dataLength={contacts.length}
           next={fetchMoreData}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
+          hasMore={hasMore}
+          loader={<Typography> loading... </Typography>}
           scrollableTarget="scrollableDiv"
+          endMessage={<Typography>No more contacts</Typography>}
         >
           <List dense className={classes.listStyle}>
-            {contacts.map((value) => {
-              const labelId = `contact-${value}`;
+            {contacts.map((contact, index) => {
+              const labelId = `contact-${index}`;
               return (
-                <ListItem
-                  className={classes.item}
-                  key={value.id}
-                  button
-                  onClick={() => {
-                    handleConversationId(value.conversationId);
-                    handleListItemClick(value.id);
-                  }}
-                  selected={selectedIndex === value.id}
-                >
+                <ListItem className={classes.item} key={index} button>
                   <ListItemAvatar>
-                    <Avatar alt={`Avatar of ${value.id}`} src={`/static/images/avatar/${value.id}.jpg`} />
+                    <Avatar alt={`Avatar of ${index + 1}`} src={`/static/images/avatar/${index + 1}.jpg`} />
                   </ListItemAvatar>
-                  <ListItemText className={classes.userName} id={labelId} primary={`Name ${value.id}`} />
+                  <ListItemText className={classes.userName} id={labelId} primary={contact.username} />
                 </ListItem>
               );
             })}

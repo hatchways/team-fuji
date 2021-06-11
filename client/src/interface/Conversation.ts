@@ -17,8 +17,12 @@ export interface Message {
 }
 
 export interface Conversation {
+  _id: string;
   users: User[];
   messages: Message[];
+  languages: string[];
+  updateAt: Date;
+  createAt: Date;
 }
 
 export interface FetchMessagesApiData {
@@ -38,5 +42,15 @@ export interface GetUsersInChatApiData {
 
 export interface DeleteMessageApiData {
   success: string;
+  error?: { message: string };
+}
+
+export interface FetchConversationsApiData {
+  conversations: Conversation[];
+  error?: { message: string };
+}
+
+export interface CreateConversationApiData {
+  conversation: Conversation;
   error?: { message: string };
 }

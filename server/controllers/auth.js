@@ -35,7 +35,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
     res.status(201).json({
       success: {
         user: {
-          id: user._id,
+          _id: user._id,
           primaryLanguage: user.primaryLanguage,
           email: user.email,
         },
@@ -66,7 +66,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       success: {
         user: {
-          id: user._id,
+          _id: user._id,
           primaryLanguage: user.primaryLanguage,
           email: user.email,
           profileImageUrl: user.profileImageUrl,
@@ -90,15 +90,15 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("Not authorized");
   }
-  console.log(user + "This is User");
 
   res.status(200).json({
     success: {
       user: {
-        id: user._id,
+        _id: user._id,
         primaryLanguage: user.primaryLanguage,
         email: user.email,
         profileImageUrl: user.profileImageUrl,
+        username: user.username,
       },
     },
   });

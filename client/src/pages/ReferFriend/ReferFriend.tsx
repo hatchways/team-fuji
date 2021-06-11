@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,12 +10,22 @@ import useStyles from './useStyles';
 import { useParams } from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import { useAuth } from '../../context/useAuthContext';
 
-export default function InvitationDialog(): JSX.Element {
+export interface InvitationDialogProps {
+  open: boolean;
+  handleClose: () => void;
+}
+
+export default function InvitationDialog({ open, handleClose }: InvitationDialogProps): JSX.Element {
+  const { loggedInUser } = useAuth();
   const classes = useStyles();
 
   // open or close this dialog
-  const [open, setOpen] = useState(true);
+  const [openState, setOpenState] = useState(open);
+  useEffect(() => {
+    setOpenState(open);
+  }, [open]);
 
   // open or close email sent successfully snackbar
   const [openEmailSnackbar, setOpenEmailSnackbar] = useState(false);
@@ -43,18 +53,18 @@ export default function InvitationDialog(): JSX.Element {
 
   // after logged in or signed up, current user info can get from MongoDB
   const currentUser = {
-    id: '60af2acccce0b051a086abb4',
-    email: 'messengeruser@msg.com',
+    id: loggedInUser?._id,
+    email: loggedInUser?.email,
   };
 
   // server to create an invitaiton
   const createInvitationUrl = '/user/' + currentUser.id + '/invitation';
 
   // registered single sender on sendgrid
-  const registeredEmailForSendGrid = 'oliveegu@gmail.com';
+  const registeredEmailForSendGrid = 'lei.wang2@ucalgary.ca';
 
   //generate referring link to connect
-  const refLinkHeader = 'http://localhost:3000/join/';
+  const refLinkHeader = 'http://localhost:3001/join/';
   const linkText = refLinkHeader + currentUser.id;
 
   // to store email state
@@ -208,10 +218,6 @@ export default function InvitationDialog(): JSX.Element {
     setOpenCreateInvitationErrorSnackbar(false);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   // add email to the email list
   const handleAddEmail = () => {
     if (emailRef.current) {
@@ -237,7 +243,8 @@ export default function InvitationDialog(): JSX.Element {
     // open this dialog from a link ref
     if (id != null && id.trim() != '') {
       createInvitationFromRefLink(id);
-      setOpen(false);
+      setOpenState(false);
+      handleClose();
       return;
     }
 
@@ -263,12 +270,12 @@ export default function InvitationDialog(): JSX.Element {
         }
       }
     }
-    setOpen(false);
+    setOpenState(false);
+    handleClose();
   };
-
   return (
     <Grid container spacing={0} direction="column">
-      <Dialog onClose={handleClose} aria-labelledby="invite friends" open={open} className={classes.dialogue}>
+      <Dialog onClose={handleClose} aria-labelledby="invite friends" open={openState} className={classes.dialogue}>
         <IconButton aria-label="close" className={classes.closeButton} onClick={handleClose}>
           <CloseIcon />
         </IconButton>

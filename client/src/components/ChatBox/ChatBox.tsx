@@ -16,17 +16,9 @@ interface Props {
 
 const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element => {
   const classes = useStyles();
-  const currentUserId = loggedInUser.id;
-  const [translate, setTranslate] = useState<boolean>(false);
-  const [message, setMessages] = useState<Message>({
-    message: 'Initial Startup',
-    _id: '45534',
-    sender: '60a4086085cdae24a4f6a929',
-    language: 'en',
-    translations: [{ language: 'fr', translation: 'French Version of this text' }],
-    updatedAt: new Date(Date.now()),
-    createdAt: new Date(Date.now()),
-  });
+  const currentUserId = loggedInUser._id;
+  const [translate, setTranslate] = useState<boolean>(true);
+  const [message, setMessages] = useState<Message | null>(null);
 
   const [users, setUsers] = useState<User[]>([]);
   const [messageUndo, SetMessageUndo] = useState<Message | null>(null);

@@ -1,5 +1,13 @@
-import Grid from '@material-ui/core/Grid';
+import { Grid, Typography } from '@material-ui/core';
+import { useAuth } from '../../context/useAuthContext';
 
 export default function Profile(): JSX.Element {
-  return <Grid>Profile</Grid>;
+  const { loggedInUser } = useAuth();
+  return (
+    <Grid>
+      <Typography variant="h1">Profile</Typography>
+      <Typography variant="h2">{loggedInUser?.username}</Typography>
+      <Typography variant="h3">{loggedInUser?.email}</Typography>
+    </Grid>
+  );
 }

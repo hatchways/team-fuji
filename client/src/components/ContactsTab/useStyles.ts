@@ -22,18 +22,18 @@ export const useStyles = makeStyles((theme) => ({
   },
   userName: {
     '& span, & svg': {
-      fontSize: 14,
+      fontSize: '1.5vw',
       fontWeight: 900,
     },
   },
   leftPadding: {
-    paddingLeft: 12,
+    paddingLeft: 10,
   },
   searchBottomSeparator: {
     height: 10,
   },
   inviteButtonBlock: {
-    paddingLeft: 18,
+    paddingLeft: 10,
   },
   inviteButton: {
     fontSize: 14,
@@ -51,7 +51,6 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
     '&::-webkit-scrollbar': {
-      //transition: 'display 0.5s ease-in 0.1s',
       display: 'none',
       width: '5px',
     },

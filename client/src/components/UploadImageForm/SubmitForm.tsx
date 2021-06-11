@@ -19,8 +19,7 @@ export default function SubmitForm({ handleClose, fetch, imageSubmit, action }: 
           validationSchema={object({
             files: yup.array().min(1).max(fetch.maxFiles).required(),
           })}
-          onSubmit={(values) => {
-            console.log('values', values);
+          onSubmit={() => {
             return new Promise((res) => setTimeout(res, 2000));
           }}
         >

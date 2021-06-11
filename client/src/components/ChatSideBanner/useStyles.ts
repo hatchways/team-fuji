@@ -15,16 +15,19 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   userPanel: {
+    height: '3vh',
     display: 'flex',
     alignItems: 'center',
     marginBottom: '2rem',
   },
   userText: {
+    height: '3vh',
     fontWeight: 700,
     paddingLeft: '1rem',
     fontSize: 16,
   },
   chatTitle: {
+    height: '3vh',
     fontWeight: 700,
     fontSize: 20,
     margin: '1rem 0',

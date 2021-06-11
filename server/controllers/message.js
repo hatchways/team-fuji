@@ -107,7 +107,7 @@ exports.postMessage = asyncHandler(async (req, res) => {
                 message,
                 imageUrl,
                 language: fromLanguage,
-                translations,
+                translations: translations,
               },
             ],
             $position: 0,

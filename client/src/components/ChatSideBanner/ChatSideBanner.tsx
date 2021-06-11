@@ -7,7 +7,7 @@ import { User } from '../../interface/User';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
-import ContactsTab from '../ContactsTab/ContactsTab';
+import ChatsContactsInvitationTabs from '../ChatsContactsInvitationTabs/ChatsContactsInvitationTabs';
 
 interface Props {
   loggedInUser: User;
@@ -19,6 +19,7 @@ const ChatSideBanner = ({ loggedInUser, handleConversationId }: Props): JSX.Elem
   const [search, setSearch] = useState<string>('test');
   const [newChatUser, setNewChatUser] = useState<User | null>(null);
   const classes = useStyles();
+  // React.FormEvent<FormControl & FormControlProps>)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, newInputValue: string) => {
     setSearch(newInputValue);
@@ -37,13 +38,13 @@ const ChatSideBanner = ({ loggedInUser, handleConversationId }: Props): JSX.Elem
         <AuthMenu />
       </Box>
       <Box>
-        <Typography className={classes.chatTitle} variant="h5">
+        {/* <Typography className={classes.chatTitle} variant="h5">
           Users
-        </Typography>
+        </Typography> */}
         <Search search={search} handleChange={handleChange} />
       </Box>
       <Box>
-        <ContactsTab handleConversationId={handleConversationId} />
+        <ChatsContactsInvitationTabs handleConversationId={handleConversationId} />
       </Box>
     </Grid>
   );

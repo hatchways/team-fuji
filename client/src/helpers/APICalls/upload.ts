@@ -12,7 +12,7 @@ const uploadFile = async (
     data.append(fetchConfig.handler, fileWrapper.file);
   });
 
-  return await fetch(fetchConfig.url + loggedInUser?.id, {
+  return await fetch(fetchConfig.url + loggedInUser?._id, {
     method: 'POST',
     body: data,
     credentials: 'include',

@@ -14,8 +14,8 @@ interface Props {
 
 const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
   const classes = useStyles();
-  const textRef = useRef<HTMLElement>();
-  const [text, setText] = useState<string>('');
+  const textRef = useRef<HTMLInputElement>();
+  const [text, setText] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const fetch = {

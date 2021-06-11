@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -7,35 +6,50 @@ import { Grid, Button } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import useStyles from './useStyles';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import { Invitation } from '../../interface/Invitation';
 
-export default function InvitationsTab() {
+interface Props {
+  invitations: Invitation[];
+  handleReject: (index: number, id: string) => void;
+  handleApprove: (index: number, id: string) => void;
+}
+
+export default function InvitationsTab({ invitations, handleReject, handleApprove }: Props): JSX.Element {
   const classes = useStyles();
-
-  const [value, setValue] = useState<number>(0);
-
-  //TODO replace with list of pending invitations
-  const invitations = [0, 1, 2, 3, 4];
-
   return (
     <Grid container className={classes.root} direction="column">
       <Grid>
         <List dense className={classes.listStyle}>
-          {invitations.map((value) => {
-            const labelId = `invitation-${value}`;
+          {invitations.map((invitaiton, index) => {
+            const labelId = `invitation-${index}`;
             return (
-              <ListItem className={classes.item} key={value} button>
+              <ListItem className={classes.item} key={index} button>
                 <ListItemAvatar>
-                  <Avatar alt={`Avatar of ${value + 1}`} src={`/static/images/avatar/${value + 1}.jpg`} />
+                  <Avatar alt={`Avatar of ${index + 1}`} src={`/static/images/avatar/${index + 1}.jpg`} />
                 </ListItemAvatar>
-                <ListItemText className={classes.userName} id={labelId} primary={`Name ${value + 1}`} />
+                <ListItemText className={classes.userName} id={labelId} primary={`${invitaiton.fromUser.username}`} />
                 <ListItemSecondaryAction>
                   <Grid className={classes.topPadding} container direction="row">
                     <Grid item>
-                      <Button className={classes.rejectOrApproveButton}>Reject</Button>
+                      <Button
+                        onClick={() => handleReject(index, invitaiton.id)}
+                        size="small"
+                        style={{ maxWidth: '4.5vw', maxHeight: '30px', minWidth: '4.5vw', minHeight: '30px' }}
+                        className={classes.rejectOrApproveButton}
+                      >
+                        Reject
+                      </Button>
                     </Grid>
                     <Grid className={classes.spacing}></Grid>
                     <Grid item>
-                      <Button className={classes.rejectOrApproveButton}>Approve</Button>
+                      <Button
+                        onClick={() => handleApprove(index, invitaiton.id)}
+                        size="small"
+                        style={{ maxWidth: '4.5vw', maxHeight: '30px', minWidth: '4.5vw', minHeight: '30px' }}
+                        className={classes.rejectOrApproveButton}
+                      >
+                        Approve
+                      </Button>
                     </Grid>
                   </Grid>
                 </ListItemSecondaryAction>

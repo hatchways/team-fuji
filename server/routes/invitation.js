@@ -12,6 +12,7 @@ const {
   createInvitation,
   getPendingInvitation,
   getContacts,
+  referInvitation,
 } = require("../controllers/userinvitation");
 
 // create an invitation
@@ -25,17 +26,18 @@ router
   .get(protect, validateUserId, getPendingInvitation);
 
 // list accepted invitations
-router.route("/user/:id/contacts").get(protect, validateUserId, getContacts);
+router.route("/user/contacts").get(protect, getContacts);
 
 // approve an invitation
 router
-  .route("invitation/:id/approve")
+  .route("/invitation/:id/approve")
   .patch(protect, validateInvitationId, approve);
 
 // reject an invitation
 router
-  .route("invitation/:id/reject")
+  .route("/invitation/:id/reject")
   .patch(protect, validateInvitationId, reject);
 
-
+// handle the refer link
+router.route("/join/:id").get(protect, referInvitation);
 module.exports = router;
