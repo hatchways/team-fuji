@@ -27,12 +27,6 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
     it: 'https://image.flaticon.com/icons/png/128/3053/3053996.png',
   };
 
-  // const currentChattingUser = {
-  //   image: '/static/images/avatar/currentUser.jpg',
-  //   name: 'Thomas',
-  //   state: 'online',
-  // };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
     handleSwitch();
