@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Grid, Box, Button, Typography } from '@material-ui/core';
+import { Grid, Button, Typography } from '@material-ui/core';
 import useStyles from './useStyles';
 import Switch from '@material-ui/core/Switch';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { User } from '../../interface/User';
+import Avatar from 'react-avatar';
 
 interface Props {
   handleSwitch: () => void;
@@ -17,15 +18,20 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
   });
 
   //TODO replace with chatting user
-  const currentLanguage = {
-    name: 'Spanish',
-    languageFlag: '/static/images/languageFlag.jpg',
+  const languageFlagdic: { [key: string]: string } = {
+    en: 'https://image.flaticon.com/icons/png/128/294/294059.png',
+    zh: 'https://image.flaticon.com/icons/png/128/197/197375.png',
+    fr: 'https://image.flaticon.com/icons/png/128/3053/3053969.png',
+    ja: 'https://image.flaticon.com/icons/png/128/197/197604.png',
+    ru: 'https://image.flaticon.com/icons/png/128/3909/3909301.png',
+    it: 'https://image.flaticon.com/icons/png/128/3053/3053996.png',
   };
-  const currentChattingUser = {
-    image: '/static/images/avatar/currentUser.jpg',
-    name: 'Thomas',
-    state: 'online',
-  };
+
+  // const currentChattingUser = {
+  //   image: '/static/images/avatar/currentUser.jpg',
+  //   name: 'Thomas',
+  //   state: 'online',
+  // };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
@@ -37,7 +43,9 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
       <Grid item>
         <Grid container direction="row" alignItems="center">
           <Grid item>
-            <img src={currentLanguage.languageFlag} />
+            {users.map((user) => (
+              <Avatar key={user._id} size="30" round={true} src={languageFlagdic[user.primaryLanguage]} />
+            ))}
           </Grid>
           <Grid item>
             <Typography noWrap className={classes.chattingUserName}>
@@ -45,12 +53,12 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
             </Typography>
           </Grid>
           <Grid className={classes.separatorStatePointleft} />
-          <Grid item>
+          {/* <Grid item>
             <Box className={classes.statePoint}></Box>
           </Grid>
           <Grid item>
             <Typography className={classes.stateText}>{currentChattingUser.state}</Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
       <Grid item>

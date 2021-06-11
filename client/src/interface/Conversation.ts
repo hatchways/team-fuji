@@ -49,3 +49,8 @@ export interface FetchConversationsApiData {
   conversations: Conversation[];
   error?: { message: string };
 }
+
+export interface CreateConversationApiData {
+  conversation: Conversation;
+  error?: { message: string };
+}

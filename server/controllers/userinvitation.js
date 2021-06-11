@@ -164,24 +164,31 @@ exports.getContacts = asyncHandler(async (req, res, next) => {
       .skip(offset);
 
     let contacts = [];
+    let ids = [];
     await Promise.all(
       acceptedInvitations.map(async (invitation) => {
         if (userId !== invitation.fromUser.toString()) {
           const user = await User.findById(invitation.fromUser);
-          contacts.push({
-            email: user.email,
-            username: user.username,
-            primaryLanguage: user.primaryLanguage,
-            id: user._id,
-          });
+          if (user && !ids.includes(user._id.toString())) {
+            ids.push(user._id.toString());
+            contacts.push({
+              email: user.email,
+              username: user.username,
+              primaryLanguage: user.primaryLanguage,
+              _id: user._id,
+            });
+          }
         } else {
           const user = await User.findOne({ email: invitation.toUserEmail });
-          contacts.push({
-            email: user.email,
-            username: user.username,
-            primaryLanguage: user.primaryLanguage,
-            id: user._id,
-          });
+          if (user && !ids.includes(user._id.toString())) {
+            ids.push(user._id.toString());
+            contacts.push({
+              email: user.email,
+              username: user.username,
+              primaryLanguage: user.primaryLanguage,
+              _id: user._id,
+            });
+          }
         }
       })
     );

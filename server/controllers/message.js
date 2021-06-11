@@ -87,13 +87,12 @@ exports.postMessage = asyncHandler(async (req, res) => {
       (lang) => lang !== fromLanguage
     );
 
-    const translations = [];
-    ////translate
-    // const translations = await translateMessage(
-    //   message,
-    //   fromLanguage,
-    //   toLanguages
-    // );
+    //translate
+    const translations = await translateMessage(
+      message,
+      fromLanguage,
+      toLanguages
+    );
 
     // update database and return response
     const Id = new mongoose.Types.ObjectId().toHexString();

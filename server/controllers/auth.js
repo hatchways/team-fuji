@@ -90,7 +90,6 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("Not authorized");
   }
-  console.log(user + "This is User");
 
   res.status(200).json({
     success: {

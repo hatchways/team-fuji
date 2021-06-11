@@ -11,7 +11,7 @@ import { Invitation } from '../../interface/Invitation';
 import { User } from '../../interface/User';
 import { Conversation } from '../../interface/Conversation';
 import { getInvitations, patchInvitation, getContacts } from '../../helpers/APICalls/Invitation';
-import { getConversations } from '../../helpers/APICalls/Conversation';
+import { getConversations, createConversation } from '../../helpers/APICalls/Conversation';
 import { useAuth } from '../../context/useAuthContext';
 
 interface TabPanelProps {
@@ -50,9 +50,11 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
   const [invitations, setInvitaions] = useState<Invitation[]>([]);
   const [contacts, setContacts] = useState<User[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [offset, setOffset] = useState<number>(0);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  const limit = 2;
+  const [contactsOffset, setContactsOffset] = useState<number>(0);
+  const [conversationOffset, setConversationOffset] = useState<number>(0);
+  const [hasMoreContacts, setHasMoreContacts] = useState<boolean>(true);
+  const [hasMoreConversations, setHasMoreConversations] = useState<boolean>(true);
+  const limit = 10;
 
   useEffect(() => {
     async function loadInvitations() {
@@ -60,14 +62,15 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
       setInvitaions(response.invitations);
     }
     async function loadContacts() {
-      const response = await getContacts({ offset, limit });
-      setOffset(offset + limit);
+      const response = await getContacts({ offset: contactsOffset, limit });
       setContacts(response.contacts);
+      setContactsOffset(contactsOffset + limit);
     }
 
     async function loadConversations() {
-      const response = await getConversations();
+      const response = await getConversations({ offset: conversationOffset, limit });
       setConversations(response.conversations);
+      setConversationOffset(conversationOffset + limit);
     }
 
     loadContacts();
@@ -91,13 +94,36 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
     setInvitaions(invitations.filter((inv, idx) => idx !== index));
   };
 
-  const fetchMoreData = async () => {
-    const response = await getContacts({ offset, limit });
-    setOffset(offset + limit);
+  const handleCreateConversation = async (userIds: string[]) => {
+    const response = await createConversation({ userIds });
+    console.log(response);
+    setConversations([response.conversation, ...conversations]);
+  };
+
+  const fetchMoreContacts = async () => {
+    const response = await getContacts({ offset: contactsOffset, limit });
+    setContactsOffset(contactsOffset + limit);
     if (response.contacts?.length) {
+      if (response.contacts?.length < limit) {
+        setHasMoreContacts(false);
+      }
       setContacts([...contacts, ...response.contacts]);
     } else {
-      setHasMore(false);
+      setHasMoreContacts(false);
+      return;
+    }
+  };
+
+  const fetchMoreConversations = async () => {
+    const response = await getConversations({ offset: conversationOffset, limit });
+    setConversationOffset(conversationOffset + limit);
+    if (response.conversations?.length) {
+      if (response.conversations?.length < limit) {
+        setHasMoreConversations(false);
+      }
+      setConversations([...conversations, ...response.conversations]);
+    } else {
+      setHasMoreConversations(false);
       return;
     }
   };
@@ -137,10 +163,17 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
         />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <ChatsTab conversations={conversations} handleConversationId={handleConversationId} />
+        <ChatsTab
+          contacts={contacts}
+          createConversation={handleCreateConversation}
+          conversations={conversations}
+          handleConversationId={handleConversationId}
+          fetchMoreData={fetchMoreConversations}
+          hasMore={hasMoreConversations}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ContactsTab contacts={contacts} fetchMoreData={fetchMoreData} hasMore={hasMore} />
+        <ContactsTab contacts={contacts} fetchMoreData={fetchMoreContacts} hasMore={hasMoreContacts} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <InvitationsTab invitations={invitations} handleReject={handleReject} handleApprove={handleApprove} />

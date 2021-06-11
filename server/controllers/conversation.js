@@ -4,8 +4,10 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 const translateMessage = require("../utils/translateMessage");
 
-// @route GET /users/conversations
+// @route GET /users/conversations?offset&limit
 exports.getUserConversations = asyncHandler(async (req, res) => {
+  const offset = parseInt(req.query.offset);
+  const limit = parseInt(req.query.limit);
   const userId = req.user.id;
 
   // if id is not valid return bad request response
@@ -23,9 +25,13 @@ exports.getUserConversations = asyncHandler(async (req, res) => {
         $slice: [0, 1],
       },
     }
-  ).populate({
-    path: "users",
-  });
+  )
+    .sort({ updatedAt: -1 })
+    .populate({
+      path: "users",
+    })
+    .limit(limit)
+    .skip(offset);
 
   if (conversationList?.length) {
     return res.status(200).json({ conversations: conversationList });
@@ -72,24 +78,24 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
 // @route POST /users/groupchat
 // create a new group chat with multiple users
 exports.postGroupChat = asyncHandler(async (req, res) => {
-  const users = req.body.users;
+  const users = [...req.body.users, req.user.id];
   const languages = await Promise.all(
     users.map(async (uid) => {
       const user = await User.findById(uid);
       return user.primaryLanguage;
     })
   );
-  const conversation = await Conversation.create({
+  let conversation = await Conversation.create({
     users,
     languages,
     messages: [],
   });
 
+  conversation = await conversation.populate("users").execPopulate();
+
   if (conversation) {
     res.status(201).json({
-      success: {
-        conversation,
-      },
+      conversation,
     });
   } else {
     res.status(500);
