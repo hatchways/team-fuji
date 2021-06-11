@@ -4,6 +4,116 @@ const User = require("../models/User");
 const mongoose = require("mongoose");
 const translateMessage = require("../utils/translateMessage");
 
+//@route PATCH /users/:userId/:conversationId/changenickname
+//@desc update nickname for specific user in a specific conversation
+exports.updateNickname = asyncHandler(async (req, res) => {
+  const { newNickname } = req.body;
+  const userId = req.params.userId;
+  const conversationId = req.params.conversationId;
+  let nickname = "";
+  let avatar = "";
+
+  // validate userID
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    res.json({
+      status: 400,
+      message: "User id is not valid",
+    });
+  }
+
+  // validate conversationId
+  if (!mongoose.Types.ObjectId.isValid(conversationId)) {
+    res.json({
+      status: 400,
+      message: "Conversation id is not valid",
+    });
+  }
+  const conversation = await Conversation.findOne({
+    _id: conversationId,
+  });
+
+  const currentUserLoc = conversation.users.findIndex(
+    (element) => element == userId
+  );
+//   console.log("currentUserLoc", currentUserLoc);
+
+  try {
+    const updatedNicknameInfo = await Conversation.updateOne(
+      { _id: conversationId },
+      { $set: { [`nickname.${currentUserLoc}`]: newNickname } }
+    );
+    res.json({
+      status: "success",
+      message: "Nickname updated successfully",
+      data: updatedNicknameInfo,
+    });
+  } catch (error) {
+    console.log(new Date(), error);
+    res.json({
+      status: 500,
+      message: error,
+    });
+  }
+});
+
+//@route GET /users/:userId/:conversationId
+//@desc get nickname and avatar for specific user in specific conversation.
+exports.getNicknameAvatar = asyncHandler(async (req, res) => {
+  const userId = req.params.userId;
+  const conversationId = req.params.conversationId;
+  let nickname = "";
+  let avatar = "";
+
+  // validate userID
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    res.json({
+      status: 400,
+      message: "User id is not valid",
+    });
+  }
+
+  // validate conversationId
+  if (!mongoose.Types.ObjectId.isValid(conversationId)) {
+    res.json({
+      status: 400,
+      message: "Conversation id is not valid",
+    });
+  }
+
+  const conversation = await Conversation.findOne({
+    _id: conversationId,
+  });
+
+  const currentUserLoc = conversation.users.findIndex(
+    (element) => element == userId
+  );
+
+  if (conversation.nickname[currentUserLoc]) {
+    nickname = conversation.nickname[currentUserLoc];
+  } else {
+    const user = await User.findOne({ _id: userId });
+    nickname = user.email;
+  }
+
+  if (conversation.image[currentUserLoc]) {
+    avatar = conversation.image[currentUserLoc];
+  } else {
+    avatar = "";
+  }
+
+  if (conversation) {
+    res.json({
+      status: "success",
+      message: { nickname: nickname, avatar: avatar },
+    });
+  } else {
+    res.json({
+      status: 404,
+      message: "No conversation found.",
+    });
+  }
+});
+
 // @route GET /users/conversations
 exports.getUserConversations = asyncHandler(async (req, res) => {
   const userId = req.user.id;
@@ -29,8 +139,9 @@ exports.getUserConversations = asyncHandler(async (req, res) => {
 // @route POST /users/conversation/:userId
 // create a conversation with another user
 exports.postUserConversation = asyncHandler(async (req, res) => {
-  const userId = req.user.id;
   const otherUserId = req.params.userId;
+  //   const userId = req.user.id;
+  const { userId } = req.body;
 
   const conversationExists = await Conversation.findOne({
     users: [otherUserId, userId].sort(),
@@ -44,6 +155,7 @@ exports.postUserConversation = asyncHandler(async (req, res) => {
   const theOtherUser = await User.findById(otherUserId);
   const conversation = await Conversation.create({
     users: [userId, otherUserId].sort(),
+    nickname: ["", ""],
     languages: [currentUser.primaryLanguage, theOtherUser.primaryLanguage],
     messages: [],
   });

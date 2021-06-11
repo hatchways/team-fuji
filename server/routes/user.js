@@ -8,6 +8,8 @@ const {
   postGroupChat,
   addUserToGroupChat,
   getUsersInAChat,
+  getNicknameAvatar,
+  updateNickname,
 } = require("../controllers/conversation");
 const {
   getMessages,
@@ -20,6 +22,10 @@ router.route("/").get(protect, searchUsers);
 router.route("/conversations").get(protect, getUserConversations);
 router.route("/conversation/:userId").post(protect, postUserConversation);
 router.route("/messages/:conversationId").get(protect, getLimitedMessages);
+router.route("/:userId/:conversationId").get(protect, getNicknameAvatar);
+router
+  .route("/:userId/:conversationId/updatenickname")
+  .patch(protect, updateNickname);
 router.route("/message/:conversationId").post(protect, postMessage);
 router.route("/groupchat").post(protect, postGroupChat);
 router.route("/groupchat/:groupChatId").post(protect, addUserToGroupChat);

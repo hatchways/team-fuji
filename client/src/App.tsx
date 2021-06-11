@@ -9,6 +9,7 @@ import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import ConversationProfile from './pages/ConversationProfile/ConversationProfile';
 
 import './App.css';
 
@@ -24,6 +25,7 @@ function App(): JSX.Element {
                 <Route exact path="/signup" component={Signup} />
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                 <ProtectedRoute exact path="/profile" component={Profile} />
+                <ProtectedRoute exact path="/conversationprofile" component={ConversationProfile} />
                 <Route path="*">
                   <Redirect to="/login" />
                 </Route>
