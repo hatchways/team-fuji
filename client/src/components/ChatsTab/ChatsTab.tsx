@@ -4,7 +4,6 @@ import useStyles from './useStyles';
 import { Conversation } from '../../interface/Conversation';
 import { useAuth } from '../../context/useAuthContext';
 import { useState } from 'react';
-
 interface Props {
   conversations: Conversation[];
   handleConversationId: (conversationId: string) => void;
@@ -24,12 +23,12 @@ const ChatsTab = ({ conversations, handleConversationId }: Props): JSX.Element =
       <List>
         {conversations.map((conversation, index) => {
           const labelId = `conversation-${index}`;
-          const previewSender =
-            conversation.messages?.length && conversation.messages[0].sender === loggedInUser?._id
-              ? 'You'
-              : conversation.users.length === 2
-              ? ''
-              : conversation.users.find((user) => user._id === conversation.messages[0].sender)?.username;
+          const previewSender = '';
+          // conversation.messages?.length && conversation.messages[0].sender === loggedInUser?._id
+          //   ? 'You'
+          //   : conversation.users.length === 2
+          //   ? ''
+          //   : conversation.users.find((user) => user._id === conversation.messages[0].sender)?.username;
           const previewMessage = conversation.messages?.length && conversation.messages[0].message;
           const chatName =
             conversation.users.length === 2

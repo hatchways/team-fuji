@@ -19,8 +19,10 @@ export default function Dashboard(): JSX.Element {
   // conversationId is set to the first person in Contacts
   const [conversationId, setConversationId] = useState<string>('60be998d3771835bffaae014');
 
-  const handleConversationId = (conversationId: string) => {
-    setConversationId(conversationId);
+  const handleConversationId = (newConversationId: string) => {
+    socket?.emit('leaveConvo', conversationId);
+    setConversationId(newConversationId);
+    socket?.emit('joinConvo', newConversationId);
   };
 
   useEffect(() => {

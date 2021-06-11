@@ -34,12 +34,14 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
   }, [conversationId]);
 
   useEffect(() => {
-    socket?.on('chat', (args) => {
-      if (args.sender === currentUserId) {
+    socket?.on(`chat`, (args) => {
+      if (args.sentMessage.sender === currentUserId) {
+        return;
+      } else if (args.conversationId !== conversationId) {
         return;
       }
       const textMessage: Message = {
-        ...args,
+        ...args.sentMessage,
       };
       setMessages(textMessage);
     });
@@ -61,7 +63,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
       createdAt: new Date(Date.now()),
     };
     setMessages(sentMessage);
-    socket?.emit('chat', sentMessage);
+    socket?.emit('chat', { sentMessage, conversationId });
   };
 
   const handleSwitch = () => {

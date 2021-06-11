@@ -33,8 +33,15 @@ io.on("connect_error", (err) => {
 });
 
 io.on("connection", (socket) => {
+  socket.on("joinConvo", (args) => {
+    socket.join(args);
+  });
+  socket.on("leaveConvo", (args) => {
+    socket.leave(args);
+  });
   socket.on("chat", (args) => {
-    socket.broadcast.emit("chat", args);
+    console.log(args.conversationId);
+    io.to(args.conversationId).emit(`chat`, args);
   });
 });
 
