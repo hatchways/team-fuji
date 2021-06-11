@@ -40,9 +40,9 @@ const ChatsTab = ({ conversations, handleConversationId }: Props): JSX.Element =
               button
               onClick={() => {
                 handleConversationId(conversation._id);
-                handleListItemClick(index + 1);
+                handleListItemClick(index);
               }}
-              selected={selectedIndex === index + 1}
+              selected={selectedIndex === index}
             >
               <ListItemAvatar>
                 {(conversation.users.length === 2 && (
