@@ -94,9 +94,12 @@ const ChatsTab = ({
                     {(conversation.users.length === 2 && (
                       <Avatar
                         alt={`Avatar of 1`}
-                        src={`https://robohash.org/${
-                          conversation.users.find((user) => user._id !== loggedInUser?._id)?.profileImageUrl
-                        }`}
+                        src={
+                          conversation.users.find((user) => user._id !== loggedInUser?._id)?.profileImageUrl ||
+                          `https://robohash.org/${
+                            conversation.users.find((user) => user._id !== loggedInUser?._id)?.profileImageUrl
+                          }`
+                        }
                       />
                     )) || (
                       <AvatarGroup classes={{ root: classes.AvatarGroup }} max={4}>

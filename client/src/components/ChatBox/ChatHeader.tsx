@@ -9,9 +9,10 @@ import Avatar from 'react-avatar';
 interface Props {
   handleSwitch: () => void;
   users: User[];
+  currentUser: User;
 }
 
-export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element {
+export default function ChatHeader({ handleSwitch, users, currentUser }: Props): JSX.Element {
   const classes = useStyles();
   const [state, setState] = useState({
     checkedSwitch: false,
@@ -37,13 +38,18 @@ export default function ChatHeader({ handleSwitch, users }: Props): JSX.Element 
       <Grid item>
         <Grid container direction="row" alignItems="center">
           <Grid item>
-            {users.map((user) => (
+            {users.concat(currentUser).map((user) => (
               <Avatar key={user._id} size="30" round={true} src={languageFlagdic[user.primaryLanguage]} />
             ))}
           </Grid>
           <Grid item>
             <Typography noWrap className={classes.chattingUserName}>
-              {users.map((user) => user.username).join(', ')}
+              {users.length === 1
+                ? users[0].username
+                : users
+                    .concat(currentUser)
+                    .map((user) => user.username)
+                    .join(', ')}
             </Typography>
           </Grid>
           <Grid className={classes.separatorStatePointleft} />

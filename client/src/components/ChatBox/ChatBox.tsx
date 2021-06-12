@@ -72,7 +72,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
     <Grid className={classes.chatbox}>
       {!!conversationId.length && (
         <Box className={classes.chatheader}>
-          <ChatHeader handleSwitch={handleSwitch} users={users} />
+          <ChatHeader handleSwitch={handleSwitch} users={users} currentUser={loggedInUser} />
         </Box>
       )}
       {!!conversationId.length && (
