@@ -7,6 +7,7 @@ import { Message } from '../../interface/Conversation';
 import { User } from '../../interface/User';
 import { fetchMessages } from '../../helpers/APICalls/Conversation';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 function getTime(timeStamp: number): string {
   const date = new Date(timeStamp);
@@ -58,7 +59,7 @@ const ChatBoard = ({
   const [hideUndoButton, setHideUndoButton] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const limit = 12;
+  const limit = 15;
 
   const names: Names = otherUsers.reduce<Names>((map, user) => {
     map[user._id] = user.username;
@@ -88,6 +89,9 @@ const ChatBoard = ({
       const response = await fetchMessages({ conversationId, offset, limit });
       setOffset(offset + limit);
       if (response && response.messages?.length) {
+        if (response.messages.length < limit) {
+          setHasMore(false);
+        }
         const messages = response.messages.reverse();
         setOriginal(messages);
         setTranslation(
@@ -155,8 +159,10 @@ const ChatBoard = ({
   const fetchMoreData = async () => {
     const response = await fetchMessages({ conversationId, offset, limit });
     const messages = response.messages?.reverse();
-    setOffset(offset + limit);
     if (messages?.length) {
+      if (messages.length < limit) {
+        setHasMore(false);
+      }
       setOriginal([...messages.reverse(), ...original]);
       setTranslation([
         ...messages.map((messageItem) => ({
@@ -167,9 +173,9 @@ const ChatBoard = ({
         })),
         ...translation,
       ]);
+      setOffset(offset + limit);
     } else {
       setHasMore(false);
-      return;
     }
   };
 
@@ -180,96 +186,45 @@ const ChatBoard = ({
   };
 
   return (
-    <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
-      <InfiniteScroll
-        className={classes.scroller}
-        height={'75vh'}
-        style={{ display: 'flex', flexDirection: 'column-reverse' }}
-        dataLength={messages.length}
-        next={fetchMoreData}
-        inverse={true}
-        hasMore={hasMore}
-        loader={<Typography className={classes.loadingBar}> loading... </Typography>}
-        scrollableTarget="scrollableDiv"
-        endMessage={<Typography className={classes.endMessages}>No more messages</Typography>}
-      >
-        <Grid container ref={chatContainerRef} className={classes.board} direction="column">
-          {sortedMessages.map((message) => {
-            //  current chatting user message
-            if (message.sender !== myUserId) {
-              const sendName = names[message.sender];
-              return (
-                <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
-                  <Grid item>
-                    <img src={theOtherUser.image} />
-                  </Grid>
-                  <Grid item>
-                    <Grid container direction="column">
+    <TransitionGroup component={null}>
+      <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
+        <InfiniteScroll
+          className={classes.scroller}
+          height={'75vh'}
+          style={{ display: 'flex', flexDirection: 'column-reverse' }}
+          dataLength={messages.length}
+          next={fetchMoreData}
+          inverse={true}
+          hasMore={hasMore}
+          loader={
+            !messages.length ? (
+              <Typography className={classes.loadingBar}> No messages </Typography>
+            ) : (
+              <Typography className={classes.loadingBar}> loading... </Typography>
+            )
+          }
+          scrollableTarget="scrollableDiv"
+          endMessage={<Typography className={classes.endMessages}>No more messages</Typography>}
+        >
+          <Grid container ref={chatContainerRef} className={classes.board} direction="column">
+            {sortedMessages.map((message) => {
+              //  current chatting user message
+              if (message.sender !== myUserId) {
+                const sendName = names[message.sender];
+                return (
+                  <CSSTransition key={message._id} timeout={500}>
+                    <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
                       <Grid item>
-                        <label className={classes.nameTimeLabel}>
-                          {sendName + '  ' + getTime(message.createdAt.valueOf()).toString()}
-                        </label>
+                        <img src={theOtherUser.image} />
                       </Grid>
-                      <Grid className={classes.timeMessageSeparator} />
                       <Grid item>
-                        {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
-                          <iframe
-                            id="video"
-                            width="230"
-                            src={
-                              'https://www.youtube.com/embed/' +
-                              isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split('=')[1]
-                            }
-                            frameBorder="0"
-                            allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                          />
-                        )}
-                        <Grid item container direction="row">
+                        <Grid container direction="column">
                           <Grid item>
-                            {message.imageUrl && message.imageUrl.length !== 0 ? (
-                              <Grid container direction="column">
-                                {message.imageUrl.map((image, idx) => {
-                                  return (
-                                    <img
-                                      key={idx}
-                                      className={classes.chattingUserImageMessage}
-                                      src={image}
-                                      alt="Image Message"
-                                    />
-                                  );
-                                })}
-                              </Grid>
-                            ) : null}
-                            {message.message ? (
-                              <label className={classes.chattingUserMessage}>{message.message}</label>
-                            ) : null}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              );
-            }
-
-            // current user message
-            if (message.sender == myUserId) {
-              return (
-                <Grid item>
-                  <Grid className={classes.messageSeparator} />
-                  <Grid container key={message.createdAt.valueOf()} justify="flex-end" direction="row">
-                    <Grid item>
-                      <Grid container direction="column">
-                        <Grid item>
-                          <Grid container justify="flex-end">
                             <label className={classes.nameTimeLabel}>
-                              {getTime(message.createdAt.valueOf()).toString()}
+                              {sendName + '  ' + getTime(message.createdAt.valueOf()).toString()}
                             </label>
                           </Grid>
-                        </Grid>
-                        <Grid className={classes.timeMessageSeparator} />
-                        <Grid item>
+                          <Grid className={classes.timeMessageSeparator} />
                           <Grid item>
                             {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
                               <iframe
@@ -294,7 +249,7 @@ const ChatBoard = ({
                                       return (
                                         <img
                                           key={idx}
-                                          className={classes.currentUserImageMessage}
+                                          className={classes.chattingUserImageMessage}
                                           src={image}
                                           alt="Image Message"
                                         />
@@ -303,34 +258,99 @@ const ChatBoard = ({
                                   </Grid>
                                 ) : null}
                                 {message.message ? (
-                                  <label className={classes.currentUserMessage}>{message.message}</label>
+                                  <label className={classes.chattingUserMessage}>{message.message}</label>
                                 ) : null}
-                              </Grid>
-                              <Grid item>
-                                {!hideUndoButton && message._id === newMessage?._id && (
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => onClick(message)}
-                                    style={{ marginTop: '15px', marginLeft: '10px', height: '80%' }}
-                                  >
-                                    <UndoIcon />
-                                  </IconButton>
-                                )}
                               </Grid>
                             </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </Grid>
-              );
-            }
-          })}
-          <div ref={messagesEndRef} />
-        </Grid>
-      </InfiniteScroll>
-    </Grid>
+                  </CSSTransition>
+                );
+              }
+
+              // current user message
+              if (message.sender == myUserId) {
+                return (
+                  <CSSTransition key={message._id} timeout={500}>
+                    <Grid item>
+                      <Grid className={classes.messageSeparator} />
+                      <Grid container key={message.createdAt.valueOf()} justify="flex-end" direction="row">
+                        <Grid item>
+                          <Grid container direction="column">
+                            <Grid item>
+                              <Grid container justify="flex-end">
+                                <label className={classes.nameTimeLabel}>
+                                  {getTime(message.createdAt.valueOf()).toString()}
+                                </label>
+                              </Grid>
+                            </Grid>
+                            <Grid className={classes.timeMessageSeparator} />
+                            <Grid item>
+                              <Grid item>
+                                {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
+                                  <iframe
+                                    id="video"
+                                    width="230"
+                                    src={
+                                      'https://www.youtube.com/embed/' +
+                                      isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split(
+                                        '=',
+                                      )[1]
+                                    }
+                                    frameBorder="0"
+                                    allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                  />
+                                )}
+                                <Grid item container direction="row">
+                                  <Grid item>
+                                    {message.imageUrl && message.imageUrl.length !== 0 ? (
+                                      <Grid container direction="column">
+                                        {message.imageUrl.map((image, idx) => {
+                                          return (
+                                            <img
+                                              key={idx}
+                                              className={classes.currentUserImageMessage}
+                                              src={image}
+                                              alt="Image Message"
+                                            />
+                                          );
+                                        })}
+                                      </Grid>
+                                    ) : null}
+                                    {message.message ? (
+                                      <label className={classes.currentUserMessage}>{message.message}</label>
+                                    ) : null}
+                                  </Grid>
+                                  <Grid item>
+                                    {!hideUndoButton && message._id === newMessage?._id && (
+                                      <IconButton
+                                        size="small"
+                                        onClick={() => onClick(message)}
+                                        style={{ marginTop: '15px', marginLeft: '10px', height: '80%' }}
+                                      >
+                                        <UndoIcon />
+                                      </IconButton>
+                                    )}
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </CSSTransition>
+                );
+              }
+            })}
+            <div ref={messagesEndRef} />
+          </Grid>
+        </InfiniteScroll>
+      </Grid>
+    </TransitionGroup>
   );
 };
 

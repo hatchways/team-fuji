@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
     width: '65vw',
   },
   chattingUserName: {
-    width: '20vw',
-    fontSize: 10,
+    width: '30vw',
+    fontSize: 20,
     fontWeight: 700,
     paddingLeft: 10,
   },

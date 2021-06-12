@@ -32,7 +32,7 @@ export default function ContactsTab({ contacts, fetchMoreData, hasMore }: Props)
       <Grid className={classes.searchBottomSeparator}></Grid>
       <Grid className={classes.inviteButtonBlock}>
         <Button onClick={handleClickOpen} className={classes.inviteButton} color="primary">
-          + invite friends
+          + Invite friends
         </Button>
         <ReferFriend open={open} handleClose={handleClose} />
       </Grid>

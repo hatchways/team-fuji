@@ -5,6 +5,7 @@ import {
   GetUsersInChatApiData,
   DeleteMessageApiData,
   FetchConversationsApiData,
+  CreateConversationApiData,
 } from '../../interface/Conversation';
 
 interface fectchMessagesProps {
@@ -26,6 +27,15 @@ interface getUsersInChatProps {
 interface deleteMessageProps {
   conversationId: string;
   messageId: string;
+}
+
+interface getConversationsProps {
+  offset: number;
+  limit: number;
+}
+
+interface createConversationProps {
+  userIds: string[];
 }
 
 export async function fetchMessages({
@@ -87,14 +97,28 @@ export async function deleteMessage({ conversationId, messageId }: deleteMessage
     }));
 }
 
-export async function getConversations(): Promise<FetchConversationsApiData> {
+export async function getConversations({ offset, limit }: getConversationsProps): Promise<FetchConversationsApiData> {
   const fetchOptions: FetchOptions = {
     method: 'GET',
     credentials: 'include',
   };
-  return await fetch(`/users/conversations`, fetchOptions)
+  return await fetch(`/users/conversations?offset=${offset}&limit=${limit}`, fetchOptions)
     .then((res) => res.json())
     .catch((error) => ({
       error,
     }));
+}
+
+export async function createConversation({ userIds }: createConversationProps): Promise<CreateConversationApiData> {
+  const fetchOptions: FetchOptions = {
+    method: 'POST',
+    body: JSON.stringify({ users: userIds }),
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+  };
+  return await fetch(`/users/groupchat`, fetchOptions)
+    .then((res) => res.json())
+    .catch((error) => {
+      error;
+    });
 }
