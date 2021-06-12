@@ -19,8 +19,8 @@ export default function Dashboard(): JSX.Element {
   // conversationId is set to the first person in Contacts
   const [conversationId, setConversationId] = useState<string>('');
 
-  const handleConversationId = (conversationId: string) => {
-    setConversationId(conversationId);
+  const handleConversationId = (newConversationId: string) => {
+    setConversationId(newConversationId);
   };
 
   useEffect(() => {

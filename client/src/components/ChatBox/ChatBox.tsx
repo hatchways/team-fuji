@@ -3,7 +3,7 @@ import ChatBoard from './ChatBoard';
 import InputBox from './InputBox';
 import useStyles from './useStyles';
 import { Box, Grid } from '@material-ui/core';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { User } from '../../interface/User';
 import { Socket } from 'socket.io-client';
 import { Message } from '../../interface/Conversation';
@@ -19,10 +19,9 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
   const currentUserId = loggedInUser._id;
   const [translate, setTranslate] = useState<boolean>(true);
   const [message, setMessages] = useState<Message | null>(null);
-
   const [users, setUsers] = useState<User[]>([]);
+  const conversationRef = useRef<string>('');
   const [messageUndo, SetMessageUndo] = useState<Message | null>(null);
-
   useEffect(() => {
     async function getUsers() {
       const response = await getUsersInChat({ conversationId });
@@ -30,16 +29,22 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
         setUsers(response.users);
       }
     }
+    conversationRef.current = conversationId;
     getUsers();
   }, [conversationId]);
 
   useEffect(() => {
-    socket?.on('chat', (args) => {
-      if (args.sender === currentUserId) {
+    socket?.on(`chat`, (args) => {
+      if (args.sentMessage.sender === currentUserId) {
         return;
       }
+
+      if (args.conversationId !== conversationRef.current) {
+        return;
+      }
+
       const textMessage: Message = {
-        ...args,
+        ...args.sentMessage,
       };
       setMessages(textMessage);
     });
@@ -61,7 +66,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
       createdAt: new Date(Date.now()),
     };
     setMessages(sentMessage);
-    socket?.emit('chat', sentMessage);
+    socket?.emit('chat', { sentMessage: sentMessage, conversationId: conversationId });
   };
 
   const handleSwitch = () => {
