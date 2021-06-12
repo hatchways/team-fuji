@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Avatar, Grid, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import UndoIcon from '@material-ui/icons/Undo';
 import useStyles from './useStyles';
@@ -40,6 +40,10 @@ interface Names {
   [key: string]: string;
 }
 
+interface ImageUrls {
+  [key: string]: string | undefined;
+}
+
 const ChatBoard = ({
   translate,
   newMessage,
@@ -63,6 +67,11 @@ const ChatBoard = ({
 
   const names: Names = otherUsers.reduce<Names>((map, user) => {
     map[user._id] = user.username;
+    return map;
+  }, {});
+
+  const imageUrls: ImageUrls = otherUsers.reduce<ImageUrls>((map, user) => {
+    map[user._id] = user.profileImageUrl;
     return map;
   }, {});
 
@@ -211,11 +220,12 @@ const ChatBoard = ({
               //  current chatting user message
               if (message.sender !== myUserId) {
                 const sendName = names[message.sender];
+                const imageUrl = imageUrls[message.sender];
                 return (
                   <CSSTransition key={message._id} timeout={500}>
                     <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
                       <Grid item>
-                        <img src={theOtherUser.image} />
+                        <Avatar src={imageUrl || `https://robohash.org/${message.sender + 1}`} />
                       </Grid>
                       <Grid item>
                         <Grid container direction="column">

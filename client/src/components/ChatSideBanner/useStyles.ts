@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     height: '3vh',
     fontWeight: 700,
     paddingLeft: '1rem',
+    paddingTop: '1rem',
     fontSize: 16,
   },
   chatTitle: {
