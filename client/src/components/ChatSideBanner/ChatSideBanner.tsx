@@ -1,11 +1,10 @@
-import { ChangeEvent, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
 import { User } from '../../interface/User';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
-import Search from '../Search/Search';
+
 import AuthMenu from '../AuthMenu/AuthMenu';
 import ChatsContactsInvitationTabs from '../ChatsContactsInvitationTabs/ChatsContactsInvitationTabs';
 
@@ -16,35 +15,29 @@ interface Props {
 }
 
 const ChatSideBanner = ({ loggedInUser, handleConversationId }: Props): JSX.Element => {
-  const [search, setSearch] = useState<string>('test');
-  const [newChatUser, setNewChatUser] = useState<User | null>(null);
   const classes = useStyles();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>, newInputValue: string) => {
-    setSearch(newInputValue);
-    if (newChatUser) {
-      setNewChatUser(null);
-    }
-  };
-
   return (
-    <Grid className={classes.chatSideBanner}>
-      <Box className={classes.userPanel}>
-        <AvatarDisplay loggedIn user={loggedInUser} />
-        <Typography className={classes.userText} variant="h5">
-          {loggedInUser.username}
-        </Typography>
-        <AuthMenu />
-      </Box>
-      <Box>
-        <Typography className={classes.chatTitle} variant="h5">
-          Users
-        </Typography>
-        <Search search={search} handleChange={handleChange} />
-      </Box>
-      <Box>
-        <ChatsContactsInvitationTabs handleConversationId={handleConversationId} />
-      </Box>
+    <Grid
+      item
+      container
+      direction="column"
+      style={{ padding: '0 30px 0', backgroundColor: '#F4F7FB', height: '100vh' }}
+    >
+      <Grid item container direction="row" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+        <Grid item container className={classes.profile} direction="row">
+          <AvatarDisplay loggedIn user={loggedInUser} />
+          <Typography className={classes.userName}>
+            {/* {loggedInUser.username} we need to add username from start up here */}
+            Thomas
+          </Typography>
+        </Grid>
+        <Box style={{ paddingTop: '30px' }}>
+          <AuthMenu />
+        </Box>
+      </Grid>
+
+      <ChatsContactsInvitationTabs handleConversationId={handleConversationId} />
     </Grid>
   );
 };

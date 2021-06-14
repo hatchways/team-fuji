@@ -1,6 +1,6 @@
-import { List, ListItem, ListItemText, ListItemAvatar, Avatar, Grid, Button, Typography } from '@material-ui/core';
+import { List, ListItemText, ListItemAvatar, Avatar, Grid, Button, Typography } from '@material-ui/core';
 import { AvatarGroup } from '@material-ui/lab';
-import useStyles from './useStyles';
+import { useStyles, ListItem } from './useStyles';
 import { Conversation } from '../../interface/Conversation';
 import { useAuth } from '../../context/useAuthContext';
 import { useState } from 'react';
@@ -108,7 +108,6 @@ const ChatsTab = ({
                     )}
                   </ListItemAvatar>
                   <ListItemText
-                    className={classes.conversationPreview}
                     id={labelId}
                     primary={chatName}
                     primaryTypographyProps={{ noWrap: true }}

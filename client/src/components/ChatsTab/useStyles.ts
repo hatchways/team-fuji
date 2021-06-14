@@ -1,13 +1,13 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme: Theme) => ({
+import { makeStyles, Theme, withStyles } from '@material-ui/core/styles';
+import MuiListItem from '@material-ui/core/ListItem';
+export const useStyles = makeStyles((theme: Theme) => ({
   root: {
     backgroundColor: '#f5f7fb',
   },
   addChatButton: {
     fontSize: 14,
   },
-  conversationPreview: {},
+
   AvatarGroup: {
     position: 'relative',
     right: 15,
@@ -20,7 +20,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100%',
   },
   item: {
-    height: 80,
+    height: '80px',
+    paddingTop: 12,
+    borderRadius: 5,
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.08)',
+    marginBottom: '10px',
+    paddingBottom: '10px',
   },
   scroller: {
     '&:hover': {
@@ -43,4 +48,29 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default useStyles;
+export const ListItem = withStyles({
+  root: {
+    '&$selected': {
+      backgroundColor: '#FFFFFF',
+      color: 'black',
+      '& .MuiListItemIcon-root': {
+        color: 'white',
+      },
+    },
+    '&$selected:hover': {
+      backgroundColor: 'white',
+      color: 'black',
+      '& .MuiListItemIcon-root': {
+        color: 'white',
+      },
+    },
+    '&:hover': {
+      backgroundColor: '#dee0e3',
+      color: 'white',
+      '& .MuiListItemIcon-root': {
+        color: 'white',
+      },
+    },
+  },
+  selected: {},
+})(MuiListItem);

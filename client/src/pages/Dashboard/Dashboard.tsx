@@ -35,12 +35,12 @@ export default function Dashboard(): JSX.Element {
   }
 
   return (
-    <Grid container component="main" className={`${classes.root} ${classes.dashboard}`}>
+    <Grid container>
       <CssBaseline />
-      <Grid item className={classes.drawerWrapper}>
+      <Grid item xs={12} md={4} lg={3}>
         <ChatSideBanner loggedInUser={loggedInUser} handleConversationId={handleConversationId} />
       </Grid>
-      <Grid item className={classes.chatboxWrapper}>
+      <Grid item xs={12} md={8} lg={9}>
         <ChatBox loggedInUser={loggedInUser} socket={socket} conversationId={conversationId} />
       </Grid>
     </Grid>
