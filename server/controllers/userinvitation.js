@@ -159,9 +159,7 @@ exports.getContacts = asyncHandler(async (req, res, next) => {
           approved: true,
         },
       ],
-    })
-      .limit(limit)
-      .skip(offset);
+    });
 
     let contacts = [];
     let ids = [];
@@ -176,6 +174,7 @@ exports.getContacts = asyncHandler(async (req, res, next) => {
               username: user.username,
               primaryLanguage: user.primaryLanguage,
               _id: user._id,
+              profileImageUrl: user.profileImageUrl,
             });
           }
         } else {
@@ -187,13 +186,15 @@ exports.getContacts = asyncHandler(async (req, res, next) => {
               username: user.username,
               primaryLanguage: user.primaryLanguage,
               _id: user._id,
+              profileImageUrl: user.profileImageUrl,
             });
           }
         }
       })
     );
+
     res.status(200).json({
-      contacts,
+      contacts: contacts.slice(offset, offset + limit),
     });
   } catch (error) {
     console.log(new Date(), error);

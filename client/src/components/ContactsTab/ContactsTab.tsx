@@ -53,7 +53,10 @@ export default function ContactsTab({ contacts, fetchMoreData, hasMore }: Props)
               return (
                 <ListItem className={classes.item} key={index} button>
                   <ListItemAvatar>
-                    <Avatar alt={`Avatar of ${index + 1}`} src={`/static/images/avatar/${index + 1}.jpg`} />
+                    <Avatar
+                      alt={`Avatar of ${index + 1}`}
+                      src={contact.profileImageUrl || `https://robohash.org/${contact._id}`}
+                    />
                   </ListItemAvatar>
                   <ListItemText className={classes.userName} id={labelId} primary={contact.username} />
                 </ListItem>

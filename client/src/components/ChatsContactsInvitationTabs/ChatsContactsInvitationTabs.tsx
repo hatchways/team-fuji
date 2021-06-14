@@ -63,12 +63,18 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
     }
     async function loadContacts() {
       const response = await getContacts({ offset: contactsOffset, limit });
+      if (response.contacts?.length < limit) {
+        setHasMoreContacts(false);
+      }
       setContacts(response.contacts);
       setContactsOffset(contactsOffset + limit);
     }
 
     async function loadConversations() {
       const response = await getConversations({ offset: conversationOffset, limit });
+      if (response.conversations?.length < limit) {
+        setHasMoreContacts(false);
+      }
       setConversations(response.conversations);
       setConversationOffset(conversationOffset + limit);
     }

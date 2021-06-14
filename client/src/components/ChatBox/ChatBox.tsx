@@ -75,23 +75,29 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
 
   return (
     <Grid className={classes.chatbox}>
-      <Box className={classes.chatheader}>
-        <ChatHeader handleSwitch={handleSwitch} users={users} />
-      </Box>
-      <Box className={classes.chatboard}>
-        <ChatBoard
-          key={conversationId}
-          translate={translate}
-          conversationId={conversationId}
-          otherUsers={users}
-          currentUser={loggedInUser}
-          newMessage={message}
-          undoSend={undoSend}
-        />
-      </Box>
-      <Box className={classes.inputbox}>
-        <InputBox handleMessage={handleMessage} messageUndo={messageUndo ? messageUndo : undefined} />
-      </Box>
+      {!!conversationId.length && (
+        <Box className={classes.chatheader}>
+          <ChatHeader handleSwitch={handleSwitch} users={users} currentUser={loggedInUser} />
+        </Box>
+      )}
+      {!!conversationId.length && (
+        <Box className={classes.chatboard}>
+          <ChatBoard
+            key={conversationId}
+            translate={translate}
+            conversationId={conversationId}
+            otherUsers={users}
+            currentUser={loggedInUser}
+            newMessage={message}
+            undoSend={undoSend}
+          />
+        </Box>
+      )}
+      {!!conversationId.length && (
+        <Box className={classes.inputbox}>
+          <InputBox handleMessage={handleMessage} messageUndo={messageUndo ? messageUndo : undefined} />
+        </Box>
+      )}
     </Grid>
   );
 };
