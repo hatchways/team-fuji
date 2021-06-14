@@ -18,7 +18,7 @@ export default function ChatHeader({ handleSwitch, users, currentUser }: Props):
     checkedSwitch: false,
   });
 
-  //TODO replace with chatting user
+  //TODO replace with chatting users' languages & flags
   const languageFlagdic: { [key: string]: string } = {
     en: 'https://image.flaticon.com/icons/png/128/294/294059.png',
     zh: 'https://image.flaticon.com/icons/png/128/197/197375.png',

@@ -97,7 +97,7 @@ const ChatsTab = ({
                         src={
                           conversation.users.find((user) => user._id !== loggedInUser?._id)?.profileImageUrl ||
                           `https://robohash.org/${
-                            conversation.users.find((user) => user._id !== loggedInUser?._id)?.profileImageUrl
+                            conversation.users.find((user) => user._id !== loggedInUser?._id)?._id
                           }`
                         }
                       />
@@ -108,7 +108,7 @@ const ChatsTab = ({
                             <Avatar
                               key={index}
                               alt={`Avatar of ${index + 1}`}
-                              src={user.profileImageUrl || `https://robohash.org/${user._id + 1}`}
+                              src={user.profileImageUrl || `https://robohash.org/${user._id}`}
                             />
                           );
                         })}
