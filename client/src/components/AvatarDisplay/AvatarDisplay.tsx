@@ -14,7 +14,7 @@ const AvatarDisplay = ({ user }: Props): JSX.Element => {
       alt="Profile Image"
       src={
         !profileImageUrl && !user.profileImageUrl
-          ? `https://robohash.org/${user.email}.png`
+          ? `https://robohash.org/${user._id + 1}`
           : profileImageUrl
           ? profileImageUrl
           : user.profileImageUrl

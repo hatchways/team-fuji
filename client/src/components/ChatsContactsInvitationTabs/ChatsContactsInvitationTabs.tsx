@@ -30,7 +30,7 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
   const [hasMoreConversations, setHasMoreConversations] = useState<boolean>(true);
   const [search, setSearch] = useState<string>('test');
   const [newChatUser, setNewChatUser] = useState<User | null>(null);
-  const limit = 10;
+  const limit = 15;
 
   useEffect(() => {
     async function loadInvitations() {
@@ -39,12 +39,18 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
     }
     async function loadContacts() {
       const response = await getContacts({ offset: contactsOffset, limit });
+      if (response.contacts?.length < limit) {
+        setHasMoreContacts(false);
+      }
       setContacts(response.contacts);
       setContactsOffset(contactsOffset + limit);
     }
 
     async function loadConversations() {
       const response = await getConversations({ offset: conversationOffset, limit });
+      if (response.conversations?.length < limit) {
+        setHasMoreConversations(false);
+      }
       setConversations(response.conversations);
       setConversationOffset(conversationOffset + limit);
     }

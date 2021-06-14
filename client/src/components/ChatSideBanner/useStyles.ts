@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
   userName: {
     fontWeight: 'bold',
+  },
+  userText: {
+    height: '3vh',
+    fontWeight: 700,
+    paddingLeft: '1rem',
+    paddingTop: '1rem',
     fontSize: 16,
   },
 

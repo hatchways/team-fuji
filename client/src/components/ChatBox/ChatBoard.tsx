@@ -156,12 +156,6 @@ const ChatBoard = ({
     }
   }, [translate, original, translation]);
 
-  const theOtherUser = {
-    image: '/static/images/avatar/currentUser.jpg',
-    name: 'Thomas',
-    state: 'online',
-  };
-
   const sortedMessages = messages.sort((n1, n2) => n1.createdAt.valueOf() - n2.createdAt.valueOf());
 
   // Fetch more previous messages and append it to current message list
@@ -225,7 +219,7 @@ const ChatBoard = ({
                   <CSSTransition key={message._id} timeout={500}>
                     <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
                       <Grid item>
-                        <Avatar src={imageUrl || `https://robohash.org/${message.sender + 1}`} />
+                        <Avatar src={imageUrl || `https://robohash.org/${message.sender}`} />
                       </Grid>
                       <Grid item>
                         <Grid container direction="column">

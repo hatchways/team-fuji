@@ -92,7 +92,15 @@ const ChatsTab = ({
                 >
                   <ListItemAvatar>
                     {(conversation.users.length === 2 && (
-                      <Avatar alt={`Avatar of 1`} src={`/static/images/avatar/1.jpg`} />
+                      <Avatar
+                        alt={`Avatar of 1`}
+                        src={
+                          conversation.users.find((user) => user._id !== loggedInUser?._id)?.profileImageUrl ||
+                          `https://robohash.org/${
+                            conversation.users.find((user) => user._id !== loggedInUser?._id)?._id
+                          }`
+                        }
+                      />
                     )) || (
                       <AvatarGroup classes={{ root: classes.AvatarGroup }} max={4}>
                         {conversation.users.map((user, index) => {
@@ -100,7 +108,7 @@ const ChatsTab = ({
                             <Avatar
                               key={index}
                               alt={`Avatar of ${index + 1}`}
-                              src={`/static/images/avatar/${index + 1}.jpg`}
+                              src={user.profileImageUrl || `https://robohash.org/${user._id}`}
                             />
                           );
                         })}
