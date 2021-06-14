@@ -1,10 +1,20 @@
-## Project Name
+## Messenger
 
-This is a little description about your project.
+A Messenger web app that allows users who speak completely different languages to communicate with each other in their native tongue with on-the-spot translation!
 
-**Tech Stack:** MongoDB, Express.js, React.js, Node.js, Typescript
 
-**Contributors**: [Hatchways](https://github.com/hatchways) (replace)
+## Contributors
+
+[Ted Gu](https://github.com/TedGu), [Stefan Leoussis](https://github.com/stefanleoussis), and [Lei Weing](https://github.com/leiwang758) 
+
+
+## Tech Stack
+Our Stack:
+- MongoDB
+- Express.js
+- React.js
+- Node.js
+- Typescript
 
 ---
 
@@ -31,12 +41,22 @@ This is a little description about your project.
 
 ---
 
-### Demo
+## Demo
 
-1. Registration. Users will be able to create a new account using their email and password
+### Choose Your Path: 
 
-![Signup Demo](demo/images/signup.png)
+Quickly Register with the built in Demo feature (Top right corner):
+![Screen Shot 2021-06-13 at 11 12 56 PM](https://user-images.githubusercontent.com/58789967/121834476-e55d6600-cc9c-11eb-8fc6-a0b046559732.png)
 
-2. Dashboard. Here is a description about what a user can expect to see
 
-![Dashboard](demo/images/dashboard.png)
+
+    
+
+Or create a new account using an email and password:
+![Screen Shot 2021-06-13 at 11 12 36 PM](https://user-images.githubusercontent.com/58789967/121834537-0cb43300-cc9d-11eb-9725-64d14cd40c2e.png)
+
+
+
+<!-- 2. Dashboard. Here is a description about what a user can expect to see
+
+![Dashboard](demo/images/dashboard.png) -->
