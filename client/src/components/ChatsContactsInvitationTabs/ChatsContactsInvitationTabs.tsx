@@ -54,7 +54,7 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
   const [conversationOffset, setConversationOffset] = useState<number>(0);
   const [hasMoreContacts, setHasMoreContacts] = useState<boolean>(true);
   const [hasMoreConversations, setHasMoreConversations] = useState<boolean>(true);
-  const limit = 10;
+  const limit = 15;
 
   useEffect(() => {
     async function loadInvitations() {
@@ -73,7 +73,7 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
     async function loadConversations() {
       const response = await getConversations({ offset: conversationOffset, limit });
       if (response.conversations?.length < limit) {
-        setHasMoreContacts(false);
+        setHasMoreConversations(false);
       }
       setConversations(response.conversations);
       setConversationOffset(conversationOffset + limit);
