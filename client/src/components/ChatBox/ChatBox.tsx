@@ -20,6 +20,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
   const [translate, setTranslate] = useState<boolean>(true);
   const [message, setMessages] = useState<Message | null>(null);
   const [users, setUsers] = useState<User[]>([]);
+  const [nickname, setNickname] = useState<string | null>(null);
   const conversationRef = useRef<string>('');
   const [messageUndo, SetMessageUndo] = useState<Message | null>(null);
   useEffect(() => {
@@ -27,6 +28,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
       const response = await getUsersInChat({ conversationId });
       if (response && response.users?.length) {
         setUsers(response.users);
+        setNickname(response.nickname);
       }
     }
     conversationRef.current = conversationId;
@@ -77,7 +79,13 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
     <Grid className={classes.chatbox}>
       {!!conversationId.length && (
         <Box className={classes.chatheader}>
-          <ChatHeader handleSwitch={handleSwitch} users={users} currentUser={loggedInUser} />
+          <ChatHeader
+            conversationId={conversationId}
+            nickname={nickname}
+            handleSwitch={handleSwitch}
+            users={users}
+            currentUser={loggedInUser}
+          />
         </Box>
       )}
       {!!conversationId.length && (
