@@ -1,7 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = '25vw';
-
 const useStyles = makeStyles((theme) => ({
   chatSideBanner: {
     display: 'flex',
@@ -23,14 +21,6 @@ const useStyles = makeStyles((theme) => ({
   userName: {
     fontWeight: 'bold',
   },
-  userText: {
-    height: '3vh',
-    fontWeight: 700,
-    paddingLeft: '1rem',
-    paddingTop: '1rem',
-    fontSize: 16,
-  },
-
   chatSummaryContainer: { overflowY: 'auto', marginTop: '1rem' },
   newChatBtn: {
     margin: '1rem 0',

@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect } from 'react';
-import Tabs from '../Tabs';
-import Tab from '../Tab';
+import Tabs from '../ChatSideBannerTabs/Tabs';
+import Tab from '../ChatSideBannerTabs/Tab';
 import Box from '@material-ui/core/Box';
 import ContactsTab from '../ContactsTab/ContactsTab';
 import InvitationsTab from '../InvitationsTab/InvitationTab';
