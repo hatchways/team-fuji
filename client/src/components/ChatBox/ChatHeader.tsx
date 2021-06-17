@@ -9,7 +9,6 @@ import Avatar from 'react-avatar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
@@ -67,7 +66,7 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
   };
 
   const handleConfirm = async () => {
-    const res = await fetch(`users/conversation/${conversationId}/?newName=${text.current?.value}`, {
+    await fetch(`users/conversation/${conversationId}/?newName=${text.current?.value}`, {
       method: 'PATCH',
       credentials: 'include',
     });
