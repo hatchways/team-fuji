@@ -78,7 +78,7 @@ const ChatsTab = ({
               const chatName =
                 conversation.users.length === 2
                   ? conversation.users.find((user) => user._id !== loggedInUser?._id)?.username
-                  : conversation.users.map((user) => user.username).join(', ');
+                  : conversation.nickname || conversation.users.map((user) => user.username).join(', ');
               return (
                 <ListItem
                   className={classes.item}

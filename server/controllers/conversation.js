@@ -192,7 +192,7 @@ exports.getUsersInAChat = asyncHandler(async (req, res) => {
     .populate({
       path: "users",
     })
-    .select("users")
+    .select("users nickname")
     .then((result) =>
       res.status(200).json({
         users: result.users.reduce((result, user) => {
@@ -206,7 +206,30 @@ exports.getUsersInAChat = asyncHandler(async (req, res) => {
           }
           return result;
         }, []),
+        nickname: result.nickname,
       })
     )
     .catch((error) => res.status(500).json({ error }));
+});
+
+// @route PATCH /users/conversation/:conversationId?newName
+exports.renameConversation = asyncHandler(async (req, res) => {
+  const conversationId = req.params.conversationId;
+  const newName = req.query.newName;
+  Conversation.updateOne(
+    {
+      _id: conversationId,
+    },
+    {
+      nickname: newName,
+    }
+  )
+    .then((result) => res.status(200).json({ result }))
+    .catch((error) => res.status(500).json({ error }));
+});
+
+// route GET /users/conversation/:conversationId
+exports.getConversation = asyncHandler(async (req, res) => {
+  const conversationId = req.params.conversationId;
+  const conversation = Conversation.findById(conversationId);
 });

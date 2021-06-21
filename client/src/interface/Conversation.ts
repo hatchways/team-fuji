@@ -21,6 +21,7 @@ export interface Conversation {
   users: User[];
   messages: Message[];
   languages: string[];
+  nickname?: string;
   updateAt: Date;
   createAt: Date;
 }
@@ -37,6 +38,7 @@ export interface PostMessageApiData {
 
 export interface GetUsersInChatApiData {
   users: [User];
+  nickname: string | null;
   error?: { message: string };
 }
 
