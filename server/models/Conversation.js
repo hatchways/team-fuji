@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 const conversationSchema = new mongoose.Schema(
   {
     nickname: String,
+    groupChatImage: {
+      type: String,
+    },
     users: [
       {
         type: mongoose.Schema.Types.ObjectId,

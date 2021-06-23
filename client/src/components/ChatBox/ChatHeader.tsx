@@ -5,12 +5,13 @@ import Switch from '@material-ui/core/Switch';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from '../../interface/User';
-import Avatar from 'react-avatar';
+import Avatar from '@material-ui/core/Avatar';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import { AvatarGroup } from '@material-ui/lab';
 
 interface Props {
   handleSwitch: () => void;
@@ -28,7 +29,7 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
   const [open, setOpen] = useState<boolean>(false);
   const text = useRef<HTMLInputElement | null | undefined>();
   const [name, setName] = useState<string | null>();
-
+  // const [users, setUsers] = useState<string[]>([]);
   useEffect(() => {
     setName(
       nickname ||
@@ -66,7 +67,7 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
   };
 
   const handleConfirm = async () => {
-    await fetch(`users/conversation/${conversationId}/?newName=${text.current?.value}`, {
+    await fetch(`users/renameConversation/${conversationId}/?newName=${text.current?.value}`, {
       method: 'PATCH',
       credentials: 'include',
     });
@@ -79,68 +80,66 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
   // };
 
   return (
-    <Grid container className={classes.header} direction="row" justify="space-between">
-      <Grid item>
-        <Grid container direction="row" alignItems="center">
-          <Grid item>
-            {users.concat(currentUser).map((user) => (
-              <Avatar key={user._id} size="30" round={true} src={languageFlagdic[user.primaryLanguage]} />
-            ))}
-          </Grid>
-          <Grid item>
-            <Typography noWrap className={classes.chattingUserName}>
-              {users.length === 1 ? users[0].username : name}
-            </Typography>
-          </Grid>
-          {users.length === 1 || (
-            <Grid item>
-              <IconButton onClick={handleClick}>
-                <EditIcon />
-              </IconButton>
-              <Dialog open={open} onClose={handleClose} className={classes.renameDialog} fullWidth>
-                <DialogTitle id="form-dialog-title">Rename Group Chat</DialogTitle>
-                <DialogContent>
-                  <TextField autoFocus fullWidth defaultValue={name} inputRef={text} />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleCancel} color="primary">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleConfirm} color="primary">
-                    Confirm
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </Grid>
-          )}
-          <Grid className={classes.separatorStatePointleft} />
-          {/* <Grid item>
-            <Box className={classes.statePoint}></Box>
-          </Grid>
-          <Grid item>
-            <Typography className={classes.stateText}>{currentChattingUser.state}</Typography>
-          </Grid> */}
+    <Grid item container className={classes.chatHeaderWrapper} direction="row" justify="space-between">
+      <Grid item container className={classes.chatInfoWrapper}>
+        <Grid item>
+          <Typography noWrap className={classes.chattingUserName}>
+            {users.length === 1 ? users[0].username : name}
+          </Typography>
         </Grid>
+        {users.length === 1 || (
+          <Grid item>
+            <IconButton onClick={handleClick}>
+              <EditIcon />
+            </IconButton>
+            <Dialog open={open} onClose={handleClose} className={classes.renameDialog} fullWidth>
+              <DialogTitle id="form-dialog-title">Rename Group Chat</DialogTitle>
+              <DialogContent>
+                <TextField autoFocus fullWidth defaultValue={name} inputRef={text} />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCancel} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleConfirm} color="primary">
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Grid>
+        )}
       </Grid>
-      <Grid item>
-        <Grid container direction="row" alignItems="center">
-          <Grid item>
-            <Typography className={classes.originalLanText}>Original language </Typography>
-          </Grid>
-          <Grid item>
-            <Switch
-              checked={state.checkedSwitch}
-              onChange={handleChange}
-              color="primary"
-              name="checkedSwitch"
-              inputProps={{ 'aria-label': 'original language switch' }}
-            />
-          </Grid>
-          <Grid item>
-            <Button>
-              <MoreHorizIcon />
-            </Button>
-          </Grid>
+      <Grid item container className={classes.chatConfigWrapper} alignItems="center">
+        <Grid item>
+          <AvatarGroup max={4}>
+            {users.map((user, index) => {
+              return (
+                <Avatar
+                  // style={{ height: '10px', width: '10px' }}
+                  key={index}
+                  alt={`Avatar of ${index + 1}`}
+                  src={user.profileImageUrl || `https://robohash.org/${user._id}`}
+                />
+              );
+            })}
+          </AvatarGroup>
+        </Grid>
+        <Grid item>
+          <Typography className={classes.originalLanText}>Original language </Typography>
+        </Grid>
+        <Grid item>
+          <Switch
+            checked={state.checkedSwitch}
+            onChange={handleChange}
+            color="primary"
+            name="checkedSwitch"
+            inputProps={{ 'aria-label': 'original language switch' }}
+          />
+        </Grid>
+        <Grid item>
+          <Button>
+            <MoreHorizIcon />
+          </Button>
         </Grid>
       </Grid>
     </Grid>

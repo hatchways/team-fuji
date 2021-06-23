@@ -7,12 +7,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   addChatButton: {
     fontSize: 14,
   },
-
-  AvatarGroup: {
-    position: 'relative',
-    right: 15,
-    '& > div': { width: theme.spacing(4), height: theme.spacing(4), fontSize: 9, fontWeight: 900 },
-  },
   scrollerWrapper: {
     overflow: 'auto',
     display: 'flex',

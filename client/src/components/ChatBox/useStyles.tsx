@@ -1,15 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
-  header: {
-    paddingTop: 20,
+  chatHeaderWrapper: {
     width: '100%',
-    height: '100%',
+  },
+  chatInfoWrapper: {
+    width: '300px',
+  },
+  chatConfigWrapper: {
+    width: '400px',
   },
   board: {
-    width: '65vw',
+    width: '100%',
   },
   chattingUserName: {
-    width: '25vw',
     fontSize: 20,
     fontWeight: 700,
     paddingLeft: 10,
@@ -28,13 +31,12 @@ const useStyles = makeStyles((theme) => ({
   chatbox: {
     width: '100%',
     height: '100%',
-    paddingLeft: 10,
   },
   chatheader: {
     height: '10%',
   },
   chatboard: {
-    height: '80vh',
+    height: '80%',
   },
   inputbox: {
     height: '10%',
@@ -154,10 +156,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   scrollerWrapper: {
-    overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    width: '100%',
   },
   endMessages: {
     textAlign: 'center',
