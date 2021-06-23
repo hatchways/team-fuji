@@ -9,11 +9,12 @@ const useStyles = makeStyles((theme) => ({
     width: '65vw',
   },
   chattingUserName: {
-    width: '30vw',
+    width: '25vw',
     fontSize: 20,
     fontWeight: 700,
     paddingLeft: 10,
   },
+  renameDialog: {},
   inputField: {
     width: '65vw',
     height: '100%',
