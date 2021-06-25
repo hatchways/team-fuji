@@ -2,7 +2,7 @@ import ChatHeader from './ChatHeader';
 import ChatBoard from './ChatBoard';
 import InputBox from './InputBox';
 import { useStyles } from './useStyles';
-import { Grid, Paper } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useEffect, useRef, useState } from 'react';
 import { User } from '../../interface/User';
 import { Socket } from 'socket.io-client';

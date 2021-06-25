@@ -61,11 +61,6 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
   }, []);
 
   const classes = useStyles();
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
 
   const handleReject = async (index: number, invitationId: string) => {
     await patchInvitation({ invitationId, action: 'reject' });

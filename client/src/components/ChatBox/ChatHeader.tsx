@@ -39,14 +39,14 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
     );
   }, [conversationId, nickname, users, currentUser]);
   //TODO replace with chatting users' languages & flags
-  const languageFlagdic: { [key: string]: string } = {
-    en: 'https://image.flaticon.com/icons/png/128/294/294059.png',
-    zh: 'https://image.flaticon.com/icons/png/128/197/197375.png',
-    fr: 'https://image.flaticon.com/icons/png/128/3053/3053969.png',
-    ja: 'https://image.flaticon.com/icons/png/128/197/197604.png',
-    ru: 'https://image.flaticon.com/icons/png/128/3909/3909301.png',
-    it: 'https://image.flaticon.com/icons/png/128/3053/3053996.png',
-  };
+  // const languageFlagdic: { [key: string]: string } = {
+  //   en: 'https://image.flaticon.com/icons/png/128/294/294059.png',
+  //   zh: 'https://image.flaticon.com/icons/png/128/197/197375.png',
+  //   fr: 'https://image.flaticon.com/icons/png/128/3053/3053969.png',
+  //   ja: 'https://image.flaticon.com/icons/png/128/197/197604.png',
+  //   ru: 'https://image.flaticon.com/icons/png/128/3909/3909301.png',
+  //   it: 'https://image.flaticon.com/icons/png/128/3053/3053996.png',
+  // };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });

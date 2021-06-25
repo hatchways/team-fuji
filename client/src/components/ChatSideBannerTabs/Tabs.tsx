@@ -1,4 +1,4 @@
-import { Box, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React, { ReactElement, useState } from 'react';
 import TabTitle from './TabTitle';
 
