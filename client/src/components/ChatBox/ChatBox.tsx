@@ -1,8 +1,8 @@
 import ChatHeader from './ChatHeader';
 import ChatBoard from './ChatBoard';
 import InputBox from './InputBox';
-import useStyles from './useStyles';
-import { Box, Grid } from '@material-ui/core';
+import { useStyles } from './useStyles';
+import { Grid } from '@material-ui/core';
 import { useEffect, useRef, useState } from 'react';
 import { User } from '../../interface/User';
 import { Socket } from 'socket.io-client';
@@ -76,35 +76,29 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
   };
 
   return (
-    <Grid className={classes.chatbox}>
+    <Grid item container className={classes.chatbox}>
       {!!conversationId.length && (
-        <Box className={classes.chatheader}>
-          <ChatHeader
-            conversationId={conversationId}
-            nickname={nickname}
-            handleSwitch={handleSwitch}
-            users={users}
-            currentUser={loggedInUser}
-          />
-        </Box>
+        <ChatHeader
+          conversationId={conversationId}
+          nickname={nickname}
+          handleSwitch={handleSwitch}
+          users={users}
+          currentUser={loggedInUser}
+        />
       )}
       {!!conversationId.length && (
-        <Box className={classes.chatboard}>
-          <ChatBoard
-            key={conversationId}
-            translate={translate}
-            conversationId={conversationId}
-            otherUsers={users}
-            currentUser={loggedInUser}
-            newMessage={message}
-            undoSend={undoSend}
-          />
-        </Box>
+        <ChatBoard
+          key={conversationId}
+          translate={translate}
+          conversationId={conversationId}
+          otherUsers={users}
+          currentUser={loggedInUser}
+          newMessage={message}
+          undoSend={undoSend}
+        />
       )}
       {!!conversationId.length && (
-        <Box className={classes.inputbox}>
-          <InputBox handleMessage={handleMessage} messageUndo={messageUndo ? messageUndo : undefined} />
-        </Box>
+        <InputBox handleMessage={handleMessage} messageUndo={messageUndo ? messageUndo : undefined} />
       )}
     </Grid>
   );

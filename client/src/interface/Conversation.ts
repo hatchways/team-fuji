@@ -22,6 +22,7 @@ export interface Conversation {
   messages: Message[];
   languages: string[];
   nickname?: string;
+  groupChatImage?: string;
   updateAt: Date;
   createAt: Date;
 }

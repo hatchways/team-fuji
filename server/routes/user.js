@@ -9,6 +9,7 @@ const {
   addUserToGroupChat,
   getUsersInAChat,
   renameConversation,
+  getConversation,
 } = require("../controllers/conversation");
 const {
   getMessages,
@@ -19,6 +20,7 @@ const {
 
 router.route("/").get(protect, searchUsers);
 router.route("/conversations").get(protect, getUserConversations);
+router.route("/conversation/:conversationId").get(protect, getConversation);
 router.route("/conversation/:userId").post(protect, postUserConversation);
 router.route("/messages/:conversationId").get(protect, getLimitedMessages);
 router.route("/message/:conversationId").post(protect, postMessage);
@@ -31,6 +33,6 @@ router
   .route("/message/:conversationId/:messageId")
   .delete(protect, deleteMessage);
 router
-  .route("/conversation/:conversationId")
+  .route("/renameConversation/:conversationId")
   .patch(protect, renameConversation);
 module.exports = router;

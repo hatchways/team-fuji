@@ -19,6 +19,7 @@ const AvatarDisplay = ({ user }: Props): JSX.Element => {
           ? profileImageUrl
           : user.profileImageUrl
       }
+      style={{ height: '45px', width: '45px' }}
     />
   );
 };

@@ -6,6 +6,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useAuth } from '../../context/useAuthContext';
 import { useHistory } from 'react-router-dom';
 import FormDialog from '../UploadImageForm/FormDialog';
+import { Box } from '@material-ui/core';
 
 const AuthMenu = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -41,7 +42,7 @@ const AuthMenu = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <Box>
       <IconButton aria-label="show auth menu" aria-controls="auth-menu" aria-haspopup="true" onClick={handleClick}>
         <MoreHorizIcon />
       </IconButton>
@@ -67,7 +68,7 @@ const AuthMenu = (): JSX.Element => {
           fetch={fetch}
         />
       </Menu>
-    </div>
+    </Box>
   );
 };
 

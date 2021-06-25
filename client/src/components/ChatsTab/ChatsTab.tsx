@@ -1,6 +1,5 @@
-import { List, ListItem, ListItemText, ListItemAvatar, Avatar, Grid, Button, Typography } from '@material-ui/core';
-import { AvatarGroup } from '@material-ui/lab';
-import useStyles from './useStyles';
+import { List, ListItemText, ListItemAvatar, Avatar, Grid, Button, Typography } from '@material-ui/core';
+import { useStyles, ListItem } from './useStyles';
 import { Conversation } from '../../interface/Conversation';
 import { useAuth } from '../../context/useAuthContext';
 import { useState } from 'react';
@@ -102,21 +101,17 @@ const ChatsTab = ({
                         }
                       />
                     )) || (
-                      <AvatarGroup classes={{ root: classes.AvatarGroup }} max={4}>
-                        {conversation.users.map((user, index) => {
-                          return (
-                            <Avatar
-                              key={index}
-                              alt={`Avatar of ${index + 1}`}
-                              src={user.profileImageUrl || `https://robohash.org/${user._id}`}
-                            />
-                          );
-                        })}
-                      </AvatarGroup>
+                      <Avatar
+                        alt={'Group Chat Avatar'}
+                        src={
+                          conversation.groupChatImage
+                            ? conversation.groupChatImage
+                            : 'https://res.cloudinary.com/dhw0vijxi/image/upload/v1624454716/s911shfx01ehnt5d4hc0.jpg'
+                        }
+                      />
                     )}
                   </ListItemAvatar>
                   <ListItemText
-                    className={classes.conversationPreview}
                     id={labelId}
                     primary={chatName}
                     primaryTypographyProps={{ noWrap: true }}

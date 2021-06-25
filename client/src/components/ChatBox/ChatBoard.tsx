@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Avatar, Grid, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import UndoIcon from '@material-ui/icons/Undo';
-import useStyles from './useStyles';
+import { useStyles } from './useStyles';
 import { Message } from '../../interface/Conversation';
 import { User } from '../../interface/User';
 import { fetchMessages } from '../../helpers/APICalls/Conversation';
@@ -189,155 +189,157 @@ const ChatBoard = ({
   };
 
   return (
-    <TransitionGroup component={null}>
-      <Grid id="scrollableDiv" className={classes.scrollerWrapper}>
-        <InfiniteScroll
-          className={classes.scroller}
-          height={'75vh'}
-          style={{ display: 'flex', flexDirection: 'column-reverse' }}
-          dataLength={messages.length}
-          next={fetchMoreData}
-          inverse={true}
-          hasMore={hasMore}
-          loader={
-            !messages.length ? (
-              <Typography className={classes.loadingBar}> No messages </Typography>
-            ) : (
-              <Typography className={classes.loadingBar}> loading... </Typography>
-            )
-          }
-          scrollableTarget="scrollableDiv"
-          endMessage={<Typography className={classes.endMessages}>No more messages</Typography>}
-        >
-          <Grid container ref={chatContainerRef} className={classes.board} direction="column">
-            {sortedMessages.map((message) => {
-              //  current chatting user message
-              if (message.sender !== myUserId) {
-                const sendName = names[message.sender];
-                const imageUrl = imageUrls[message.sender];
-                return (
-                  <CSSTransition key={message._id} timeout={500}>
-                    <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
-                      <Grid item>
-                        <Avatar src={imageUrl || `https://robohash.org/${message.sender}`} />
-                      </Grid>
-                      <Grid item>
-                        <Grid container direction="column">
-                          <Grid item>
-                            <label className={classes.nameTimeLabel}>
-                              {sendName + '  ' + getTime(message.createdAt.valueOf()).toString()}
-                            </label>
-                          </Grid>
-                          <Grid className={classes.timeMessageSeparator} />
-                          <Grid item>
-                            {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
-                              <iframe
-                                id="video"
-                                width="230"
-                                src={
-                                  'https://www.youtube.com/embed/' +
-                                  isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split(
-                                    '=',
-                                  )[1]
-                                }
-                                frameBorder="0"
-                                allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                              />
-                            )}
-                            <Grid item container direction="row">
-                              <Grid item>
-                                {message.imageUrl && message.imageUrl.length !== 0 ? (
-                                  <Grid container direction="column">
-                                    {message.imageUrl.map((image, idx) => {
-                                      return (
-                                        <img
-                                          key={idx}
-                                          className={classes.chattingUserImageMessage}
-                                          src={image}
-                                          alt="Image Message"
-                                        />
-                                      );
-                                    })}
-                                  </Grid>
-                                ) : null}
-                                {message.message ? (
-                                  <label className={classes.chattingUserMessage}>{message.message}</label>
-                                ) : null}
+    <Grid item container style={{ height: '80%', width: '100%', paddingRight: '45px' }}>
+      <TransitionGroup component={null}>
+        <Grid item id="scrollableDiv" className={classes.scrollerWrapper}>
+          <InfiniteScroll
+            className={classes.scroller}
+            height={'75vh'}
+            style={{ display: 'flex', flexDirection: 'column-reverse' }}
+            dataLength={messages.length}
+            next={fetchMoreData}
+            inverse={true}
+            hasMore={hasMore}
+            loader={
+              !messages.length ? (
+                <Typography className={classes.loadingBar}> No messages </Typography>
+              ) : (
+                <Typography className={classes.loadingBar}> loading... </Typography>
+              )
+            }
+            scrollableTarget="scrollableDiv"
+            endMessage={<Typography className={classes.endMessages}>No more messages</Typography>}
+          >
+            <Grid item container ref={chatContainerRef} className={classes.board} direction="column">
+              {sortedMessages.map((message) => {
+                //  current chatting user message
+                if (message.sender !== myUserId) {
+                  const sendName = names[message.sender];
+                  const imageUrl = imageUrls[message.sender];
+                  return (
+                    <CSSTransition key={message._id} timeout={500}>
+                      <Grid container key={message.createdAt.valueOf()} justify="flex-start" direction="row">
+                        <Grid item>
+                          <Avatar src={imageUrl || `https://robohash.org/${message.sender}`} />
+                        </Grid>
+                        <Grid item>
+                          <Grid container direction="column">
+                            <Grid item>
+                              <label className={classes.nameTimeLabel}>
+                                {sendName + '  ' + getTime(message.createdAt.valueOf()).toString()}
+                              </label>
+                            </Grid>
+                            <Grid className={classes.timeMessageSeparator} />
+                            <Grid item>
+                              {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
+                                <iframe
+                                  id="video"
+                                  width="230"
+                                  src={
+                                    'https://www.youtube.com/embed/' +
+                                    isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split(
+                                      '=',
+                                    )[1]
+                                  }
+                                  frameBorder="0"
+                                  allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                />
+                              )}
+                              <Grid item container direction="row">
+                                <Grid item>
+                                  {message.imageUrl && message.imageUrl.length !== 0 ? (
+                                    <Grid container direction="column">
+                                      {message.imageUrl.map((image, idx) => {
+                                        return (
+                                          <img
+                                            key={idx}
+                                            className={classes.chattingUserImageMessage}
+                                            src={image}
+                                            alt="Image Message"
+                                          />
+                                        );
+                                      })}
+                                    </Grid>
+                                  ) : null}
+                                  {message.message ? (
+                                    <label className={classes.chattingUserMessage}>{message.message}</label>
+                                  ) : null}
+                                </Grid>
                               </Grid>
                             </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </CSSTransition>
-                );
-              }
+                    </CSSTransition>
+                  );
+                }
 
-              // current user message
-              if (message.sender == myUserId) {
-                return (
-                  <CSSTransition key={message._id} timeout={500}>
-                    <Grid item>
-                      <Grid className={classes.messageSeparator} />
-                      <Grid container key={message.createdAt.valueOf()} justify="flex-end" direction="row">
-                        <Grid item>
-                          <Grid container direction="column">
-                            <Grid item>
-                              <Grid container justify="flex-end">
-                                <label className={classes.nameTimeLabel}>
-                                  {getTime(message.createdAt.valueOf()).toString()}
-                                </label>
-                              </Grid>
-                            </Grid>
-                            <Grid className={classes.timeMessageSeparator} />
-                            <Grid item>
+                // current user message
+                if (message.sender == myUserId) {
+                  return (
+                    <CSSTransition key={message._id} timeout={500}>
+                      <Grid item>
+                        <Grid className={classes.messageSeparator} />
+                        <Grid container key={message.createdAt.valueOf()} justify="flex-end" direction="row">
+                          <Grid item>
+                            <Grid container direction="column">
                               <Grid item>
-                                {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
-                                  <iframe
-                                    id="video"
-                                    width="230"
-                                    src={
-                                      'https://www.youtube.com/embed/' +
-                                      isYoutubeUrl(message.message ? message.message.toString() : '').youtubeUrl.split(
-                                        '=',
-                                      )[1]
-                                    }
-                                    frameBorder="0"
-                                    allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                  />
-                                )}
-                                <Grid item container direction="row">
-                                  <Grid item>
-                                    {message.imageUrl && message.imageUrl.length !== 0 ? (
-                                      <Grid container direction="column">
-                                        {message.imageUrl.map((image, idx) => {
-                                          return (
-                                            <img
-                                              key={idx}
-                                              className={classes.currentUserImageMessage}
-                                              src={image}
-                                              alt="Image Message"
-                                            />
-                                          );
-                                        })}
-                                      </Grid>
-                                    ) : null}
-                                    {message.message ? (
-                                      <label className={classes.currentUserMessage}>{message.message}</label>
-                                    ) : null}
-                                  </Grid>
-                                  <Grid item>
-                                    {!hideUndoButton && message._id === newMessage?._id && (
-                                      <IconButton
-                                        size="small"
-                                        onClick={() => onClick(message)}
-                                        style={{ marginTop: '15px', marginLeft: '10px', height: '80%' }}
-                                      >
-                                        <UndoIcon />
-                                      </IconButton>
-                                    )}
+                                <Grid container justify="flex-end">
+                                  <label className={classes.nameTimeLabel}>
+                                    {getTime(message.createdAt.valueOf()).toString()}
+                                  </label>
+                                </Grid>
+                              </Grid>
+                              <Grid className={classes.timeMessageSeparator} />
+                              <Grid item>
+                                <Grid item>
+                                  {isYoutubeUrl(message.message ? message.message.toString() : '').haveYoutubeLink && (
+                                    <iframe
+                                      id="video"
+                                      width="230"
+                                      src={
+                                        'https://www.youtube.com/embed/' +
+                                        isYoutubeUrl(
+                                          message.message ? message.message.toString() : '',
+                                        ).youtubeUrl.split('=')[1]
+                                      }
+                                      frameBorder="0"
+                                      allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                      allowFullScreen
+                                    />
+                                  )}
+                                  <Grid item container direction="row">
+                                    <Grid item>
+                                      {message.imageUrl && message.imageUrl.length !== 0 ? (
+                                        <Grid container direction="column">
+                                          {message.imageUrl.map((image, idx) => {
+                                            return (
+                                              <img
+                                                key={idx}
+                                                className={classes.currentUserImageMessage}
+                                                src={image}
+                                                alt="Image Message"
+                                              />
+                                            );
+                                          })}
+                                        </Grid>
+                                      ) : null}
+                                      {message.message ? (
+                                        <label className={classes.currentUserMessage}>{message.message}</label>
+                                      ) : null}
+                                    </Grid>
+                                    <Grid item>
+                                      {!hideUndoButton && message._id === newMessage?._id && (
+                                        <IconButton
+                                          size="small"
+                                          onClick={() => onClick(message)}
+                                          style={{ marginTop: '15px', marginLeft: '10px', height: '80%' }}
+                                        >
+                                          <UndoIcon />
+                                        </IconButton>
+                                      )}
+                                    </Grid>
                                   </Grid>
                                 </Grid>
                               </Grid>
@@ -345,16 +347,16 @@ const ChatBoard = ({
                           </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </CSSTransition>
-                );
-              }
-            })}
-            <div ref={messagesEndRef} />
-          </Grid>
-        </InfiniteScroll>
-      </Grid>
-    </TransitionGroup>
+                    </CSSTransition>
+                  );
+                }
+              })}
+              <div ref={messagesEndRef} />
+            </Grid>
+          </InfiniteScroll>
+        </Grid>
+      </TransitionGroup>
+    </Grid>
   );
 };
 

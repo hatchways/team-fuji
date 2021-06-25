@@ -1,7 +1,6 @@
-import { ReactNode, useState, ChangeEvent, useEffect } from 'react';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import { useState, ChangeEvent, useEffect } from 'react';
+import Tabs from '../ChatSideBannerTabs/Tabs';
+import Tab from '../ChatSideBannerTabs/Tab';
 import Box from '@material-ui/core/Box';
 import ContactsTab from '../ContactsTab/ContactsTab';
 import InvitationsTab from '../InvitationsTab/InvitationTab';
@@ -13,33 +12,8 @@ import { Conversation } from '../../interface/Conversation';
 import { getInvitations, patchInvitation, getContacts } from '../../helpers/APICalls/Invitation';
 import { getConversations, createConversation } from '../../helpers/APICalls/Conversation';
 import { useAuth } from '../../context/useAuthContext';
-
-interface TabPanelProps {
-  children?: ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div role="tabpanel" hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`tab-${index}`} {...other}>
-      {value === index && (
-        <Box>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `tab-${index}`,
-    'aria-controls': `tabpanel-${index}`,
-  };
-}
+import { Grid } from '@material-ui/core';
+import Search from '../Search/Search';
 
 interface Props {
   handleConversationId: (conversationId: string) => void;
@@ -54,6 +28,8 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
   const [conversationOffset, setConversationOffset] = useState<number>(0);
   const [hasMoreContacts, setHasMoreContacts] = useState<boolean>(true);
   const [hasMoreConversations, setHasMoreConversations] = useState<boolean>(true);
+  const [search, setSearch] = useState<string>('test');
+  const [newChatUser, setNewChatUser] = useState<User | null>(null);
   const limit = 15;
 
   useEffect(() => {
@@ -85,11 +61,6 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
   }, []);
 
   const classes = useStyles();
-  const [value, setValue] = useState(1);
-
-  const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
 
   const handleReject = async (index: number, invitationId: string) => {
     await patchInvitation({ invitationId, action: 'reject' });
@@ -134,56 +105,42 @@ export default function ChatsContactsInvitationsTabs({ handleConversationId }: P
     }
   };
 
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>, newInputValue: string) => {
+    setSearch(newInputValue);
+    if (newChatUser) {
+      setNewChatUser(null);
+    }
+  };
+
   return (
-    <div>
-      <Tabs
-        variant="fullWidth"
-        TabIndicatorProps={{ className: classes.indicator }}
-        value={value}
-        onChange={handleChange}
-        aria-label="tabs"
-      >
-        <Tab
-          classes={{
-            root: classes.root,
-          }}
-          disableRipple
-          label="Chats"
-          {...a11yProps(0)}
-        />
-        <Tab
-          classes={{
-            root: classes.root,
-          }}
-          disableRipple
-          label="Contacts"
-          {...a11yProps(1)}
-        />
-        <Tab
-          classes={{
-            root: classes.root,
-          }}
-          disableRipple
-          label="Invitations"
-          {...a11yProps(2)}
-        />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        <ChatsTab
-          contacts={contacts}
-          createConversation={handleCreateConversation}
-          conversations={conversations}
-          handleConversationId={handleConversationId}
-          fetchMoreData={fetchMoreConversations}
-          hasMore={hasMoreConversations}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
+    <Tabs>
+      <Tab title="Chats">
+        <Grid item container direction="column">
+          <Box className={classes.boxDivider} />
+          <Search search={search} handleChange={handleSearchChange} />
+          <Box className={classes.boxDivider} />
+          <ChatsTab
+            contacts={contacts}
+            createConversation={handleCreateConversation}
+            conversations={conversations}
+            handleConversationId={handleConversationId}
+            fetchMoreData={fetchMoreConversations}
+            hasMore={hasMoreConversations}
+          />
+        </Grid>
+      </Tab>
+      <Tab title="Contacts">
+        <Box className={classes.boxDivider} />
+        <Search search={search} handleChange={handleSearchChange} />
+        <Box className={classes.boxDivider} />
         <ContactsTab contacts={contacts} fetchMoreData={fetchMoreContacts} hasMore={hasMoreContacts} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
+      </Tab>
+      <Tab title="Invitations">
+        <Box className={classes.boxDivider} />
+        <Search search={search} handleChange={handleSearchChange} />
+        <Box className={classes.boxDivider} />
         <InvitationsTab invitations={invitations} handleReject={handleReject} handleApprove={handleApprove} />
-      </TabPanel>
-    </div>
+      </Tab>
+    </Tabs>
   );
 }
