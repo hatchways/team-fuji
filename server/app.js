@@ -33,10 +33,14 @@ io.on("connect_error", (err) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("Socket Connected" + socket);
+  console.log("Socket Connected");
 
   socket.on("chat", (args) => {
     socket.broadcast.emit(`chat`, args);
+  });
+
+  socket.on("disconnect", (args) => {
+    console.log("disconnected");
   });
 });
 

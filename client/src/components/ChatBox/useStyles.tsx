@@ -1,27 +1,53 @@
+import { createStyles, Switch, SwitchClassKey, SwitchProps } from '@material-ui/core';
+import { Theme } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) => ({
+
+interface Styles extends Partial<Record<SwitchClassKey, string>> {
+  focusVisible?: string;
+}
+interface Props extends SwitchProps {
+  classes: Styles;
+}
+
+export const useStyles = makeStyles((theme) => ({
   chatHeaderWrapper: {
     width: '100%',
+    height: '10%',
+    paddingTop: '30px',
+    boxShadow: '0px 5px #fcfdff',
+    alignItems: 'center',
   },
   chatInfoWrapper: {
-    width: '300px',
+    width: '120px',
+    height: '50px',
+    marginLeft: '40px',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   chatConfigWrapper: {
-    width: '400px',
+    justifyContent: 'space-between',
+    width: '450px',
+    paddingRight: '45px',
   },
   board: {
     width: '100%',
   },
+  chattingInfo: {
+    alignItems: 'flext-start',
+    height: '60px',
+  },
   chattingUserName: {
     fontSize: 20,
     fontWeight: 700,
-    paddingLeft: 10,
   },
-  renameDialog: {},
+  chatSizeText: {
+    color: '#BFC9DC',
+    fontSize: 10,
+  },
   inputField: {
-    width: '65vw',
+    width: '100%',
     height: '100%',
-    paddingLeft: 10,
     borderRadius: 0,
   },
   inputIcon: {
@@ -31,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
   chatbox: {
     width: '100%',
     height: '100%',
+    backgroundColor: '#FFFFFF',
   },
   chatheader: {
     height: '10%',
@@ -69,9 +96,14 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 6,
     fontWeight: 700,
   },
-  originalLanText: {
-    color: '#cdd4e2',
-    fontSize: 10,
+  originalLanOn: {
+    color: '#BFC9DC',
+    fontSize: 16,
+    fontWeight: 700,
+  },
+  originalLanOff: {
+    color: '#3B8EFF',
+    fontSize: 16,
     fontWeight: 700,
   },
   nameTimeLabel: {
@@ -160,6 +192,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     height: '100%',
     width: '100%',
+    paddingRight: '10px',
   },
   endMessages: {
     textAlign: 'center',
@@ -173,4 +206,63 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default useStyles;
+export const IOSSwitch = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 42,
+      height: 26,
+      padding: 0,
+      margin: theme.spacing(1),
+    },
+    switchBase: {
+      padding: 1,
+      '&$checked': {
+        transform: 'translateX(16px)',
+        color: theme.palette.common.white,
+        '& + $track': {
+          backgroundColor: '#3B8EFF',
+          opacity: 1,
+          border: 'none',
+        },
+      },
+      '&$focusVisible $thumb': {
+        color: '#BFC9DC',
+        border: '6px solid #fff',
+      },
+      'aria-label': {
+        fontSize: 20,
+      },
+    },
+    thumb: {
+      // paddingTop: '1px',
+      width: 24,
+      height: 24,
+    },
+    track: {
+      alignItems: 'center',
+      borderRadius: 26 / 2,
+      border: `1px solid ${theme.palette.grey[400]}`,
+      backgroundColor: '#BFC9DC',
+      opacity: 1,
+      transition: theme.transitions.create(['background-color', 'border']),
+    },
+    checked: {},
+    focusVisible: {},
+    input: {},
+  }),
+)(({ classes, ...props }: Props) => {
+  return (
+    <Switch
+      focusVisibleClassName={classes.focusVisible}
+      disableRipple
+      classes={{
+        root: classes.root,
+        switchBase: classes.switchBase,
+        thumb: classes.thumb,
+        track: classes.track,
+        checked: classes.checked,
+      }}
+      {...props}
+    />
+  );
+});

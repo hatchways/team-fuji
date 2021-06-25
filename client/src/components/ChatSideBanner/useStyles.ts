@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   userName: {
     fontWeight: 'bold',
+    fontSize: 18,
   },
   chatSummaryContainer: { overflowY: 'auto', marginTop: '1rem' },
   newChatBtn: {

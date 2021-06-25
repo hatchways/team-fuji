@@ -1,5 +1,5 @@
 import { Avatar, Box, Grid, IconButton, TextField } from '@material-ui/core';
-import useStyles from './useStyles';
+import { useStyles } from './useStyles';
 import React, { useState, useEffect, useRef } from 'react';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import EmojiEmotionsOutlinedIcon from '@material-ui/icons/EmojiEmotionsOutlined';
@@ -55,7 +55,16 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
 
   return (
     <Grid container direction="row" justify="space-between">
-      <Box style={{ backgroundColor: '#e8e8e8', height: '70px', borderRadius: 10 }}>
+      <Box
+        style={{
+          backgroundColor: '#e8e8e8',
+          height: '70px',
+          borderRadius: 10,
+          width: '100%',
+          marginLeft: '50px',
+          marginRight: '50px',
+        }}
+      >
         <form onSubmit={handleSubmit}>
           <TextField
             className={classes.inputField}
@@ -69,14 +78,15 @@ const InputBox = ({ handleMessage, messageUndo }: Props): JSX.Element => {
               classes,
               endAdornment: (
                 <InputAdornment position="end">
+                  {/* <Box style={{ width: '30px' }} /> */}
                   {images
                     ? images.map((image, idx) => {
                         return <Avatar alt="Image Message" src={image} key={idx} style={{}} />;
                       })
                     : null}
-                  <Grid className={classes.iconSpacing} />
+                  <Box className={classes.iconSpacing} />
                   <EmojiEmotionsOutlinedIcon className={classes.inputIcon} />
-                  <Grid className={classes.iconSpacing} />
+                  <Box className={classes.iconSpacing} />
                   <IconButton onClick={toggleMessageImageDialog} style={{ marginRight: '10px' }}>
                     <FileCopyOutlinedIcon className={classes.inputIcon} />
                   </IconButton>

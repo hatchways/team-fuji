@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid, Button, Typography, IconButton } from '@material-ui/core';
-import useStyles from './useStyles';
-import Switch from '@material-ui/core/Switch';
+import { IOSSwitch, useStyles } from './useStyles';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from '../../interface/User';
@@ -81,18 +80,19 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
 
   return (
     <Grid item container className={classes.chatHeaderWrapper} direction="row" justify="space-between">
-      <Grid item container className={classes.chatInfoWrapper}>
-        <Grid item>
+      <Grid item container className={classes.chatInfoWrapper} direction="column">
+        <Grid item container className={classes.chattingInfo} direction="column">
           <Typography noWrap className={classes.chattingUserName}>
             {users.length === 1 ? users[0].username : name}
           </Typography>
+          <Typography className={classes.chatSizeText}>? people</Typography>
         </Grid>
         {users.length === 1 || (
-          <Grid item>
+          <Grid item container>
             <IconButton onClick={handleClick}>
               <EditIcon />
             </IconButton>
-            <Dialog open={open} onClose={handleClose} className={classes.renameDialog} fullWidth>
+            <Dialog open={open} onClose={handleClose} fullWidth>
               <DialogTitle id="form-dialog-title">Rename Group Chat</DialogTitle>
               <DialogContent>
                 <TextField autoFocus fullWidth defaultValue={name} inputRef={text} />
@@ -111,11 +111,10 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
       </Grid>
       <Grid item container className={classes.chatConfigWrapper} alignItems="center">
         <Grid item>
-          <AvatarGroup max={4}>
+          <AvatarGroup max={4} style={{}}>
             {users.map((user, index) => {
               return (
                 <Avatar
-                  // style={{ height: '10px', width: '10px' }}
                   key={index}
                   alt={`Avatar of ${index + 1}`}
                   src={user.profileImageUrl || `https://robohash.org/${user._id}`}
@@ -124,21 +123,27 @@ export default function ChatHeader({ handleSwitch, users, currentUser, nickname,
             })}
           </AvatarGroup>
         </Grid>
-        <Grid item>
-          <Typography className={classes.originalLanText}>Original language </Typography>
+        <Grid item container direction="row" style={{ width: '200px', alignItems: 'center' }}>
+          <Typography className={`${state.checkedSwitch ? classes.originalLanOff : classes.originalLanOn}`}>
+            Original language
+          </Typography>
+          <IOSSwitch
+            checked={state.checkedSwitch}
+            onChange={handleChange}
+            name="checkedSwitch"
+            inputProps={{ 'aria-label': 'original language switch' }}
+          />
         </Grid>
-        <Grid item>
-          <Switch
+        {/* <Switch
             checked={state.checkedSwitch}
             onChange={handleChange}
             color="primary"
             name="checkedSwitch"
             inputProps={{ 'aria-label': 'original language switch' }}
-          />
-        </Grid>
+          />*/}
         <Grid item>
           <Button>
-            <MoreHorizIcon />
+            <MoreHorizIcon style={{ color: '#BFC9DC', fontSize: 30 }} />
           </Button>
         </Grid>
       </Grid>

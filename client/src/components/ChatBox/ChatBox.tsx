@@ -1,8 +1,8 @@
 import ChatHeader from './ChatHeader';
 import ChatBoard from './ChatBoard';
 import InputBox from './InputBox';
-import useStyles from './useStyles';
-import { Grid } from '@material-ui/core';
+import { useStyles } from './useStyles';
+import { Grid, Paper } from '@material-ui/core';
 import { useEffect, useRef, useState } from 'react';
 import { User } from '../../interface/User';
 import { Socket } from 'socket.io-client';
@@ -76,7 +76,7 @@ const chatBox = ({ loggedInUser, socket, conversationId }: Props): JSX.Element =
   };
 
   return (
-    <Grid container className={classes.chatbox}>
+    <Grid item container className={classes.chatbox}>
       {!!conversationId.length && (
         <ChatHeader
           conversationId={conversationId}

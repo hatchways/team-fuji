@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Avatar, Grid, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import UndoIcon from '@material-ui/icons/Undo';
-import useStyles from './useStyles';
+import { useStyles } from './useStyles';
 import { Message } from '../../interface/Conversation';
 import { User } from '../../interface/User';
 import { fetchMessages } from '../../helpers/APICalls/Conversation';
@@ -189,7 +189,7 @@ const ChatBoard = ({
   };
 
   return (
-    <Grid item container style={{ height: '80%', width: '100%' }}>
+    <Grid item container style={{ height: '80%', width: '100%', paddingRight: '45px' }}>
       <TransitionGroup component={null}>
         <Grid item id="scrollableDiv" className={classes.scrollerWrapper}>
           <InfiniteScroll
