@@ -40,7 +40,10 @@ const AuthMenu = (): JSX.Element => {
     setOpenDialog(!openDialog);
     if (submitted) handleClose();
   };
-
+  const toggleInvitationsDialog = (submitted: boolean) => {
+    setOpenDialog(!openDialog);
+    if (submitted) handleClose();
+  };
   return (
     <Box>
       <IconButton aria-label="show auth menu" aria-controls="auth-menu" aria-haspopup="true" onClick={handleClick}>
@@ -65,6 +68,13 @@ const AuthMenu = (): JSX.Element => {
           open={openDialog}
           dialogControl={toggleProfileImageDialog}
           action={['Upload Profile Image', 'Submit']}
+          fetch={fetch}
+        />
+        <MenuItem onClick={() => toggleInvitationsDialog(false)}>Pending Invitations</MenuItem>
+        <FormDialog
+          open={openDialog}
+          dialogControl={toggleInvitationsDialog}
+          action={['Invitations', '']}
           fetch={fetch}
         />
       </Menu>
