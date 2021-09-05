@@ -16,6 +16,7 @@ interface Props {
 
 const ChatSideBanner = ({ loggedInUser, handleConversationId }: Props): JSX.Element => {
   const classes = useStyles();
+  const username = loggedInUser.email.split('@');
 
   return (
     <Grid
@@ -29,7 +30,7 @@ const ChatSideBanner = ({ loggedInUser, handleConversationId }: Props): JSX.Elem
           <AvatarDisplay loggedIn user={loggedInUser} />
           <Typography className={classes.userName}>
             {/* {loggedInUser.username} we need to add username from start up here */}
-            Thomas
+            {username[0]}
           </Typography>
         </Grid>
         <Box style={{ paddingTop: '30px' }}>
